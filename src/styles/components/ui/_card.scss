@@ -1,0 +1,32 @@
+.card {
+    background-color: $color-white;
+
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    // border: 1px solid $color-border;
+    box-shadow: 0 0 13px 0 #523f690d;
+    border-radius: 8px;
+
+    &__inner {
+        padding: 2rem;
+
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 2.2rem;
+    }
+
+    &__header {
+        flex-grow: 0;
+    }
+
+    &__body {
+        flex-grow: 1;
+    }
+
+    &__footer {
+        flex-grow: 0;
+    }
+}

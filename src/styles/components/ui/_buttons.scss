@@ -1,0 +1,183 @@
+/* PRIMARY */
+
+.btn,
+a.btn:visited,
+a.btn:link {
+    width: 100%;
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+    border: 1px solid transparent;
+
+    font-family: inherit;
+    text-decoration: none;
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+
+    transition: all 0.4s;
+
+    .btn__text {
+        color: currentColor;
+        font-weight: inherit;
+        line-height: inherit;
+    }
+
+    .btn__icon {
+        color: currentColor;
+        fill: currentColor;
+        transition: all 0.3s;
+    }
+}
+/* PRIMARY */
+
+.btn.btn-primary:enabled,
+a.btn.btn-primary:link,
+a.btn.btn-primary:visited {
+    padding: 1.7rem 1.2rem;
+
+    background-color: $color-btn-primary-bg;
+    border-radius: 10px;
+
+    color: $color-btn-primary;
+}
+
+a.btn.btn-primary:hover,
+.btn.btn-primary:enabled:hover {
+    background-color: $color-btn-primary-bg-hover;
+    color: $color-btn-primary-hover;
+}
+
+a.btn.btn-primary:active,
+.btn.btn-primary:enabled:active {
+    background-color: $color-btn-primary-bg-active;
+    color: $color-btn-primary-active;
+}
+
+/* SECONDARY */
+
+.btn-secondary,
+.btn-secondary:link,
+.btn-secondary:visited {
+    height: 4rem;
+
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+
+    background-color: $color-btn-secondary-bg;
+    border-color: $color-btn-secondary-border;
+    box-shadow: inset 0 0 0 0 #377dff;
+    color: $color-btn-secondary;
+}
+a.btn-secondary:hover,
+.btn-secondary:enabled:hover {
+    background-color: $color-btn-secondary-bg-hover;
+    border-color: $color-btn-secondary-border-hover;
+    color: $color-btn-secondary-hover;
+    box-shadow: inset 0 50px 0 0 $color-white;
+}
+a.btn-secondary:active,
+.btn-secondary:enabled:active {
+    background-color: $color-btn-secondary-bg-active;
+    border-color: $color-btn-secondary-border-active;
+    color: $color-btn-secondary-active;
+    box-shadow: inset 0 50px 0 0 $color-white;
+}
+
+/* DELETE */
+
+.btn-delete {
+    &-svg {
+        fill: $color-btn-delete;
+    }
+}
+
+/* ADD */
+
+.btn-add,
+.btn-add:link,
+.btn-add:visited {
+    height: 4rem;
+    padding: 0.8rem 1.5rem;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+
+    background-color: $color-btn-add-bg;
+    border-color: $color-btn-add-border;
+    border-radius: 4px;
+
+    color: $color-btn-add;
+
+    box-shadow: inset 0 0 0 0 $color-white;
+
+    .btn__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 1.4rem;
+        width: 1.4rem;
+
+        margin-right: 0.8rem;
+
+        border-radius: 100%;
+
+        font-weight: 400;
+        line-height: 0;
+
+        background-color: $color-btn-add;
+        color: $color-btn-add-bg;
+    }
+}
+
+a.btn-add:hover,
+.btn-add:enabled:hover {
+    background-color: $color-btn-add-bg-hover;
+    border-color: $color-btn-add-border-hover;
+
+    color: $color-btn-add-hover;
+
+    box-shadow: inset 0 50px 0 0 $color-white;
+
+    .btn__icon {
+        background-color: $color-btn-add-hover;
+        color: $color-btn-add-bg-hover;
+    }
+}
+
+a.btn-add:active,
+.btn-add:enabled:active {
+    background-color: $color-btn-add-bg-active;
+    border-color: $color-btn-add-border-active;
+
+    color: $color-btn-add-active;
+
+    // box-shadow: inset 0 50px 0 0 $color-white;
+
+    .btn__text {
+        color: $color-btn-add-bg-active;
+    }
+
+    .btn__icon {
+        color: $color-btn-add-bg-active;
+        background-color: $color-btn-add-active;
+    }
+}
+
+a.btn-add:hover:active,
+.btn-add:enabled:hover:active {
+    box-shadow: inset 0 50px 0 0 $color-btn-add-bg-active;
+
+    .btn__text {
+        color: $color-btn-add-active;
+    }
+}

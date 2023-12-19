@@ -1,0 +1,121 @@
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-Black.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 900;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-BlackItalic.ttf")
+        format("truetype");
+    font-style: italic;
+    font-weight: 900;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-ExtraBold.ttf")
+        format("truetype");
+    font-style: normal;
+    font-weight: 800;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-ExtraBoldItalic.ttf")
+        format("truetype");
+    font-style: italic;
+    font-weight: 800;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 700;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-BoldItalic.ttf")
+        format("truetype");
+    font-style: italic;
+    font-weight: 700;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-Medium.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 500;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-MediumItalic.ttf")
+        format("truetype");
+    font-style: italic;
+    font-weight: 500;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-Italic.ttf") format("truetype");
+    font-style: italic;
+    font-weight: 400;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-Light.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 300;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-LightItalic.ttf")
+        format("truetype");
+    font-style: italic;
+    font-weight: 300;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-ExtraLight.ttf")
+        format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+@font-face {
+    font-family: "Tisa";
+    src: url("../assets/fonts/tisa/TisaSansPro-ExtraLightItalic.ttf")
+        format("truetype");
+    font-style: italic;
+    font-weight: 200;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("../fonts/Nunito-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("../fonts/Nunito-Medium.ttf") format("truetype");
+    font-weight: 500;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("../fonts/Nunito-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+}
+
+body {
+    font-family: $font-primary, sans-serif;
+    color: $color-font;
+}
+
+.text-primary {
+    color: $color-primary;
+}
+
+
+.btn-primary {
+    font-size: 1.6rem;
+}

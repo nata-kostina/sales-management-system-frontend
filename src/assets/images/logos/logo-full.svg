@@ -1,0 +1,17 @@
+<svg width="450" height="180" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1">
+
+ <g>
+  <title>Layer 1</title>
+  <g stroke="null" id="svg_1">
+   <polygon stroke="null" id="svg_2" fill="#E5CD65" points="133.9871826171875,42.673370361328125 11.509008407592773,42.673370361328125 28.786781311035156,32.56835174560547 116.70941925048828,32.56835174560547 " class="st0"/>
+   <rect stroke="null" id="svg_3" fill="#F7E277" height="115.91443" width="122.70374" class="st1" y="42.67337" x="11.39622"/>
+   <circle stroke="null" id="svg_4" fill="#C9AF41" r="4.89461" cy="62.09394" cx="106.51418" class="st2"/>
+   <circle stroke="null" id="svg_5" fill="#C9AF41" r="4.89461" cy="61.95861" cx="41.16993" class="st2"/>
+   <path stroke="#EEE6E6" id="svg_6" stroke-miterlimit="10" strokeLinecap="round" strokeWidth="17.6595" fill="none" d="m106.51418,61.95861l0,-13.3305c0,-18.04467 -14.61618,-32.66085 -32.66085,-32.66085l0,0c-18.04467,0 -32.66085,14.61618 -32.66085,32.66085l0,13.3305" class="st3"/>
+   <polygon stroke="null" id="svg_7" fill="#C9AF41" points="116.59662628173828,32.29768371582031 116.59662628173828,42.4027099609375 133.9871826171875,42.4027099609375 " class="st2"/>
+   <polygon stroke="null" id="svg_8" fill="#C9AF41" points="28.290546417236328,32.29768371582031 28.290546417236328,42.4027099609375 10.899993896484375,42.4027099609375 " class="st2"/>
+  </g>
+  <text stroke="#000" xml:space="preserve" text-anchor="start" font-family="'Cuprum'" font-size="86" id="svg_9" y="83" x="143" strokeWidth="0" fill="#2f4858">Stockify</text>
+  <text stroke="#000" xml:space="preserve" text-anchor="start" font-family="'Cuprum'" font-size="86" id="svg_11" y="158" x="143" strokeWidth="0" fill="#2f4858">Pro</text>
+ </g>
+</svg>

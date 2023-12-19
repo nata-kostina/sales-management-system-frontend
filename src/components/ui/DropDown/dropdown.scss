@@ -1,0 +1,104 @@
+.dropdown {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+
+    .btn-arrow {
+        padding: 0;
+        order: 2;
+        align-self: center;
+        position: relative;
+        top: 1px;
+        width: 8px;
+        height: 8px;
+        border-top: 0;
+        border-left: 0;
+        border-right: 2px solid #1b2950;
+        border-bottom: 2px solid #1b2950;
+        border-radius: 1px;
+        transform: rotate(45deg);
+        transition: all 0.5s;
+        background-color: transparent;
+        will-change: transform;
+    }
+    &-box {
+        order: 1;
+    }
+
+    &-menu {
+        // display: none;
+        visibility: hidden;
+        opacity: 0;
+
+        position: absolute;
+        top: calc(100% + 1rem);
+        width: 100%;
+
+        background-color: $color-white;
+        border-radius: 0.25rem;
+        @include shadow;
+        transform: translateY(2rem);
+
+        transition: all .3s;
+
+        &__item {
+            padding: 0.7rem 1rem;
+            transition: all 0.3s;
+            color: var(--theme-text-light);
+            &:last-child {
+                border-top: 1px solid $color-gray;
+            }
+            &:hover {
+                background-color: $color-gray-dark;
+                .link__icon-svg {
+                    fill: var(--theme-primary);
+                }
+            }
+        }
+
+        &__link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            color: inherit;
+            .link__icon-box {
+                width: 1.8rem;
+                height: 2.4rem;
+            }
+
+            .link__icon-svg {
+                width: 100%;
+                height: 100%;
+                fill: currentColor;
+            }
+
+            .link__title {
+                color: inherit;
+                font-size: 1.3rem;
+            }
+        }
+
+        &__item_highlighted {
+            color: $color-red;
+            &:hover {
+                color: $color-red;
+                .link__icon-svg {
+                    fill: $color-red;
+                }
+            }
+        }
+    }
+
+    &_open {
+        .dropdown-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .btn-arrow {
+            transform: rotate(-135deg);
+        }
+    }
+}

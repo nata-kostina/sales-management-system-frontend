@@ -1,0 +1,43 @@
+@import "vars.module";
+@import "base";
+@import "theme";
+@import "typography";
+
+@import "mixins";
+@import "utils";
+
+/* LAYOUTS */
+@import "./layouts/account";
+
+/* SECTIONS */
+@import "./sections/base";
+
+/* UI */
+@import "./components/ui/buttons";
+@import "./components/ui/card";
+@import "../components/ui/Buttons/ToggleButton/toggleButton.scss";
+@import "../components/ui/DropDown/dropdown.scss";
+@import "../components/ui/Loader/loader.scss";
+@import "../components/ui/Preloader/preloader";
+
+/* COMPONENTS */
+@import "./../components/Pagination/pagination.scss";
+@import "./../components/Table/table.scss";
+@import "./../components/Header/header.scss";
+@import "./../components/Toolbar/toolbar.scss";
+@import "./../components/SideBar/sidebar.scss";
+// @import "./../scenes/dashboard/dashboard.scss";
+
+/* PAGES */
+@import "./pages/base";
+
+/* Login Page */
+@import "../pages/login/components/Hero/hero";
+@import "../pages/login/components/LoginForm/form";
+@import "../pages/login/login-page";
+
+@import "./pages/products/shared/form";
+@import "./pages/products/shared/formLayouts";
+@import "./pages/products/productsEditPage";
+@import "./pages/products/productsPage";
+

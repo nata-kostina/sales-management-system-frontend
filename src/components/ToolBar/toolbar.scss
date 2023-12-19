@@ -1,0 +1,59 @@
+.toolbar {
+    &-list {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        gap: 2.5rem;
+    }
+
+    &__item {
+        &:hover {
+            .toolbar__icon {
+                &-svg {
+                    fill: var(--theme-primary);
+                }
+            }
+        }
+    }
+
+    &__icon {
+        background-color: #f7f7fa;
+        border-radius: 100%;
+        width: 3.6rem;
+        height: 3.6rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &-svg {
+            width: 1.8rem;
+            fill: #333333;
+            height: auto;
+            max-height: 100%;
+            transition: all 0.3s;
+        }
+    }
+
+    .user-info {
+        height: 100%;
+        display: flex;
+        gap: 1.5rem;
+
+        .user-avatar {
+            height: 100%;
+            &-img {
+                height: 100%;
+                max-height: 4rem;
+                width: auto;
+                display: block;
+                object-fit: cover;
+            }
+        }
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: $color-blue-dark;
+            align-self: center;
+        }
+    }
+}
