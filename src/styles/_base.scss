@@ -12,17 +12,13 @@ html {
 
 body {
     box-sizing: border-box;
-    background-color: var(--theme-background);
+    background-color: $color-bg;
 
     scroll-behavior: smooth;
 
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+
 }
 
 .page-wrapper {

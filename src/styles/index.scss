@@ -7,10 +7,10 @@
 @import "utils";
 
 /* LAYOUTS */
-@import "./layouts/account";
+@import "../layouts/AccountLayout/account-layout";
 
 /* SECTIONS */
-@import "./sections/base";
+@import "./sections/section-base";
 
 /* UI */
 @import "./components/ui/buttons";
@@ -22,14 +22,14 @@
 
 /* COMPONENTS */
 @import "./../components/Pagination/pagination.scss";
-@import "./../components/Table/table.scss";
-@import "./../components/Header/header.scss";
+@import "./../components/Table/table";
+@import "./../components/Header/header";
 @import "./../components/Toolbar/toolbar.scss";
 @import "./../components/SideBar/sidebar.scss";
 // @import "./../scenes/dashboard/dashboard.scss";
 
 /* PAGES */
-@import "./pages/base";
+@import "./pages/page-base";
 
 /* Login Page */
 @import "../pages/login/components/Hero/hero";

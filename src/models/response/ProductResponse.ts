@@ -1,6 +1,6 @@
 import { IProduct } from "../product.interface";
 
-export interface ProductResponse {
+export interface IGetProductsResponse {
     products: IProduct[];
     page: number;
     total: number;

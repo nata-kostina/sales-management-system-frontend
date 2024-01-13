@@ -1,24 +1,51 @@
 .btn-toggle {
-    background: var(--theme-primary);
-    border-radius: 50%;
+    position: absolute;
+    top: calc($account-header-height-l / 2 - 2rem);
+    right: 0;
+
+    width: 1.6rem;
+    height: 4rem;
+
+    background: $color-blue;
+    color: $color-white;
+    border-radius: 10px 0 0 10px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    color: $color-white;
+
     cursor: pointer;
-    transition: all 0.3s 0.3s;
-    will-change: transform;
-    padding: 2px;
 
-    transform: rotate(180deg);
-    &_active {
-        transform: rotate(0deg);
+    transform: translateX(100%) rotate(180deg);
+    transition: none;
+    .arrow {
+        height: 8px;
+        width: 8px;
+        border-left: 2px solid $color-white;
+        border-bottom: 2px solid $color-white;
+
+        transform: rotate(45deg) translate(2px, -2px);
     }
+    &_active {
+        transform: none;
+    }
+}
 
-    &-svg {
-        height: 100%;
-        width: 100%;
+@media screen and (max-width: $bp-ms) {
+    .btn-toggle {
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 100%;
+
+        top: 2.5rem;
+        left: 2rem;
+        transform: rotate(180deg);
+
+        .arrow {
+            transform: rotate(45deg) translate(1px, -1px);
+        }
+        &_active {
+            transform: none;
+        }
     }
 }

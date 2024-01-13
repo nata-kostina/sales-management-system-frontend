@@ -13,4 +13,8 @@ export class UnitService {
     public async getUnits(): Promise<AxiosResponse<IGetUnitsResponse>> {
         return $api.get<IGetUnitsResponse>(`${this.baseUrl}/`);
     }
+
+    public async getUnitList(): Promise<AxiosResponse<IGetUnitsResponse>> {
+        return $api.get(`${this.baseUrl}/list/`);
+    }
 }

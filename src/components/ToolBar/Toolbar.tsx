@@ -38,25 +38,28 @@ export const ToolBar: FC = () => {
     ], []);
 
     return (
-       <>{isLoading ? <PreloaderPortal /> : <div className="toolbar">
-            <ul className="toolbar-list">
-                <li className="toolbar__item">
-                    <ThemeSwitcher />
-                </li>
-                <li className="toolbar__item">
-                    <DropDown>
-                        <DropDownBox>
-                            <div className="user-info">
-                                <div className="user-avatar">
-                                    <img className="user-avatar-img" src={Avatar} alt="avatar" />
+        <>{isLoading ? <PreloaderPortal /> : (
+            <div className="toolbar">
+                <ul className="toolbar-list">
+                    <li className="toolbar__item">
+                        <ThemeSwitcher />
+                    </li>
+                    <li className="toolbar__item">
+                        <DropDown>
+                            <DropDownBox>
+                                <div className="user-info">
+                                    <div className="user-avatar">
+                                        <img className="user-avatar-img" src={Avatar} alt="avatar" />
+                                    </div>
+                                    <div className="user-name">John Smilga</div>
                                 </div>
-                                <div className="user-name">John Smilga</div>
-                            </div>
-                        </DropDownBox>
-                        <DropDownMenu links={dropDownMenuLinks} />
-                    </DropDown>
-                </li>
-            </ul>
-        </div>}</>
+                            </DropDownBox>
+                            <DropDownMenu links={dropDownMenuLinks} />
+                        </DropDown>
+                    </li>
+                </ul>
+            </div>
+        )}
+        </>
     );
 };

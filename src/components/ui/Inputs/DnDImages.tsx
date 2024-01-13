@@ -1,31 +1,47 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import cn from "classnames";
 import { Control, Controller } from "react-hook-form";
 import { IProductFormValues } from "../../../schemas/product.form.schema";
 import { assets } from "../../../utils/assetsManager";
-import { IImageFile } from "../../../types/ui.types";
+import { DeleteSvg } from "../../vectors/userActions/DeleteSvg";
+import { baseURL } from "../../../api";
+import { IImage } from "../../../models/image.interface";
 
 interface Props {
     control: Control<IProductFormValues>;
     name: keyof IProductFormValues;
     label: string;
     error: string | undefined;
-    defaultValue: { src: string; name: string; }[];
+    defaultValue: IImage[];
 }
 
 export const DnDImages: FC<Props> = ({ name, error, label, control, defaultValue }) => {
-    const [images, setImages] = useState<IImageFile[]>(() => defaultValue);
+    const [images, setImages] = useState<File[]>([]);
+    useEffect(() => {
+        const urlToObject = async (image: IImage) => {
+            const response = await fetch(`${baseURL}/${image.filename}`);
+            const blob = await response.blob();
+            const file = new File([blob], image.originalname, { type: blob.type });
+
+            setImages((prev) => ([...prev, file]));
+        };
+        defaultValue.map((image) => urlToObject(image));
+    }, []);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            const files: IImageFile[] = [];
-            for (let i = 0; i < e.target.files.length; i++) {
-                files.push({
-                    src: URL.createObjectURL(e.target.files[i]),
-                    name: e.target.files[i].name,
-                });
-            }
-            setImages(files);
+            // const files: IImageFile[] = [];
+            // for (let i = 0; i < e.target.files.length; i++) {
+            //     files.push({
+            //         src: URL.createObjectURL(e.target.files[i]),
+            //         file: e.target.files[i],
+            //     });
+            // }
+            const updatedImages = [...images, ...e.target.files];
+            setImages(updatedImages);
+
+            return updatedImages;
         }
+        return images;
     };
     const handleDelete = (fileName: string) => {
         const file = images.find((item) => item.name === fileName);
@@ -33,6 +49,17 @@ export const DnDImages: FC<Props> = ({ name, error, label, control, defaultValue
             const updatedFiles = images.filter((item) => item.name !== file.name);
             setImages(updatedFiles);
         }
+    };
+
+    const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if (droppedFiles.length > 0) {
+            const updatedImages = [...images, ...droppedFiles];
+            setImages(updatedImages);
+            return updatedImages;
+        }
+        return images;
     };
     return (
         <div className={cn(`input-group input-group-${name}`, {
@@ -43,26 +70,28 @@ export const DnDImages: FC<Props> = ({ name, error, label, control, defaultValue
                 {label}
             </div>
             <div className="input-box">
-                <div className="preview input">
-                    {images.length === 0 ? <DnDLabel name={name} />
-                        : <PreviewList images={images} name={name} handleDelete={handleDelete} />}
-                </div>
                 <Controller
                     control={control}
                     name={name}
                     render={({ field: { onChange } }) => (
-                        <input
-                            type="file"
-                            className="input"
-                            autoComplete="off"
-                            accept="image/*"
-                            multiple={true}
-                            id={name}
-                            onChange={(e) => {
-                                handleChange(e);
-                                onChange(e);
-                            }}
-                        />
+                        <>
+                            <input
+                                type="file"
+                                className="input"
+                                autoComplete="off"
+                                accept="image/*"
+                                multiple={true}
+                                id={name}
+                                onChange={(e) => {
+                                    const imagesArr = handleChange(e);
+                                    onChange(imagesArr);
+                                }}
+                            />
+                            <div className="preview input">
+                                {images.length === 0 ? <DnDLabel name={name} handleDrop={handleDrop} onChange={onChange} />
+                                    : <PreviewList onChange={onChange} handleDrop={handleDrop} images={images} name={name} handleDelete={handleDelete} />}
+                            </div>
+                        </>
                     )}
                 />
                 {error && <p className="input-error">{error}</p>}
@@ -73,17 +102,24 @@ export const DnDImages: FC<Props> = ({ name, error, label, control, defaultValue
 
 interface DnDLabelProps {
     name: string;
+    handleDrop: (event: React.DragEvent<HTMLLabelElement>) => File[];
+    onChange: (value: File[]) => void;
 }
 
-const DnDLabel: FC<DnDLabelProps> = ({ name }) => {
+const DnDLabel: FC<DnDLabelProps> = ({ name, handleDrop, onChange }) => {
     return (
         <label
             htmlFor={name}
             className="input-file-label"
+            onDrop={(e) => {
+                const imagesArr = handleDrop(e);
+                onChange(imagesArr);
+            }}
+            onDragOver={(event) => event.preventDefault()}
         >
             <div className="label__inner">
                 <img src={assets.ui.dnd} alt="Set of images" className="label__img" />
-                <h6 className="label__title">Drop your files here or <span className="text-primary">browse</span> </h6>
+                <h6 className="label__title">Drop your files here or <span className="text-primary">browse</span></h6>
                 {/* <div className="label__subtitle">Maximum size: 50MB</div> */}
             </div>
         </label>
@@ -91,29 +127,29 @@ const DnDLabel: FC<DnDLabelProps> = ({ name }) => {
 };
 
 interface PreviewListProps {
-    images: IImageFile[];
+    images: File[];
     name: string;
     handleDelete: (fileName: string) => void;
+    handleDrop: (event: React.DragEvent<HTMLLabelElement>) => File[];
+    onChange: (value: File[]) => void;
 }
 
-const PreviewList: FC<PreviewListProps> = ({ images, name, handleDelete }) => {
+const PreviewList: FC<PreviewListProps> = ({ images, name, handleDelete, handleDrop, onChange }) => {
     return (
         <ul className="preview-list">
             {images.map((image) => (
                 <li key={image.name} className="list__item">
-                    <img src={image.src} alt={image.name} className="list__item-img" />
+                    <img src={URL.createObjectURL(image)} alt={image.name} className="list__item-img" />
                     <div className="list__item_hovered">
                         <p className="list__item-title">{image.name}</p>
                         <button className="btn btn-delete" onClick={() => handleDelete(image.name)}>
-                            <svg className="btn-delete-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                                <path d="M21 28c0.553 0 1-0.447 1-1v-14c0-0.553-0.447-1-1-1s-1 0.447-1 1v14c0 0.553 0.447 1 1 1zM11 28c0.552 0 1-0.447 1-1v-14c0-0.553-0.448-1-1-1s-1 0.447-1 1v14c0 0.553 0.448 1 1 1zM29 6h-4v-2c0-2.209-1.791-4-4-4h-10c-2.209 0-4 1.791-4 4v2h-4l-3 3c0 0.553 0.448 1 1 1h3v20c0 1.104 0.896 2 2 2h20c1.104 0 2-0.896 2-2v-20h3c0.553 0 1-0.447 1-1l-3-3zM10 4c0-1.104 0.896-2 2-2h8c1.104 0 2 0.896 2 2v2h-12v-2zM26 29c0 0.553-0.447 1-1 1h-18c-0.552 0-1-0.447-1-1v-19h20v19zM16 28c0.553 0 1-0.447 1-1v-14c0-0.553-0.447-1-1-1s-1 0.447-1 1v14c0 0.553 0.447 1 1 1z" />
-                            </svg>
+                            <DeleteSvg />
                         </button>
                     </div>
                 </li>
             ))}
             <li className="list__item list__item_input">
-                <DnDLabel name={name} />
+                <DnDLabel name={name} handleDrop={handleDrop} onChange={onChange} />
             </li>
         </ul>
     );

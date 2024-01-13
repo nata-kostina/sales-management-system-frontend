@@ -31,13 +31,10 @@ export const MultiSelect: FC<Props> = ({ control, error, name, label, placeholde
                     render={({ field: { onChange, value } }) => (
                         <Select
                             id={name}
-                            mode="tags"
+                            mode="multiple"
                             style={{ width: "100%" }}
                             placeholder={placeholder}
-                            onChange={(value) => {
-                                console.log(value);
-                                onChange(value);
-                            }}
+                            onChange={onChange}
                             value={value}
                             options={options}
                         />

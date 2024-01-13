@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Section } from "../components/Section";
-import { ProductForm } from "../components/FormProduct/ProductForm";
+import { useNavigate, useParams } from "react-router-dom";
+import { Section } from "../../../components/Section/Section";
+import { ProductForm } from "../components/form/ProductForm";
 import { useFetch } from "../../../hooks/useFetch";
 import { IGetProductResponse } from "../../../models/response/IGetProductResponse";
 import { appService } from "../../../services";
 import { IProduct } from "../../../models/product.interface";
-import { IEditProductPayload } from "../../../models/request/IEditProductPayload";
 import { IEditProductResponse } from "../../../models/response/IEditProductResponse";
-import { IProductDto } from "../../../dtos/product/product.dto.interface";
-import { Preloader } from "../../../components/ui/Preloader/Preloader";
+import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
+import { MessageService } from "../../../services/message.service";
+import { Routes } from "../../../types/routes";
 
 export const ProductEditPage: FC = () => {
     const { id } = useParams();
@@ -24,6 +24,8 @@ export const ProductEditPage: FC = () => {
     const { isLoading: isGetProductLoading, makeRequest: makeGetProductRequest } = useFetch<IGetProductResponse>(true);
     const { isLoading: isEditProductLoading, makeRequest: makeEditProductRequest } = useFetch<IEditProductResponse>();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -34,7 +36,9 @@ export const ProductEditPage: FC = () => {
                     setProduct(response.product);
                 }
             } catch (error) {
-                console.error(error);
+                MessageService.error("Something went wrong. Please try again.");
+                setProduct(null);
+                navigate(`../${Routes.Products}`, { relative: "route" });
             }
         };
         fetchProduct();
@@ -52,31 +56,24 @@ export const ProductEditPage: FC = () => {
         setAreFormOptionsLoading(value);
     };
 
-    const handleSubmitForm = async (updatedProduct: IProductDto) => {
+    const handleSubmitForm = async (updatedProduct: FormData) => {
         try {
-            if (id) {
-                console.log({ ...updatedProduct });
-                const payload: IEditProductPayload = {
-                    id,
-                    payload: {
-                        ...updatedProduct,
-                    },
-                };
-                const response = await makeEditProductRequest(() => {
-                    console.log({ ...payload });
-                    return appService.products.editProduct(payload);
-                });
-                console.log(response);
-                setProduct(response.product);
-            }
+            if (!id) { return; }
+            const response = await makeEditProductRequest(() => {
+                return appService.products.editProduct({ id, product: updatedProduct });
+            });
+            setProduct(response.product);
+            const name = updatedProduct.get("name") as string | null;
+            MessageService.success(`The product ${name && `"${name}" `}was successfully updated`);
+            navigate(`../${Routes.Products}`, { relative: "route" });
         } catch (error) {
-            console.error(error);
+            MessageService.error("The product was not updated");
         }
     };
 
     return (
         <>
-            {isLoading && <Preloader />}
+            {isLoading && <PreloaderPortal />}
             {product &&
                 (
                     <Section title="Edit product" name="section-products-edit" cl="form-layout-1">

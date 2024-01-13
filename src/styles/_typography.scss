@@ -109,6 +109,7 @@
 body {
     font-family: $font-primary, sans-serif;
     color: $color-font;
+    font-variant-numeric: lining-nums;
 }
 
 .text-primary {
@@ -118,4 +119,8 @@ body {
 
 .btn-primary {
     font-size: 1.6rem;
+}
+
+.input-error {
+    color: $color-red;
 }

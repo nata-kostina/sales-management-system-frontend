@@ -1,12 +1,14 @@
 import { FC, useEffect, useState } from "react";
-import { Section } from "../components/Section";
-import { ProductForm } from "../components/FormProduct/ProductForm";
+import { Link, useNavigate } from "react-router-dom";
+import { Section } from "../../../components/Section/Section";
+import { ProductForm } from "../components/form/ProductForm";
 import { useFetch } from "../../../hooks/useFetch";
 import { appService } from "../../../services";
-import { IProductDto } from "../../../dtos/product/product.dto.interface";
 import { IAddProductResponse } from "../../../models/response/IAddProductResponse";
 import { IProduct } from "../../../models/product.interface";
-import { Preloader } from "../../../components/ui/Preloader/Preloader";
+import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
+import { Routes } from "../../../types/routes";
+import { MessageService } from "../../../services/message.service";
 
 export const ProductAddPage: FC = () => {
     const [product, setProduct] = useState<Omit<IProduct, "id"> | null>(null);
@@ -18,8 +20,9 @@ export const ProductAddPage: FC = () => {
 
     const { isLoading: isAddProductLoading, makeRequest: makeAddProductRequest } = useFetch<IAddProductResponse>();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        console.log({ isAddProductLoading, areFormOptionsLoading, areFormFieldsLoading });
         setIsLoading(isAddProductLoading || areFormOptionsLoading || areFormFieldsLoading);
     }, [isAddProductLoading, areFormOptionsLoading, areFormFieldsLoading]);
 
@@ -31,25 +34,24 @@ export const ProductAddPage: FC = () => {
         setAreFormOptionsLoading(value);
     };
 
-    const handleSubmitForm = async (newProduct: Omit<IProductDto, "id">) => {
+    const handleSubmitForm = async (newProduct: FormData) => {
         try {
-            console.log({ ...newProduct });
             const response = await makeAddProductRequest(() => {
-                return appService.products.addProduct({
-                    product: newProduct,
-                });
+                return appService.products.addProduct(newProduct);
             });
-            console.log(response);
             setProduct(response.product);
+            const name = newProduct.get("name") as string | null;
+            MessageService.success(`The product ${name && `"${name}" `}was successfully added`);
+            navigate(`../${Routes.Products}`, { relative: "route" });
         } catch (error) {
-            console.error(error);
+            MessageService.error("The product was not added");
         }
     };
 
     return (
         <>
-            {isLoading && <Preloader />}
-
+            {isLoading && <PreloaderPortal />}
+            <Link to={`../${Routes.Products}`} relative="route">Link</Link>
             <Section title="Add product" name="section-products-add" cl="form-layout-1">
                 <div className="card">
                     <div className="card__inner">

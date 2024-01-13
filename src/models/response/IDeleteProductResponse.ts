@@ -1,1 +1,1 @@
-export type IDeleteProduct = void;
+export type IDeleteProductResponse = void;

@@ -1,0 +1,65 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    width: 100%;
+
+    overflow: hidden;
+    .section__inner {
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 2.2rem;
+
+        .section__header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .section__body {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .section__footer {
+        }
+
+        .section__title {
+            font-weight: 500;
+            font-size: 2.4rem;
+            text-transform: capitalize;
+            color: $color-black;
+        }
+
+        .section__subtitle {
+            font-size: 1.4rem;
+            color: #555;
+            font-weight: 400;
+        }
+
+        .section__toolbar {
+            align-self: flex-end;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            .btn {
+                width: max-content;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: $bp-s) {
+    .section {
+        .section__inner {
+            padding: 2rem 1.6rem;
+        }
+    }
+}

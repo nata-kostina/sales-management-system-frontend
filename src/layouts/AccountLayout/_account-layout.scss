@@ -1,0 +1,33 @@
+.account-layout-wrapper {
+    min-height: 100vh;
+    min-height: 100lvh;
+
+    display: flex;
+    flex-direction: column;
+    .account-header-offset {
+        display: flex;
+        flex-direction: column;
+        margin-top: $account-header-height-l;
+        flex-grow: 1;
+    }
+    .main-account-layout {
+        display: flex;
+        // grid-template-columns: auto 1fr;
+
+        max-width: 100%;
+
+        flex-grow: 1;
+
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: $bp-ms) {
+    .account-layout-wrapper {
+        .account-header-offset {
+            margin-top: $account-header-height-ms;
+        }
+        .main-account-layout {
+        }
+    }
+}

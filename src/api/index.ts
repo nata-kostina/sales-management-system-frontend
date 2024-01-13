@@ -1,16 +1,17 @@
 import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
-import { LocalStorageTokenKey } from "../utils/constants";
+import { store } from "../store/store";
+import { setToken } from "../store/slices/auth.slice";
 
-const API_URL = import.meta.env.VITE_API_URL;
+export const baseURL = import.meta.env.VITE_API_URL;
 
 export const $api = axios.create({
     withCredentials: true,
-    baseURL: API_URL,
+    baseURL,
 });
 
 $api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem(LocalStorageTokenKey)}`;
+    config.headers.Authorization = `Bearer ${store.getState().auth.token}`;
     console.log(`${config.method} - Request - ${config.url}`);
     return config;
 }, (error) => {
@@ -26,8 +27,8 @@ $api.interceptors.response.use((config) => {
     if (error.response.status === 401 && error.config && !originalRequest._isRetry) {
         originalRequest._isRetry = true;
         try {
-            const response = await axios.get<AuthResponse>("/auth/refresh", { withCredentials: true, baseURL: API_URL });
-            localStorage.setItem(LocalStorageTokenKey, response.data.accessToken);
+            const response = await axios.get<AuthResponse>("/api/auth/refresh", { withCredentials: true, baseURL });
+            store.dispatch(setToken(response.data.accessToken));
             return await $api.request(originalRequest);
         } catch (e) {
             console.error("Not authorized");

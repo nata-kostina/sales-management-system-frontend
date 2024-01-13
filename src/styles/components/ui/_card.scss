@@ -5,12 +5,11 @@
     flex-direction: column;
     flex-grow: 1;
 
-    // border: 1px solid $color-border;
-    box-shadow: 0 0 13px 0 #523f690d;
-    border-radius: 8px;
+    border-radius: 15px;
+    box-shadow: 0 9px 95px #0000000d;
 
     &__inner {
-        padding: 2rem;
+        padding: 2.5rem;
 
         display: flex;
         flex-direction: column;
@@ -28,5 +27,13 @@
 
     &__footer {
         flex-grow: 0;
+    }
+}
+
+@media screen and (max-width: $bp-s) {
+    .card {
+        .card__inner {
+            padding: 1.5rem;
+        }
     }
 }

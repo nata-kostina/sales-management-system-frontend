@@ -1,1 +1,5 @@
-export interface IImage { src: string; name: string; }
+export interface IImage {
+    originalname: string;
+    filename: string;
+    path: string;
+}

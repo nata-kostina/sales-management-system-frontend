@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useFetch } from "./useFetch";
 import { IRefreshResponse } from "../models/response/IRefreshResponse";
-import { LocalStorageTokenKey } from "../utils/constants";
 import { appService } from "../services";
 import { IUser } from "../models/user.interface";
 
@@ -23,16 +22,7 @@ export const useCheckAuth = (): UseCheckAuthResponse => {
         const checkAuth = async () => {
             try {
                 setIsLoading(true);
-                const refreshToken = localStorage.getItem(
-                    LocalStorageTokenKey,
-                );
-                if (!refreshToken) {
-                    setToken("");
-                    setIsAuth(false);
-                    setIsLoading(false);
-                    setUser(null);
-                    return;
-                }
+
                 const response = await makeRequest(() =>
                     appService.auth.refresh(),
                 );
@@ -47,7 +37,7 @@ export const useCheckAuth = (): UseCheckAuthResponse => {
                 setIsLoading(false);
             }
         };
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
         checkAuth();
     }, [makeRequest]);
     return {

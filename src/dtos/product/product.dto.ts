@@ -1,40 +1,35 @@
-import { IProductDto } from "./product.dto.interface";
+import { IProductFormValues } from "../../schemas/product.form.schema";
 
-// export class ProductDto implements IProductDto {
-//     public id: string;
-//     public name: string;
-//     public brand: IBrandDto | null;
-//     public unit: IUnitDto | null;
-//     public sku: string;
-//     public price: number;
-//     public quantity: number;
-//     public images: IImage[];
-//     public categories: ICategoryDto[] | null;
-//     public description: string;
-
-//     public constructor(
-//         data: Omit<IProduct & { _id: Types.ObjectId; }, "brand" | "unit" | "categories"> & PopulatedProduct,
-//     ) {
-//         this.id = model._id.toString();
-//         this.name = model.name;
-//         this.brand = {
-//             id: model.brand._id.toString(),
-//             name: model.brand.name,
-//         };
-//         this.price = model.price;
-//         this.images = model.images;
-//         this.quantity = model.quantity;
-//         this.sku = model.sku;
-//         this.unit = {
-//             id: model.unit._id.toString(),
-//             name: model.unit.name,
-//         };
-//         this.description = model.description;
-//         this.categories = model.categories.map(({ _id, description, image, name }) => ({
-//             id: _id.toString(),
-//             name,
-//             description,
-//             image,
-//         }));
-//     }
-// }
+export class ProductDto {
+    public formData: FormData;
+    public constructor(data: IProductFormValues) {
+        this.formData = new FormData();
+        this.formData.append("name", data.name);
+        if (data.sku) {
+            this.formData.append("sku", data.sku);
+        }
+        if (data.unit) {
+            this.formData.append("unit", data.unit);
+        }
+        if (data.brand) {
+            this.formData.append("brand", data.brand);
+        }
+        if (data.description) {
+            this.formData.append("description", data.description);
+        }
+        if (data.categories) {
+            this.formData.append("categories", JSON.stringify(data.categories) ?? "[]");
+        }
+        if (data.images) {
+            if (data.images.length === 0) {
+                this.formData.append("images", "[]");
+            } else {
+                for (let i = 0; i < data.images.length; i++) {
+                    this.formData.append("images", (data.images as File[])[i]);
+                }
+            }
+        }
+        this.formData.append("price", data.price.toString());
+        this.formData.append("quantity", data.quantity.toString());
+    }
+}

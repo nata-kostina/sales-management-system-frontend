@@ -1,4 +1,8 @@
 .toolbar {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
     &-list {
         display: flex;
         align-items: center;
@@ -50,9 +54,9 @@
             }
         }
         .user-name {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 400;
-            color: $color-blue-dark;
+            color: $color-black;
             align-self: center;
         }
     }

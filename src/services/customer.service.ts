@@ -10,12 +10,12 @@ export class ProductService {
         this.getCustomers = this.getCustomers.bind(this);
     }
 
-    public async getCustomers(page: number = 1, perPage: number = 10): Promise<AxiosResponse<ProductResponse>> {
+    public async getCustomers(page = 1, perPage = 10): Promise<AxiosResponse<ProductResponse>> {
         return $api.get<ProductResponse>(`${this.baseUrl}/`, {
             params: {
                 page,
-                perPage
-            }
+                perPage,
+            },
         });
     }
 }

@@ -1,31 +1,47 @@
 import { FC, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ProductResponse } from "../../models/response/ProductResponse";
+import { SorterResult } from "antd/es/table/interface";
+import { IGetProductsResponse } from "../../models/response/ProductResponse";
 import { useFetch } from "../../hooks/useFetch";
 import { appService } from "../../services";
 import { appController } from "../../controllers";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { ProductTable } from "./components/ProductTable";
-import { Pagination } from "../../components/Pagination";
+import { Pagination } from "../../components/Pagination/Pagination";
 import { setProductsPage, setProductsPerPage } from "../../store/slices/product.slice";
 import { itemsPerPageDefault } from "../../utils/constants";
-import { Section } from "./components/Section";
+import { Section } from "../../components/Section/Section";
+import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
 import { Routes } from "../../types/routes";
-import { Preloader } from "../../components/ui/Preloader/Preloader";
+import { IProduct } from "../../models/product.interface";
+import { FetchProducts } from "../../types/functions.type";
 
 export const ProductsPage: FC = () => {
     const dispatch = useAppDispatch();
     const products = useAppSelector((state) => state.product.products);
-    const totalProductsNum = useAppSelector((state) => state.product.total);
+    const totalItemsNum = useAppSelector((state) => state.product.total);
     const page = useAppSelector((state) => state.product.page);
     const perPage = useAppSelector((state) => state.product.perPage);
 
-    const { isLoading, makeRequest } = useFetch<ProductResponse>(true);
-    const fetchProducts = useCallback(
-        async (productsPage = 1, productsPerPage = itemsPerPageDefault) => {
+    const { isLoading, makeRequest } = useFetch<IGetProductsResponse>(true);
+    const fetchProducts: FetchProducts = useCallback(
+        async (
+            productsPage = 1,
+            productsPerPage = itemsPerPageDefault,
+            sorter?: SorterResult<IProduct>,
+            filter?: Record<string, string>,
+        ) => {
             try {
                 const response = await makeRequest(
-                    async () => appService.products.getProducts(productsPage, productsPerPage),
+                    async () => {
+                        return appService.products.getProducts(
+                            productsPage,
+                            productsPerPage,
+                            (sorter?.order) ? sorter.field as React.Key : undefined,
+                            sorter?.order,
+                            filter,
+                        );
+                    },
                 );
                 appController.products.handleGetProducts(response);
             } catch (error) {
@@ -43,13 +59,13 @@ export const ProductsPage: FC = () => {
     };
 
     const handlePerPageChange = async (value: number) => {
-        await fetchProducts(page, value);
+        await fetchProducts(1, value);
         dispatch(setProductsPerPage(value));
     };
     return (
         <>
-            {isLoading && <Preloader />}
-            <Section title="Product List" subtitle="Manage your products" name="section-products">
+            {isLoading && <PreloaderPortal />}
+            <Section title="Product List" name="section-products">
                 <div className="card">
                     <div className="card__inner">
                         <div className="card__header">
@@ -62,12 +78,13 @@ export const ProductsPage: FC = () => {
                         </div>
                         <div className="card__body">
                             {products ? (
-                                <ProductTable data={products} />
+                                <ProductTable data={products} fetchProducts={fetchProducts} />
                             ) : <p>No data</p>}
                         </div>
                         <div className="card__footer">
                             <Pagination
-                                total={totalProductsNum}
+                                totalItemsNum={totalItemsNum}
+                                perPage={perPage}
                                 page={page}
                                 handlePageChange={handlePageChange}
                                 handlePerPageChange={handlePerPageChange}

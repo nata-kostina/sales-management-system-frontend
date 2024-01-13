@@ -11,14 +11,14 @@ $theme-background: --theme-background;
 
 // Default theme
 $theme-map-light: (
-    $theme-primary: #FF9F43,
+    $theme-primary: $color-primary,
     $theme-dashboard: #FFFFFF,
     $theme-background: #FAFBFE,
 );
 
 // Override the default light theme
 $theme-map-dark: (
-    $theme-primary: #FF9F43,
+    $theme-primary: $color-primary,
     $theme-dashboard: #2F4858,
     $theme-background: #4D597F,
 );

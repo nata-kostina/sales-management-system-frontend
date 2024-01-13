@@ -1,11 +1,7 @@
-/* PRIMARY */
-
 .btn,
 a.btn:visited,
 a.btn:link {
     width: 100%;
-
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,32 +88,58 @@ a.btn-secondary:active,
     box-shadow: inset 0 50px 0 0 $color-white;
 }
 
-/* DELETE */
+.btn-action,
+a.btn-action:link,
+a.btn-action:visited {
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
 
-.btn-delete {
-    &-svg {
-        fill: $color-btn-delete;
+    font-size: 1.6rem;
+}
+
+/* APPLY */
+.btn-apply,
+a.btn-apply:link,
+a.btn-apply:visited {
+    background: #dbecff;
+    color: $color-primary;
+
+    &:hover,
+    &:active {
+        background: $color-primary;
+        color: $color-white;
+    }
+}
+/* RESET */
+
+.btn-reset,
+a.btn-reset:link,
+a.btn-reset:visited {
+    background: #f9cccc;
+    color: $color-red;
+    &:hover,
+    &:active {
+        background: $color-red;
+        color: $color-white;
     }
 }
 
 /* ADD */
 
 .btn-add,
-.btn-add:link,
-.btn-add:visited {
+a.btn-add:link,
+a.btn-add:visited {
     height: 4rem;
     padding: 0.8rem 1.5rem;
 
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 400;
 
     background-color: $color-btn-add-bg;
-    border-color: $color-btn-add-border;
+    border: 1px solid $color-btn-add-border;
     border-radius: 4px;
 
     color: $color-btn-add;
-
-    box-shadow: inset 0 0 0 0 $color-white;
 
     .btn__icon {
         display: flex;
@@ -134,8 +156,8 @@ a.btn-secondary:active,
         font-weight: 400;
         line-height: 0;
 
-        background-color: $color-btn-add;
-        color: $color-btn-add-bg;
+        background-color: transparent;
+        color: $color-btn-add;
     }
 }
 

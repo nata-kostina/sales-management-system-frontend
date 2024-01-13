@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,25 +10,13 @@ import { AuthResponse } from "../../models/response/AuthResponse";
 import { appController } from "../../controllers";
 import { ILoginFormValues, loginFormSchema } from "../../schemas/login.form.schema";
 import { Hero } from "./components/Hero/Hero";
-import { useCheckAuth } from "../../hooks/useCheckAuth";
-import { setAuth, setToken, setUser } from "../../store/slices/auth.slice";
 import { selectIsAuth } from "../../store/selector";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 import { BgLogin } from "../../components/vectors/backgrounds/BgLogin";
-import { Preloader } from "../../components/ui/Preloader/Preloader";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
 
 export const LoginPage: FC = () => {
     const auth = useAppSelector(selectIsAuth);
-    // const dispatch = useAppDispatch();
-    // const { isLoading: isCheckAuthLoading, isAuth, token, user } = useCheckAuth();
-
-    // useEffect(() => {
-    //     dispatch(setToken(token));
-    //     dispatch(setUser(user));
-    //     dispatch(setAuth(isAuth));
-    // }, [dispatch, isAuth, token, user]);
-
     const {
         register,
         handleSubmit,
@@ -79,7 +67,7 @@ export const LoginPage: FC = () => {
                                 </div>
                             </div>
                         </div>
-                    )}            
+                    )}
         </>
     );
 };

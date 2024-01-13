@@ -2,26 +2,21 @@ import { FC } from "react";
 import { Pagination } from "antd";
 
 interface Props {
-    total: number;
+    totalItemsNum: number;
     page: number;
+    perPage: number;
     handlePageChange: (page: number) => void;
 }
 
-export const PageList: FC<Props> = ({ page, total, handlePageChange }) => {
-    // const onChange: PaginationProps["onChange"] = (value: number) => {
-    //     if (page !== value) {
-    //         setProductsPage(value);
-    //     }
-    // };
-    // console.log("PageList: ", page);
+export const PageList: FC<Props> = ({ page, totalItemsNum, handlePageChange, perPage }) => {
     return (
         <div id="page-list">
             <Pagination
                 current={page}
                 onChange={handlePageChange}
-                total={total}
+                total={totalItemsNum}
                 showLessItems={true}
-                pageSize={1}
+                pageSize={perPage}
             />
         </div>
     );

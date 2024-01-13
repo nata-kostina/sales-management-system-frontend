@@ -1,22 +1,21 @@
 import { Select } from "antd";
 import { FC } from "react";
-import { itemsPerPageDefault } from "../../utils/constants";
 
 interface Props {
+    perPage: number;
     handlePerPageChange: (value: number) => Promise<void>;
 }
 
-export const PerPage: FC<Props> = ({ handlePerPageChange }) => {
+export const PerPage: FC<Props> = ({ handlePerPageChange, perPage }) => {
     return (
         <div id="per-page" className="per-page">
             <div className="per-page__inner">
                 <div className="per-page__title">Show per page:</div>
                 <div className="per-page__dropdown">
                     <Select
-                        defaultValue={itemsPerPageDefault}
+                        value={perPage}
                         style={{ width: 80 }}
                         onChange={handlePerPageChange}
-                        className="my-select"
                         options={[
                             { value: 1, label: "1" },
                             { value: 2, label: "2" },
@@ -25,6 +24,7 @@ export const PerPage: FC<Props> = ({ handlePerPageChange }) => {
                             { value: 50, label: "50" },
                             { value: 100, label: "100" },
                         ]}
+                        optionFilterProp="label"
                     />
                 </div>
             </div>

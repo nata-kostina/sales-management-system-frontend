@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../../models/user.interface";

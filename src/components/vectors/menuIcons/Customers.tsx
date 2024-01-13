@@ -2,13 +2,8 @@ import { FC } from "react";
 
 export const CustomersSvg: FC = () => {
     return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-users ">
-            <g>
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-            </g>
+        <svg className="icon icon-customers" width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="8.77778" cy="17.1111" rx="7.77778" ry="3.88889" strokeWidth="1.5" strokeLinejoin="round" />
+            <circle cx="8.77843" cy="5.44444" r="4.44444" strokeWidth="1.5" strokeLinejoin="round" />
         </svg>
     );
 };

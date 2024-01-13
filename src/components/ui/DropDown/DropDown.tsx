@@ -1,5 +1,4 @@
 import { FC, ReactNode, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { assets } from "../../../data/assets";
 import { IMenuLink } from "../../../types/ui.types";
 

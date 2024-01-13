@@ -1,4 +1,5 @@
 import { FC } from "react";
+import cn from "classnames";
 import { NavLink } from "react-router-dom";
 import { Routes } from "../../types/routes";
 import { IMenuItem } from "../../types/ui.types";
@@ -7,14 +8,13 @@ import { ProductsSvg } from "../vectors/menuIcons/Products";
 import { SalesSvg } from "../vectors/menuIcons/Sales";
 import { CategoriesSvg } from "../vectors/menuIcons/Categories";
 import { CustomersSvg } from "../vectors/menuIcons/Customers";
+import { useAppSelector } from "../../store/hooks";
+import { selectIsSidebarExpanded } from "../../store/selector";
 
-interface Props {
-    expandSidebar: boolean;
-}
-
-export const Sidebar: FC<Props> = ({ expandSidebar }) => {
+export const Sidebar: FC = () => {
+    const isExpanded = useAppSelector(selectIsSidebarExpanded);
     return (
-        <div id="sidebar" className={`${expandSidebar ? "sidebar sidebar_expanded" : "sidebar"} `}>
+        <div id="sidebar" className={cn("sidebar sidebar-desktop", { sidebar_expanded: isExpanded })}>
             <div className="sidebar-menu">
                 <ul className="menu">
                     {sidebarLinks.map(({ icon, link, title }) => (
@@ -41,7 +41,7 @@ export const Sidebar: FC<Props> = ({ expandSidebar }) => {
     );
 };
 
-const sidebarLinks: IMenuItem[] = [
+export const sidebarLinks: IMenuItem[] = [
     {
         title: "Dashboard",
         link: Routes.Dashboard,
