@@ -8,11 +8,11 @@ import { BasicFields } from "./basicFields/BasicFields";
 import { AdditionalFields } from "./additionalFields/AdditionalFields";
 import foo from "../../../../styles/_vars.module.scss";
 import { Routes } from "../../../../types/routes";
-import { IProduct } from "../../../../models/product.interface";
 import { useFetch } from "../../../../hooks/useFetch";
 import { appService } from "../../../../services";
-import { IGetProductsFormOptionsResponse } from "../../../../models/response/IGetProductsFormOptions";
-import { ProductDto } from "../../../../dtos/product/product.dto";
+import { ProductDto } from "../../../../dtos/product.dto";
+import { IProduct } from "../../../../models/entities/product.interface";
+import { IGetProductsFormOptionsResponse } from "../../../../models/responses/products.response";
 
 const { colorPrimary } = foo;
 
@@ -79,7 +79,7 @@ export const ProductForm: FC<Props> = ({
                 },
             }}
         >
-            <form className={`form form-product-${name}`} onSubmit={onSubmit}>
+            <form className={`form form-items form-product-${name}`} onSubmit={onSubmit}>
                 <div className="form__inner">
                     <div className="form__body">
                         <BasicFields

@@ -1,4 +1,4 @@
-import { IGetBrandList } from "../models/response/IGetBrandList";
+import { IGetBrandList } from "../models/responses/brand.response";
 import { appService } from "../services";
 import { useFetch } from "./useFetch";
 

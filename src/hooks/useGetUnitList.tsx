@@ -1,4 +1,4 @@
-import { IGetUnitList } from "../models/response/IGetUnitList";
+import { IGetUnitList } from "../models/responses/unit.response";
 import { appService } from "../services";
 import { useFetch } from "./useFetch";
 

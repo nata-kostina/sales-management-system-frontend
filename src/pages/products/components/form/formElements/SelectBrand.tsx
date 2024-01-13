@@ -1,6 +1,6 @@
 import { FC, useMemo } from "react";
 import { Control } from "react-hook-form";
-import { IBrand } from "../../../../../models/brand.interface";
+import { IBrand } from "../../../../../models/entities/brand.interface";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { SingleSelect } from "../../../../../components/ui/Inputs/SingleSelect";
 

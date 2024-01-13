@@ -1,6 +1,6 @@
+import { AuthResponse } from "../models/responses/auth.response";
 import { setAuth, setToken, setUser } from "../store/slices/auth.slice";
 import { store } from "../store/store";
-import { AuthResponse } from "../models/response/AuthResponse";
 
 export class AuthController {
     public handleLogin(response: AuthResponse): void {

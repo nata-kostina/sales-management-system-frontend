@@ -25,3 +25,7 @@ export class MessageService {
 
     private static messageApi: IMessageContext;
 }
+
+export const messages = {
+    default: "Something went wrong. Please try again.",
+};

@@ -1,15 +1,12 @@
 import { Table } from "antd";
 import { SorterResult, TableRowSelection } from "antd/es/table/interface";
-import { IProduct } from "../../models/product.interface";
 
 interface Props<T extends object> {
     data: T[];
     children: React.ReactNode;
     selectedRowKeys: React.Key[];
     onSelectChange: (newSelectedRowKeys: React.Key[]) => void;
-    handleOnChange: (
-        sorter: SorterResult<IProduct>,
-    ) => void;
+    handleOnChange: (sorter: SorterResult<T>) => void;
 }
 
 export function TableRowSelector<T extends object>({ data, children, onSelectChange, selectedRowKeys, handleOnChange }: Props<T>): JSX.Element {
@@ -24,7 +21,7 @@ export function TableRowSelector<T extends object>({ data, children, onSelectCha
 
     return (
         <Table<T>
-            onChange={(p, f, s) => handleOnChange(s as SorterResult<IProduct>)}
+            onChange={(p, f, s) => handleOnChange(s as SorterResult<T>)}
             id="app-table"
             rowKey="id"
             rowSelection={rowSelection}

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../api";
-import { IGetUnitsResponse } from "../models/response/IGetUnitsResponse";
+import { IGetUnitsResponse } from "../models/responses/unit.response";
 
 export class UnitService {
     private baseUrl: string;

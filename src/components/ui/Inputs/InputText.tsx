@@ -1,18 +1,16 @@
-import { FC } from "react";
-import { UseFormRegister } from "react-hook-form";
-import { IProductFormValues } from "../../../schemas/product.form.schema";
+import { Path, UseFormRegister } from "react-hook-form";
 
-interface Props {
+interface Props<T extends object> {
     defaultValue: string;
     label: string;
     type: string;
     placeholder?: string;
-    name: keyof IProductFormValues;
-    register: UseFormRegister<IProductFormValues>;
+    name: Path<T>;
+    register: UseFormRegister<T>;
     error: string | undefined;
 }
 
-export const InputText: FC<Props> = ({
+export function InputText<T extends object>({
     defaultValue,
     name,
     label,
@@ -20,7 +18,7 @@ export const InputText: FC<Props> = ({
     placeholder,
     register,
     error,
-}) => {
+}: Props<T>): JSX.Element {
     return (
         <div className={`input-group input-group-${name}`}>
             <label
@@ -43,4 +41,4 @@ export const InputText: FC<Props> = ({
             </div>
         </div>
     );
-};
+}

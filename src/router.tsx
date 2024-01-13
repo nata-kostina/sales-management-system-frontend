@@ -3,7 +3,6 @@ import { PrivateLayout } from "./layouts/PrivateLayout/PrivateLayout";
 import { AccountLayout } from "./layouts/AccountLayout/AccountLayout";
 import { LoginPage } from "./pages/login/LoginPage";
 import { Routes } from "./types/routes";
-import { Categories } from "./pages/categories";
 import { Customers } from "./pages/customers";
 import { ProductsPage } from "./pages/products/ProductsPage";
 import { Sales } from "./pages/sales";
@@ -11,6 +10,9 @@ import { ProductViewPage } from "./pages/products/view/ProductViewPage";
 import { ProductEditPage } from "./pages/products/edit/ProductEditPage";
 import { ProductAddPage } from "./pages/products/add/ProductAddPage";
 import { BaseLayout } from "./layouts/BaseLayout/BaseLayout";
+import { CategoriesPage } from "./pages/categories/CategoriesPage";
+import { CategoryAddPage } from "./pages/categories/add/CategoryAddPage";
+import { CategoryEditPage } from "./pages/categories/edit/CategoryEditPage";
 
 export const router = createBrowserRouter([
     {
@@ -57,8 +59,21 @@ export const router = createBrowserRouter([
                                 element: <ProductAddPage />,
                             },
                             {
-                                path: Routes.Category,
-                                element: <Categories />,
+                                path: Routes.Categories,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <CategoriesPage />,
+                                    },
+                                    {
+                                        path: "add",
+                                        element: <CategoryAddPage />,
+                                    },
+                                    {
+                                        path: ":id/edit",
+                                        element: <CategoryEditPage />,
+                                    },
+                                ],
                             },
                             {
                                 path: Routes.Sales,

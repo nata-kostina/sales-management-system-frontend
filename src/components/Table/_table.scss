@@ -51,12 +51,12 @@
         white-space: nowrap;
     }
 
-    .col-name {
+    .col-img-text {
         display: flex;
         align-items: center;
         gap: 2rem;
 
-        .product__img-box {
+        .col__img-box {
             width: 8rem;
             height: 8rem;
 
@@ -67,12 +67,14 @@
             overflow: hidden;
         }
 
-        .product__img {
+        .col__img {
             display: block;
             height: 100%;
             width: 100%;
             object-fit: contain;
         }
+
+        .col__text {}
     }
 
     .col-category {

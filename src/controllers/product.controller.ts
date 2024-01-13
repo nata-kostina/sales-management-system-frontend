@@ -1,4 +1,4 @@
-import { IGetProductsResponse } from "../models/response/ProductResponse";
+import { IGetProductsResponse } from "../models/responses/products.response";
 import { setProducts, setProductsTotal, setProductsPage } from "../store/slices/product.slice";
 import { store } from "../store/store";
 

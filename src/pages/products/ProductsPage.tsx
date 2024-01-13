@@ -1,7 +1,6 @@
 import { FC, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { SorterResult } from "antd/es/table/interface";
-import { IGetProductsResponse } from "../../models/response/ProductResponse";
 import { useFetch } from "../../hooks/useFetch";
 import { appService } from "../../services";
 import { appController } from "../../controllers";
@@ -13,8 +12,9 @@ import { itemsPerPageDefault } from "../../utils/constants";
 import { Section } from "../../components/Section/Section";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
 import { Routes } from "../../types/routes";
-import { IProduct } from "../../models/product.interface";
-import { FetchProducts } from "../../types/functions.type";
+import { FetchItems } from "../../types/functions.type";
+import { IProduct } from "../../models/entities/product.interface";
+import { IGetProductsResponse } from "../../models/responses/products.response";
 
 export const ProductsPage: FC = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export const ProductsPage: FC = () => {
     const perPage = useAppSelector((state) => state.product.perPage);
 
     const { isLoading, makeRequest } = useFetch<IGetProductsResponse>(true);
-    const fetchProducts: FetchProducts = useCallback(
+    const fetchProducts: FetchItems<IProduct> = useCallback(
         async (
             productsPage = 1,
             productsPerPage = itemsPerPageDefault,

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import cn from "classnames";
 
 interface Props {
     title?: string;
@@ -10,7 +11,7 @@ interface Props {
 
 export const Section: FC<Props> = ({ title, subtitle, children, name, cl }) => {
     return (
-        <section className={`section section-products ${name} ${cl}`}>
+        <section className={cn(`section ${name}`, { cl: cl?.length })}>
             <div className="section__inner">
                 <div className="section__header">
                     {title && <h2 className="section__title">{title}</h2>}

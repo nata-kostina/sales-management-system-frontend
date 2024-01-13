@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { $api } from "../api";
-import { AuthResponse } from "../models/response/AuthResponse";
-import { IRefreshResponse } from "../models/response/IRefreshResponse";
+import { AuthResponse, IRefreshResponse } from "../models/responses/auth.response";
 
 export class AuthService {
     private baseUrl: string;

@@ -4,25 +4,26 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Modal } from "antd";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
-import { IProduct } from "../../../models/product.interface";
-import { TableNew } from "../../../components/Table/TableNew";
+import { Table } from "../../../components/Table/Table";
 import { useAppSelector } from "../../../store/hooks";
 import { ActionsCell } from "../../../components/Table/ActionsCell";
 import { SearchFilter } from "../../../components/Table/SearchFilter";
-import { FetchProducts } from "../../../types/functions.type";
 import { CategoryFilter } from "./filters/CategoryFilter";
 import { BrandFilter } from "./filters/BrandFilter";
 import { UnitFilter } from "./filters/UnitFilter";
 import { baseURL } from "../../../api";
 import { assets } from "../../../utils/assetsManager";
 import { useFetch } from "../../../hooks/useFetch";
-import { IDeleteProductResponse } from "../../../models/response/IDeleteProductResponse";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
+import { IProduct } from "../../../models/entities/product.interface";
+import { IDeleteProductResponse } from "../../../models/responses/products.response";
+import { FetchItems } from "../../../types/functions.type";
+import { MessageService } from "../../../services/message.service";
 
 interface Props {
     data: IProduct[];
-    fetchProducts: FetchProducts;
+    fetchProducts: FetchItems<IProduct>;
 }
 
 const { confirm } = Modal;
@@ -71,7 +72,7 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     await makeRequest(() => appService.products.deleteProduct({ products: products.map((p) => p.id) }));
                     fetchProducts(page, perPage, sorter, filter);
                 } catch {
-                    console.error("on delete error");
+                    MessageService.error(`Something went wrong. The ${products.length > 0 ? "products were" : "product was"} not deleted.`);
                 }
             },
         });
@@ -86,7 +87,7 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
     return (
         <>
             {isLoading && <PreloaderPortal />}
-            <TableNew<IProduct> handleOnChange={handleOnChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
+            <Table<IProduct> handleOnChange={handleOnChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
                 <Column<IProduct>
                     key="name"
                     title="Name"
@@ -98,14 +99,14 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     filtered={!!(filter.name) && filter.name.length > 0}
                     filterDropdown={<SearchFilter placeholder="Product name" onSearch={(value: string) => handleFilterSearch("name", value)} />}
                     render={(value, record) => (
-                        <div className="col-name">
-                            <div className="product__img-box">
+                        <div className="col-img-text">
+                            <div className="col__img-box">
                                 {record.images.length > 0 ?
-                                    <img src={`${baseURL}/${record.images[0].filename}`} className="product__img" /> :
-                                    <img src={assets.shared.placeholder} alt="Placeholder" className="product__img" />
+                                    <img src={`${baseURL}/${record.images[0].filename}`} className="col__img" /> :
+                                    <img src={assets.shared.placeholder} alt="Placeholder" className="col__img" />
                                 }
                             </div>
-                            <h3 className="product__name">{value}</h3>
+                            <h3 className="col__text">{value}</h3>
                         </div>
                     )}
                 />
@@ -165,10 +166,15 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     title="Action"
                     key="action"
                     render={(_, record) => (
-                        <ActionsCell handleOnEdit={() => handleOnEdit(record)} handleOnDelete={() => handleOnDelete([record])} />
+                        <ActionsCell
+                            handleOnEdit={() => handleOnEdit(record)}
+                            handleOnDelete={() => handleOnDelete([record])}
+                            deleteTooltip="Delete product"
+                            editTooltip="Edit product"
+                        />
                     )}
                 />
-            </TableNew>
+            </Table>
         </>
     );
 };

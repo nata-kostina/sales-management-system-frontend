@@ -1,0 +1,151 @@
+/*===================
+Form Shared Layout
+=====================*/
+$default-col-gap-l: 2rem;
+$default-row-gap-l: 2.4rem;
+/*===================
+Form Product Add & Edit
+=====================*/
+.form-product-add,
+.form-product-edit {
+    .fields-basic {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        row-gap: $default-row-gap-l;
+        column-gap: $default-col-gap-l;
+
+        .input-group-name {
+            grid-column: 1 / 4;
+            grid-row: 1 / 2;
+        }
+
+        .input-group-categories {
+            grid-column: 4 / 7;
+            grid-row: 1 / 2;
+        }
+
+        .input-group-price {
+            grid-column: 7 / 8;
+            grid-row: 1 / 2;
+        }
+
+        .input-group-unit {
+            grid-column: 8 / 9;
+            grid-row: 1 / 2;
+        }
+
+        .input-group-brand {
+            grid-column: 1 / 4;
+            grid-row: 2 / 3;
+        }
+
+        .input-group-quantity {
+            grid-column: 4 / 5;
+            grid-row: 2 / 3;
+        }
+    }
+
+    .fields-additional {
+        display: grid;
+        row-gap: $default-row-gap-l;
+
+        grid-template-columns: 1fr;
+
+        justify-content: space-between;
+        .input-group-description {
+            min-height: 40rem;
+        }
+    }
+}
+
+@media screen and (max-width: $bp-ms) {
+    .form-product-add,
+    .form-product-edit {
+        .fields-basic {
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(3, auto);
+            .input-group-name {
+                grid-column: 1 / 4;
+                grid-row: 1 / 2;
+            }
+
+            .input-group-categories {
+                grid-column: 4 / 7;
+                grid-row: 1 / 2;
+            }
+
+            .input-group-price {
+                grid-column: 1 / 4;
+                grid-row: 2 / 3;
+            }
+
+            .input-group-unit {
+                grid-column: 1 / 4;
+                grid-row: 3 / 4;
+            }
+
+            .input-group-brand {
+                grid-column: 4 / 7;
+                grid-row: 3 / 4;
+            }
+
+            .input-group-quantity {
+                grid-column: 4 / 7;
+                grid-row: 2 / 3;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .form-product-add,
+    .form-product-edit {
+        .fields-basic {
+            grid-template-columns: 1fr;
+
+            .input-group-name {
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+            }
+
+            .input-group-categories {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+            }
+
+            .input-group-price {
+                grid-column: 1 / 2;
+                grid-row: 3 / 4;
+            }
+
+            .input-group-unit {
+                grid-column: 1 / 2;
+                grid-row: 4 / 5;
+            }
+
+            .input-group-brand {
+                grid-column: 1 / 2;
+                grid-row: 5 / 6;
+            }
+
+            .input-group-quantity {
+                grid-column: 1 / 2;
+                grid-row: 6 / 7;
+            }
+        }
+    }
+}
+
+/*===================
+Form Category Add & Edit
+=====================*/
+.form-category-add,
+.form-category-edit {
+    .fields-basic {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        row-gap: $default-row-gap-l;
+    }
+}

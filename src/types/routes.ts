@@ -8,7 +8,7 @@ export enum Routes {
     EditProduct = "products/:id/edit",
     DeleteProduct = "products/:id/delete",
     AddProduct = "products/add",
-    Category = "category",
+    Categories = "categories",
     Sales = "sales",
     Customers = "customers",
 }

@@ -1,21 +1,8 @@
-import { AxiosResponse } from "axios";
-import { $api } from "../api";
-import { ProductResponse } from "../models/response/ProductResponse";
-
 export class ProductService {
     private baseUrl: string;
 
     public constructor(url: string) {
         this.baseUrl = url;
-        this.getCustomers = this.getCustomers.bind(this);
-    }
-
-    public async getCustomers(page = 1, perPage = 10): Promise<AxiosResponse<ProductResponse>> {
-        return $api.get<ProductResponse>(`${this.baseUrl}/`, {
-            params: {
-                page,
-                perPage,
-            },
-        });
+        // this.getCustomers = this.getCustomers.bind(this);
     }
 }

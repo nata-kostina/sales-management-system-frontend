@@ -1,4 +1,4 @@
-import { IGetCategoryList } from "../models/response/IGetCategoryList";
+import { IGetCategoryList } from "../models/responses/category.response";
 import { appService } from "../services";
 import { useFetch } from "./useFetch";
 

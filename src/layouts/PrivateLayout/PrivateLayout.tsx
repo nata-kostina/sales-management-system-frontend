@@ -3,10 +3,10 @@ import { useLocation, Outlet, Navigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import { useFetch } from "../../hooks/useFetch";
 import { appService } from "../../services";
-import { AuthResponse } from "../../models/response/AuthResponse";
 import { appController } from "../../controllers";
 import { selectIsAuth } from "../../store/selector";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
+import { AuthResponse } from "../../models/responses/auth.response";
 
 export const PrivateLayout: FC = () => {
     const isAuth = useAppSelector(selectIsAuth);

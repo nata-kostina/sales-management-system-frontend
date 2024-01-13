@@ -1,25 +1,23 @@
-import { FC } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Control, Controller } from "react-hook-form";
-import { IProductFormValues } from "../../../schemas/product.form.schema";
+import { Control, Controller, Path, PathValue } from "react-hook-form";
 
-interface Props {
-    control: Control<IProductFormValues>;
+interface Props<T extends object> {
+    control: Control<T>;
     error: string | undefined;
-    name: keyof IProductFormValues;
+    name: Path<T>;
     label: string;
     changeIsFormLoading: (value: boolean) => void;
-    defaultValue: string;
+    defaultValue: PathValue<T, Path<T>>;
 }
 
-export const EditorField: FC<Props> = ({
+export function EditorField<T extends object>({
     control,
     error,
     name,
     label,
     changeIsFormLoading,
     defaultValue,
-}) => {
+}: Props<T>): JSX.Element {
     return (
         <div className={`input-group input-group-${name}`}>
             <label
@@ -57,6 +55,5 @@ export const EditorField: FC<Props> = ({
             />
             {error && <p className="input-error">{error}</p>}
         </div>
-
     );
-};
+}

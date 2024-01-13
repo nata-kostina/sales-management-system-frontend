@@ -54,7 +54,7 @@ export const sidebarLinks: IMenuItem[] = [
     },
     {
         title: "Categories",
-        link: Routes.Category,
+        link: Routes.Categories,
         icon: <CategoriesSvg />,
     },
     {

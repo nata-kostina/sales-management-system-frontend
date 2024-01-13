@@ -3,13 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Section } from "../../../components/Section/Section";
 import { ProductForm } from "../components/form/ProductForm";
 import { useFetch } from "../../../hooks/useFetch";
-import { IGetProductResponse } from "../../../models/response/IGetProductResponse";
 import { appService } from "../../../services";
-import { IProduct } from "../../../models/product.interface";
-import { IEditProductResponse } from "../../../models/response/IEditProductResponse";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { MessageService } from "../../../services/message.service";
+import { MessageService, messages } from "../../../services/message.service";
 import { Routes } from "../../../types/routes";
+import { IProduct } from "../../../models/entities/product.interface";
+import { IGetProductResponse, IEditProductResponse } from "../../../models/responses/products.response";
 
 export const ProductEditPage: FC = () => {
     const { id } = useParams();
@@ -36,7 +35,7 @@ export const ProductEditPage: FC = () => {
                     setProduct(response.product);
                 }
             } catch (error) {
-                MessageService.error("Something went wrong. Please try again.");
+                MessageService.error(messages.default);
                 setProduct(null);
                 navigate(`../${Routes.Products}`, { relative: "route" });
             }
@@ -64,10 +63,10 @@ export const ProductEditPage: FC = () => {
             });
             setProduct(response.product);
             const name = updatedProduct.get("name") as string | null;
-            MessageService.success(`The product ${name && `"${name}" `}was successfully updated`);
+            MessageService.success(`The product ${name && `"${name}" `}was successfully updated.`);
             navigate(`../${Routes.Products}`, { relative: "route" });
         } catch (error) {
-            MessageService.error("The product was not updated");
+            MessageService.error("The product was not updated.");
         }
     };
 
@@ -76,7 +75,7 @@ export const ProductEditPage: FC = () => {
             {isLoading && <PreloaderPortal />}
             {product &&
                 (
-                    <Section title="Edit product" name="section-products-edit" cl="form-layout-1">
+                    <Section title="Edit product" name="section-products-edit">
                         <div className="card">
                             <div className="card__inner">
                                 <div className="card__body">

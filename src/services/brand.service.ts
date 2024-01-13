@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../api";
-import { IGetBrandsResponse } from "../models/response/IGetBrandsResponse";
-import { IGetBrandList } from "../models/response/IGetBrandList";
+import { IGetBrandsResponse, IGetBrandList } from "../models/responses/brand.response";
 
 export class BrandService {
     private baseUrl: string;

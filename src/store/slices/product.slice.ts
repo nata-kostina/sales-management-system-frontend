@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IProduct } from "../../models/product.interface";
 import { itemsPerPageDefault } from "../../utils/constants";
+import { IProduct } from "../../models/entities/product.interface";
 
 interface ProductState {
     products: IProduct[];

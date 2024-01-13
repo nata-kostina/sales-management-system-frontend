@@ -1,7 +1,7 @@
 import axios from "axios";
-import { AuthResponse } from "../models/response/AuthResponse";
 import { store } from "../store/store";
 import { setToken } from "../store/slices/auth.slice";
+import { AuthResponse } from "../models/responses/auth.response";
 
 export const baseURL = import.meta.env.VITE_API_URL;
 

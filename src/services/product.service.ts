@@ -1,16 +1,20 @@
 import { AxiosResponse } from "axios";
 import { Key } from "react";
 import { $api } from "../api";
-import { IGetProductResponse } from "../models/response/IGetProductResponse";
-import { IGetProductPayload } from "../models/request/IGetProductPayload";
-import { IGetProductsFormOptionsResponse } from "../models/response/IGetProductsFormOptions";
-import { IEditProductPayload } from "../models/request/IEditProductPayload";
-import { IEditProductResponse } from "../models/response/IEditProductResponse";
-import { IAddProductPayload } from "../models/request/IAddProductPayload";
-import { IAddProductResponse } from "../models/response/IAddProductResponse";
-import { IDeleteProductResponse } from "../models/response/IDeleteProductResponse";
-import { IGetProductsResponse } from "../models/response/ProductResponse";
-import { IDeleteProductPayload } from "../models/request/IDeleteProductPayload";
+import {
+    IAddProductPayload,
+    IDeleteProductPayload,
+    IEditProductPayload,
+    IGetProductPayload,
+} from "../models/requests/product.request";
+import {
+    IGetProductsResponse,
+    IGetProductResponse,
+    IGetProductsFormOptionsResponse,
+    IEditProductResponse,
+    IAddProductResponse,
+    IDeleteProductResponse,
+} from "../models/responses/products.response";
 
 export class ProductService {
     private baseUrl: string;

@@ -9,9 +9,6 @@
 /* LAYOUTS */
 @import "../layouts/AccountLayout/account-layout";
 
-/* SECTIONS */
-@import "./sections/section-base";
-
 /* UI */
 @import "./components/ui/buttons";
 @import "./components/ui/card";
@@ -26,7 +23,9 @@
 @import "./../components/Header/header";
 @import "./../components/Toolbar/toolbar.scss";
 @import "./../components/SideBar/sidebar.scss";
-// @import "./../scenes/dashboard/dashboard.scss";
+@import "./../components/Section/section";
+@import "./components/forms/form-items";
+@import "./components/forms/form-items-layouts";
 
 /* PAGES */
 @import "./pages/page-base";
@@ -36,8 +35,6 @@
 @import "../pages/login/components/LoginForm/form";
 @import "../pages/login/login-page";
 
-@import "./pages/products/shared/form";
-@import "./pages/products/shared/formLayouts";
 @import "./pages/products/productsEditPage";
 @import "./pages/products/productsPage";
 

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useFetch } from "./useFetch";
-import { IRefreshResponse } from "../models/response/IRefreshResponse";
 import { appService } from "../services";
-import { IUser } from "../models/user.interface";
+import { IRefreshResponse } from "../models/responses/auth.response";
+import { IUser } from "../types/entities";
 
 interface UseCheckAuthResponse {
     isLoading: boolean;

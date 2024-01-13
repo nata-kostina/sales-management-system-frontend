@@ -1,21 +1,20 @@
 import { FC, useEffect, useState } from "react";
 import cn from "classnames";
-import { Control, Controller } from "react-hook-form";
-import { IProductFormValues } from "../../../schemas/product.form.schema";
+import { Control, Controller, Path } from "react-hook-form";
 import { assets } from "../../../utils/assetsManager";
 import { DeleteSvg } from "../../vectors/userActions/DeleteSvg";
 import { baseURL } from "../../../api";
-import { IImage } from "../../../models/image.interface";
+import { IImage } from "../../../models/entities/image.interface";
 
-interface Props {
-    control: Control<IProductFormValues>;
-    name: keyof IProductFormValues;
+interface Props<T extends object> {
+    control: Control<T>;
+    name: Path<T>;
     label: string;
     error: string | undefined;
     defaultValue: IImage[];
 }
 
-export const DnDImages: FC<Props> = ({ name, error, label, control, defaultValue }) => {
+export function DnDImages<T extends object>({ name, error, label, control, defaultValue }: Props<T>) {
     const [images, setImages] = useState<File[]>([]);
     useEffect(() => {
         const urlToObject = async (image: IImage) => {
@@ -98,7 +97,7 @@ export const DnDImages: FC<Props> = ({ name, error, label, control, defaultValue
             </div>
         </div>
     );
-};
+}
 
 interface DnDLabelProps {
     name: string;
