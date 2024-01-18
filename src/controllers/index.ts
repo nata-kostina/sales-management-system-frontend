@@ -1,9 +1,11 @@
 import { AuthController } from "./auth.controller";
 import { CategoryController } from "./category.controller";
+import { CustomerController } from "./customer.controller";
 import { ProductController } from "./product.controller";
 
 export const appController = {
     auth: new AuthController(),
-    products: new ProductController(),
-    categories: new CategoryController(),
+    product: new ProductController(),
+    category: new CategoryController(),
+    customer: new CustomerController(),
 };

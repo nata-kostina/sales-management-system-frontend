@@ -3,7 +3,7 @@ import { FieldErrors, Control, UseFormRegister } from "react-hook-form";
 import { EditorField } from "../../../../../components/ui/Inputs/EditorField";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { DnDImages } from "../../../../../components/ui/Inputs/DnDImages";
-import { IProduct } from "../../../../../models/product.interface";
+import { IProduct } from "../../../../../models/entities/product.interface";
 
 interface Props {
     errors: FieldErrors<IProductFormValues>;

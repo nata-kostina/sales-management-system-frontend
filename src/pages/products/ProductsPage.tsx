@@ -43,7 +43,7 @@ export const ProductsPage: FC = () => {
                         );
                     },
                 );
-                appController.products.handleGetProducts(response);
+                appController.product.handleGetProducts(response);
             } catch (error) {
                 console.error("Error - Products");
             }

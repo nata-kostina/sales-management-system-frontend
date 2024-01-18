@@ -2,7 +2,7 @@ import { FC, useMemo } from "react";
 import { Control } from "react-hook-form";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { SingleSelect } from "../../../../../components/ui/Inputs/SingleSelect";
-import { IUnit } from "../../../../../models/unit.interface";
+import { IUnit } from "../../../../../models/entities/unit.interface";
 
 interface Props {
     control: Control<IProductFormValues>;

@@ -3,11 +3,11 @@ import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { InputText } from "../../../../../components/ui/Inputs/InputText";
 import { InputNumber } from "../../../../../components/ui/Inputs/InputNumber";
-import { IProduct } from "../../../../../models/product.interface";
 import { SelectBrand } from "../formElements/SelectBrand";
 import { SelectUnit } from "../formElements/SelectUnit";
-import { IProductsFormOptions } from "../../../../../models/productsFormOptions.interface";
 import { SelectCategories } from "../formElements/SelectCategories";
+import { IProduct } from "../../../../../models/entities/product.interface";
+import { IProductsFormOptions } from "../../../../../models/entities/productsFormOptions.interface";
 
 interface Props {
     register: UseFormRegister<IProductFormValues>;

@@ -3,7 +3,7 @@ import { Control } from "react-hook-form";
 import { MultiSelect } from "../../../../../components/ui/Inputs/MultiSelect";
 import { ISelectOption } from "../../../../../types/ui.types";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
-import { ICategory } from "../../../../../models/category.interface";
+import { ICategory } from "../../../../../models/entities/category.interface";
 
 interface Props {
     control: Control<IProductFormValues>;

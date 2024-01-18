@@ -62,10 +62,15 @@
 }
 
 .sidebar-desktop {
+    position: relative;
     width: $sidebar-width-short;
     
     .sidebar-menu {
+        position: fixed;
         padding: 2rem 1rem;
+        top: $account-header-height-l;
+        left: 0;
+        width: $sidebar-width-short;
     }
 
     .menu {

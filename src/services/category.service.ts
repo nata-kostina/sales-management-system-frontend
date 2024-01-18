@@ -21,7 +21,6 @@ export class CategoryService {
 
     public constructor(url: string) {
         this.baseUrl = url;
-        this.getCategoryList = this.getCategoryList.bind(this);
     }
 
     public async getCategoryList(): Promise<AxiosResponse<IGetCategoryList>> {

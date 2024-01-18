@@ -38,5 +38,3 @@ const productSlice = createSlice({
 export const { setProducts, setProductsPage, setProductsPerPage, setProductsTotal } =
     productSlice.actions;
 export const productReducer = productSlice.reducer;
-
-// export const selectIsAuth = (state: RootState) => state.auth.isAuth;

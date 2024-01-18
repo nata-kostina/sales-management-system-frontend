@@ -149,3 +149,56 @@ Form Category Add & Edit
         row-gap: $default-row-gap-l;
     }
 }
+/*===================
+Form Customer Add & Edit
+=====================*/
+.form-customer-add,
+.form-customer-edit {
+    .fields-basic {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        row-gap: $default-row-gap-l;
+        column-gap: $default-col-gap-l;
+    }
+    .input-group-name {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+    .input-group-email {
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+    }
+    .input-group-phone {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+    }
+    .input-group-country {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+    }
+    .input-group-state {
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+    }
+    .input-group-state {
+        grid-column: 2 / 3;
+        grid-row: 4 / 5;
+    }
+    .input-group-address {
+        grid-column: 1 / 3;
+        grid-row: 5 / 6;
+    }
+}
+@media screen and (max-width: $bp-s) {
+    .form-customer-add,
+    .form-customer-edit {
+        .fields-basic {
+            grid-template-columns: 1fr;
+        }
+        .input-group[class*="input-group-"] {
+            grid-column: 1 / 2;
+            grid-row: auto;
+        }
+    }
+}

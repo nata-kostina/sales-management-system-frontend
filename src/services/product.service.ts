@@ -21,7 +21,6 @@ export class ProductService {
 
     public constructor(url: string) {
         this.baseUrl = url;
-        this.getProducts = this.getProducts.bind(this);
     }
 
     public async getProducts(

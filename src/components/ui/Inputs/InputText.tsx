@@ -21,12 +21,7 @@ export function InputText<T extends object>({
 }: Props<T>): JSX.Element {
     return (
         <div className={`input-group input-group-${name}`}>
-            <label
-                htmlFor={name}
-                className="label"
-            >
-                {label}
-            </label>
+            <label htmlFor={name} className="label">{label}</label>
             <div className="input-box">
                 <input
                     defaultValue={defaultValue}

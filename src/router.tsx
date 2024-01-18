@@ -3,7 +3,6 @@ import { PrivateLayout } from "./layouts/PrivateLayout/PrivateLayout";
 import { AccountLayout } from "./layouts/AccountLayout/AccountLayout";
 import { LoginPage } from "./pages/login/LoginPage";
 import { Routes } from "./types/routes";
-import { Customers } from "./pages/customers";
 import { ProductsPage } from "./pages/products/ProductsPage";
 import { Sales } from "./pages/sales";
 import { ProductViewPage } from "./pages/products/view/ProductViewPage";
@@ -13,6 +12,9 @@ import { BaseLayout } from "./layouts/BaseLayout/BaseLayout";
 import { CategoriesPage } from "./pages/categories/CategoriesPage";
 import { CategoryAddPage } from "./pages/categories/add/CategoryAddPage";
 import { CategoryEditPage } from "./pages/categories/edit/CategoryEditPage";
+import { CustomersPage } from "./pages/customers/CustomersPage";
+import { CustomerAddPage } from "./pages/customers/add/CustomerAddPage";
+import { CustomerEditPage } from "./pages/customers/edit/CustomerEditPage";
 
 export const router = createBrowserRouter([
     {
@@ -76,12 +78,25 @@ export const router = createBrowserRouter([
                                 ],
                             },
                             {
-                                path: Routes.Sales,
-                                element: <Sales />,
+                                path: Routes.Customers,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <CustomersPage />,
+                                    },
+                                    {
+                                        path: "add",
+                                        element: <CustomerAddPage />,
+                                    },
+                                    {
+                                        path: ":id/edit",
+                                        element: <CustomerEditPage />,
+                                    },
+                                ],
                             },
                             {
-                                path: Routes.Customers,
-                                element: <Customers />,
+                                path: Routes.Sales,
+                                element: <Sales />,
                             },
                         ],
                     },
