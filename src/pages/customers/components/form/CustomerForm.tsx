@@ -2,14 +2,10 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { ConfigProvider } from "antd";
-import foo from "../../../../styles/_vars.module.scss";
 import { BasicFields } from "./BasicFields";
 import { ICustomer } from "../../../../models/entities/customer.interface";
 import { ICustomerFormValues, customerFormSchema } from "../../../../schemas/customer.form.schema";
 import { CustomerDto } from "../../../../dtos/customer.dto";
-
-const { colorPrimary } = foo;
 
 interface Props {
     name: string;
@@ -32,36 +28,27 @@ export const CustomerForm: FC<Props> = ({
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log({ data });
         const customerDto = new CustomerDto(data);
         handleSubmitForm(customerDto.formData);
     });
     return (
-        <ConfigProvider
-            theme={{
-                token: {
-                    colorPrimary,
-                },
-            }}
-        >
-            <form className={`form form-items form-customer-${name}`} onSubmit={onSubmit}>
-                <div className="form__inner">
-                    <div className="form__body">
-                        <BasicFields
-                            register={register}
-                            errors={errors}
-                            control={control}
-                            customer={customer}
-                        />
-                    </div>
-                    <div className="form__footer">
-                        <div className="user-actions">
-                            <Link to="../" relative="route" className="btn btn-action btn-reset">Cancel</Link>
-                            <button type="submit" className="btn btn-action btn-apply">{submitBtn}</button>
-                        </div>
+        <form className={`form form-items form-customer form-customer-${name}`} onSubmit={onSubmit}>
+            <div className="form__inner">
+                <div className="form__body">
+                    <BasicFields
+                        register={register}
+                        errors={errors}
+                        control={control}
+                        customer={customer}
+                    />
+                </div>
+                <div className="form__footer">
+                    <div className="user-actions">
+                        <Link to="../" relative="route" className="btn btn-action btn-reset">Cancel</Link>
+                        <button type="submit" className="btn btn-action btn-apply">{submitBtn}</button>
                     </div>
                 </div>
-            </form>
-        </ConfigProvider>
+            </div>
+        </form>
     );
 };

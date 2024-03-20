@@ -1,4 +1,5 @@
 import { MessageInstance } from "antd/es/message/interface";
+import { PathValue, Path } from "react-hook-form";
 
 export interface IMenuItem {
     link: string;
@@ -13,8 +14,8 @@ export interface IImageFile {
     src: string;
 }
 
-export interface ISelectOption {
-    value: string;
+export interface ISelectOption<T> {
+    value: PathValue<T, Path<T>>;
     label: string;
 }
 

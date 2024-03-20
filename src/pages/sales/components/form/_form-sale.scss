@@ -1,0 +1,51 @@
+.form-sale {
+    .col-editable.col-quantity {
+        width: 20%;
+        min-width: 20rem;
+
+        .input {
+            flex-direction: column;
+        }
+    }
+    .input-group-address {
+        grid-column: 1 / -1;
+    }
+    .summary {
+        color: $color-blue-dark-l;
+        .summary__title,
+        .label {
+            font-size: 2.2rem;
+            font-weight: 500;
+        }
+
+        .summary__text {
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+    }
+    .summary {
+        display: flex;
+        justify-content: space-between;
+        .summary__text {
+            display: flex;
+            justify-content: 0.2rem;
+            align-items: center;
+            font-size: 2.4rem;
+            width: auto;  
+            text-align: right;
+        }
+        .total__currency {
+            font-size: 2rem;
+        }
+
+        .input-group {
+            flex-direction: row;
+            justify-content: space-between;
+
+            width: 100%;
+        }
+        .ant-input-number-input {
+            width: 8rem;
+        }
+    }
+}

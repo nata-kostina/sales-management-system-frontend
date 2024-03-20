@@ -3,6 +3,7 @@ import { Control } from "react-hook-form";
 import { IBrand } from "../../../../../models/entities/brand.interface";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { SingleSelect } from "../../../../../components/ui/Inputs/SingleSelect";
+import { ISelectOption } from "../../../../../types/ui.types";
 
 interface Props {
     control: Control<IProductFormValues>;
@@ -15,8 +16,8 @@ interface Props {
 }
 
 export const SelectBrand: FC<Props> = ({ brands, ...rest }) => {
-    const options: { value: string; label: string; }[] = useMemo(() => {
-        return brands.map((brand) => ({ value: brand.id, label: brand.name }));
+    const options: ISelectOption[] = useMemo(() => {
+        return brands.map((brand) => ({ value: brand.id, label: brand.name, key: brand.id }));
     }, [brands]);
 
     return (

@@ -2,12 +2,11 @@
 Form Shared Layout
 =====================*/
 $default-col-gap-l: 2rem;
-$default-row-gap-l: 2.4rem;
+$default-row-gap-l: 1rem;
 /*===================
 Form Product Add & Edit
 =====================*/
-.form-product-add,
-.form-product-edit {
+.form-product {
     .fields-basic {
         display: grid;
         grid-template-columns: repeat(8, 1fr);
@@ -60,8 +59,7 @@ Form Product Add & Edit
 }
 
 @media screen and (max-width: $bp-ms) {
-    .form-product-add,
-    .form-product-edit {
+    .form-product {
         .fields-basic {
             grid-template-columns: repeat(6, 1fr);
             grid-template-rows: repeat(3, auto);
@@ -140,8 +138,7 @@ Form Product Add & Edit
 /*===================
 Form Category Add & Edit
 =====================*/
-.form-category-add,
-.form-category-edit {
+.form-category {
     .fields-basic {
         display: grid;
         grid-template-columns: 1fr;
@@ -152,8 +149,7 @@ Form Category Add & Edit
 /*===================
 Form Customer Add & Edit
 =====================*/
-.form-customer-add,
-.form-customer-edit {
+.form-customer {
     .fields-basic {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -191,14 +187,49 @@ Form Customer Add & Edit
     }
 }
 @media screen and (max-width: $bp-s) {
-    .form-customer-add,
-    .form-customer-edit {
+    .form-customer {
         .fields-basic {
             grid-template-columns: 1fr;
         }
         .input-group[class*="input-group-"] {
             grid-column: 1 / 2;
             grid-row: auto;
+        }
+    }
+}
+/*===================
+Form Sale Add & Edit
+=====================*/
+.form-sale {
+    .fields-basic {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto;
+        row-gap: $default-row-gap-l;
+        column-gap: $default-col-gap-l;
+    }
+
+    .fields-additional {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: $default-row-gap-l;
+    }
+
+    .input-group-customer {
+        grid-column: 1 / 3;
+    }
+    .input-group-email {
+        grid-column: 3 / 5;
+    }
+    .input-group-date {
+        grid-column: 1 / 3;
+    }
+
+}
+@media screen and (max-width: $bp-s) {
+    .form-sale {
+        .fields-basic {
+            grid-template-columns: 1fr;
         }
     }
 }

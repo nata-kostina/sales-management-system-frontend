@@ -13,6 +13,7 @@ import {
     IEditCustomerResponse,
     IAddCustomerResponse,
     IDeleteCustomerResponse,
+    IGetCustomersListResponse,
 } from "../models/responses/customer.response";
 
 export class CustomerService {
@@ -43,18 +44,22 @@ export class CustomerService {
     public async getCustomer(
         payload: IGetCustomerPayload,
     ): Promise<AxiosResponse<IGetCustomerResponse>> {
-        return $api.get(`${this.baseUrl}/${payload.id}`);
+        return $api.get(`${this.baseUrl}/${payload.id}/`);
     }
 
     public async editCustomer(payload: IEditCustomerPayload): Promise<AxiosResponse<IEditCustomerResponse>> {
-        return $api.put(`${this.baseUrl}/${payload.id}/edit`, payload.customer);
+        return $api.put(`${this.baseUrl}/${payload.id}/edit/`, payload.customer);
     }
 
     public async addCustomer(payload: IAddCustomerPayload): Promise<AxiosResponse<IAddCustomerResponse>> {
-        return $api.post(`${this.baseUrl}/add`, payload);
+        return $api.post(`${this.baseUrl}/add/`, payload);
     }
 
     public async deleteCustomer(payload: IDeleteCustomerPayload): Promise<AxiosResponse<IDeleteCustomerResponse>> {
         return $api.delete(`${this.baseUrl}/`, { data: payload });
+    }
+
+    public async getCustomersList(payload: string): Promise<AxiosResponse<IGetCustomersListResponse>> {
+        return $api.get(`${this.baseUrl}/list/`, { params: { name: payload } });
     }
 }

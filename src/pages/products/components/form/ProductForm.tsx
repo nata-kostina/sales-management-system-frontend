@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { ConfigProvider } from "antd";
 import { IProductFormValues, productFormSchema } from "../../../../schemas/product.form.schema";
 import { BasicFields } from "./basicFields/BasicFields";
 import { AdditionalFields } from "./additionalFields/AdditionalFields";
@@ -13,8 +12,6 @@ import { appService } from "../../../../services";
 import { ProductDto } from "../../../../dtos/product.dto";
 import { IProduct } from "../../../../models/entities/product.interface";
 import { IGetProductsFormOptionsResponse } from "../../../../models/responses/products.response";
-
-const { colorPrimary } = foo;
 
 interface Props {
     name: string;
@@ -72,14 +69,7 @@ export const ProductForm: FC<Props> = ({
         handleSubmitForm(productDto.formData);
     });
     return (
-        <ConfigProvider
-            theme={{
-                token: {
-                    colorPrimary,
-                },
-            }}
-        >
-            <form className={`form form-items form-product-${name}`} onSubmit={onSubmit}>
+            <form className={`form form-items form-product form-product-${name}`} onSubmit={onSubmit}>
                 <div className="form__inner">
                     <div className="form__body">
                         <BasicFields
@@ -93,7 +83,6 @@ export const ProductForm: FC<Props> = ({
                         <AdditionalFields
                             changeIsFormLoading={changeIsFormLoading}
                             product={product}
-                            register={register}
                             errors={errors}
                             control={control}
                         />
@@ -106,6 +95,5 @@ export const ProductForm: FC<Props> = ({
                     </div>
                 </div>
             </form>
-        </ConfigProvider>
     );
 };

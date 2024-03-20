@@ -12,7 +12,7 @@ import { itemsPerPageDefault } from "../../utils/constants";
 import { Section } from "../../components/Section/Section";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
 import { Routes } from "../../types/routes";
-import { FetchItems } from "../../types/functions.type";
+import { FetchItems } from "../../types/functions";
 import { IProduct } from "../../models/entities/product.interface";
 import { IGetProductsResponse } from "../../models/responses/products.response";
 

@@ -16,4 +16,8 @@ export interface IGetCustomerResponse {
     customer: ICustomer;
 }
 
+export interface IGetCustomersListResponse {
+    customers: ICustomer[];
+}
+
 export type IEditCustomerResponse = IGetCustomerResponse;

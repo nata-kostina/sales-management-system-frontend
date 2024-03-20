@@ -1,0 +1,11 @@
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .table-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}

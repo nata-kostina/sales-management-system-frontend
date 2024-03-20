@@ -9,7 +9,7 @@ import { Pagination } from "../../components/Pagination/Pagination";
 import { itemsPerPageDefault } from "../../utils/constants";
 import { Section } from "../../components/Section/Section";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
-import { FetchItems } from "../../types/functions.type";
+import { FetchItems } from "../../types/functions";
 import { ICustomer } from "../../models/entities/customer.interface";
 import { IGetCustomersResponse } from "../../models/responses/customer.response";
 import { setCustomersPage, setCustomersPerPage } from "../../store/slices/customer.slice";

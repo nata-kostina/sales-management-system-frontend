@@ -12,6 +12,7 @@ $color-blue-gray: #9aa2b1;
 
 $color-blue: #0a82fd;
 $color-blue-light: #e8edff;
+$color-blue-light-2: #E4F2FF;
 $color-blue-dark: #1b2950;
 $color-blue-dark-l: #212b36;
 $color-red: #eb5757;
@@ -102,4 +103,5 @@ $font-primary: $font-tisa;
     bpM: $bp-m;
     bpMs: $bp-ms;
     bpS: $bp-s;
+    fontPrimary: $font-primary;
 }

@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import Column from "antd/es/table/Column";
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
+import { App } from "antd";
 import { Table } from "../../../components/Table/Table";
 import { useAppSelector } from "../../../store/hooks";
 import { ActionsCell } from "../../../components/Table/ActionsCell";
@@ -12,7 +12,7 @@ import { assets } from "../../../utils/assetsManager";
 import { useFetch } from "../../../hooks/useFetch";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { FetchItems } from "../../../types/functions.type";
+import { FetchItems } from "../../../types/functions";
 import { ICategory } from "../../../models/entities/category.interface";
 import { IDeleteCategoryResponse } from "../../../models/responses/category.response";
 import { MessageService } from "../../../services/message.service";
@@ -22,9 +22,9 @@ interface Props {
     fetchCategories: FetchItems<ICategory>;
 }
 
-const { confirm } = Modal;
-
 export const CategoryTable: FC<Props> = ({ data, fetchCategories }) => {
+    const { modal } = App.useApp();
+
     const [sorter, setSorter] = useState<SorterResult<ICategory>>();
 
     const page = useAppSelector((state) => state.category.page);
@@ -52,7 +52,7 @@ export const CategoryTable: FC<Props> = ({ data, fetchCategories }) => {
     };
 
     const handleOnDelete = (categories: ICategory[]) => {
-        confirm({
+        modal.confirm({
             title: categories.length === 1 ?
                 `Are you sure you want to delete ${categories[0].name}?` :
                 `Are you sure you want to delete ${categories.length} categories?`,

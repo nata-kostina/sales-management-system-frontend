@@ -38,7 +38,7 @@ export const BasicFields: FC<Props> = ({ errors, register, control, product, for
                 categories={categories}
                 defaultValue={product?.categories?.map((item) => item.id) ?? []}
             />
-            <InputNumber
+            <InputNumber<IProductFormValues>
                 name="price"
                 label="Price"
                 placeholder="9.99"
@@ -66,7 +66,7 @@ export const BasicFields: FC<Props> = ({ errors, register, control, product, for
                 control={control}
                 error={errors.brand?.message}
             />
-            <InputNumber
+            <InputNumber<IProductFormValues>
                 name="quantity"
                 label="Quantity"
                 placeholder="9"

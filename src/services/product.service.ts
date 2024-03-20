@@ -14,6 +14,7 @@ import {
     IEditProductResponse,
     IAddProductResponse,
     IDeleteProductResponse,
+    IGetProductsListResponse,
 } from "../models/responses/products.response";
 
 export class ProductService {
@@ -61,5 +62,9 @@ export class ProductService {
 
     public async deleteProduct(payload: IDeleteProductPayload): Promise<AxiosResponse<IDeleteProductResponse>> {
         return $api.delete(`${this.baseUrl}/`, { data: payload });
+    }
+
+    public async getProductsList(payload: string): Promise<AxiosResponse<IGetProductsListResponse>> {
+        return $api.get(`${this.baseUrl}/list/`, { params: { name: payload } });
     }
 }

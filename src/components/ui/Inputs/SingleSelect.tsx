@@ -1,24 +1,22 @@
-import { FC } from "react";
 import { Select } from "antd";
-import { Control, Controller } from "react-hook-form";
-import { IProductFormValues } from "../../../schemas/product.form.schema";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { ISelectOption } from "../../../types/ui.types";
 
-interface Props {
-    control: Control<IProductFormValues>;
-    error: string | undefined;
-    name: keyof IProductFormValues;
+interface Props<T extends FieldValues = any> {
+    control: Control<T>;
+    error?: string;
+    name: Path<T>;
     label: string;
     placeholder: string;
-    options: ISelectOption[];
-    defaultValue?: string;
+    options: ISelectOption<T>[];
+    defaultValue?: ISelectOption<T>;
 }
 
-export const SingleSelect: FC<Props> = ({ control, error, name, label, placeholder, options, defaultValue }) => {
+export function SingleSelect<T extends FieldValues = any>({ control, error, name, label, placeholder, options, defaultValue }: Props<T>): JSX.Element {
     return (
-        <div className={`input-group input-group-${name}`}>
+        <div className={`input-group input-group-${name.toString()}`}>
             <label
-                htmlFor={name}
+                htmlFor={name.toString()}
                 className="label"
             >
                 {label}
@@ -27,19 +25,21 @@ export const SingleSelect: FC<Props> = ({ control, error, name, label, placehold
                 <Controller
                     control={control}
                     name={name}
-                    defaultValue={defaultValue}
-                    render={({ field: { onChange, value } }) => (
-                        <Select
-                            placeholder={placeholder}
-                            style={{ width: "100%" }}
-                            onChange={onChange}
-                            options={options}
-                            value={value}
-                        />
-                    )}
+                    defaultValue={defaultValue?.value}
+                    render={({ field: { onChange, value } }) => {
+                        return (
+                            <Select
+                                placeholder={placeholder}
+                                style={{ width: "100%" }}
+                                onChange={onChange}
+                                options={options}
+                                value={value}
+                            />
+                        );
+                    }}
                 />
                 {error && <p className="input-error">{error}</p>}
             </div>
         </div>
     );
-};
+}

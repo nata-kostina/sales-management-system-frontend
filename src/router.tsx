@@ -4,7 +4,6 @@ import { AccountLayout } from "./layouts/AccountLayout/AccountLayout";
 import { LoginPage } from "./pages/login/LoginPage";
 import { Routes } from "./types/routes";
 import { ProductsPage } from "./pages/products/ProductsPage";
-import { Sales } from "./pages/sales";
 import { ProductViewPage } from "./pages/products/view/ProductViewPage";
 import { ProductEditPage } from "./pages/products/edit/ProductEditPage";
 import { ProductAddPage } from "./pages/products/add/ProductAddPage";
@@ -15,6 +14,9 @@ import { CategoryEditPage } from "./pages/categories/edit/CategoryEditPage";
 import { CustomersPage } from "./pages/customers/CustomersPage";
 import { CustomerAddPage } from "./pages/customers/add/CustomerAddPage";
 import { CustomerEditPage } from "./pages/customers/edit/CustomerEditPage";
+import { SaleAddPage } from "./pages/sales/add/SaleAddPage";
+import { SaleViewPage } from "./pages/sales/view/SaleViewPage";
+import { SaleEditPage } from "./pages/sales/edit/SaleEditPage";
 
 export const router = createBrowserRouter([
     {
@@ -96,7 +98,20 @@ export const router = createBrowserRouter([
                             },
                             {
                                 path: Routes.Sales,
-                                element: <Sales />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <SaleViewPage />,
+                                    },
+                                    {
+                                        path: "add",
+                                        element: <SaleAddPage />,
+                                    },
+                                    {
+                                        path: ":id/edit",
+                                        element: <SaleEditPage />,
+                                    },
+                                ],
                             },
                         ],
                     },

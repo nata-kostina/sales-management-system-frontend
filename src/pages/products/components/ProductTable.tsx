@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import Column from "antd/es/table/Column";
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { App } from "antd";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../../components/Table/Table";
@@ -18,7 +18,7 @@ import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
 import { IProduct } from "../../../models/entities/product.interface";
 import { IDeleteProductResponse } from "../../../models/responses/products.response";
-import { FetchItems } from "../../../types/functions.type";
+import { FetchItems } from "../../../types/functions";
 import { MessageService } from "../../../services/message.service";
 
 interface Props {
@@ -26,9 +26,9 @@ interface Props {
     fetchProducts: FetchItems<IProduct>;
 }
 
-const { confirm } = Modal;
-
 export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
+    const { modal } = App.useApp();
+
     const [filter, setFilter] = useState<Record<string, string>>({});
     const [sorter, setSorter] = useState<SorterResult<IProduct>>();
     const [openFilter, setOpenFilter] = useState<Record<keyof Pick<IProduct, "name" | "categories" | "sku" | "brand" | "unit">, boolean>>(
@@ -59,7 +59,7 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
     };
 
     const handleOnDelete = (products: IProduct[]) => {
-        confirm({
+        modal.confirm({
             title: products.length === 1 ?
                 `Are you sure you want to delete ${products[0].name}?` :
                 `Are you sure you want to delete ${products.length} products?`,

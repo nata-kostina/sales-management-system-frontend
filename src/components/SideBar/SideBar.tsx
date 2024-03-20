@@ -1,6 +1,7 @@
 import { FC } from "react";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
+import { Typography } from "antd";
 import { Routes } from "../../types/routes";
 import { IMenuItem } from "../../types/ui.types";
 import { DashboardSvg } from "../vectors/menuIcons/Dashboard";
@@ -29,9 +30,9 @@ export const Sidebar: FC = () => {
                                 <span className="link-icon">
                                     {icon}
                                 </span>
-                                <span className="link-title">
+                                <Typography.Text className="link-title">
                                     {title}
-                                </span>
+                                </Typography.Text>
                             </NavLink>
                         </li>
                     ))}

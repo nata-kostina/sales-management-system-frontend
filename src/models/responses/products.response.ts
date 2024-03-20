@@ -1,5 +1,6 @@
 import { IBrand } from "../entities/brand.interface";
 import { ICategory } from "../entities/category.interface";
+import { IImage } from "../entities/image.interface";
 import { IProduct } from "../entities/product.interface";
 import { IUnit } from "../entities/unit.interface";
 
@@ -25,4 +26,14 @@ export interface IGetProductsFormOptionsResponse {
     brands: IBrand[];
     units: IUnit[];
     categories: ICategory[];
+}
+
+export interface IListProduct {
+    id: string;
+    name: string;
+    image: IImage | null;
+}
+
+export interface IGetProductsListResponse {
+    products: IListProduct[];
 }

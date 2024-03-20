@@ -9,6 +9,7 @@ export const DeleteSvg: FC = () => {
             xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 512 512"
             xmlSpace="preserve"
+            fill="#eb5757"
         >
             <g>
                 <g>

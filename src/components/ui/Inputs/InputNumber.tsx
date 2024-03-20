@@ -1,23 +1,22 @@
-import { FC } from "react";
-import { Control, Controller } from "react-hook-form";
+import { Path, PathValue, Control, Controller } from "react-hook-form";
 import { InputNumber as AntInputNumber } from "antd";
-import { IProductFormValues } from "../../../schemas/product.form.schema";
 
-interface Props {
-    control: Control<IProductFormValues>;
+interface Props<T extends object> {
+    control: Control<T>;
     error: string | undefined;
     label: string;
     placeholder: string;
-    name: keyof IProductFormValues;
+    name: Path<T>;
     min: string;
-    defaultValue: number;
+    defaultValue: PathValue<T, Path<T>> | undefined;
     formatter?: ((value: any, info: {
         userTyping: boolean;
         input: string;
     }) => string) | undefined;
+    parser?: ((displayValue: string | undefined) => string);
 }
 
-export const InputNumber: FC<Props> = ({
+export function InputNumber<T extends object>({
     label,
     placeholder,
     error,
@@ -26,7 +25,8 @@ export const InputNumber: FC<Props> = ({
     min,
     formatter,
     defaultValue,
-}) => {
+    parser,
+}: Props<T>): JSX.Element {
     return (
         <div className={`input-group input-group-${name}`}>
             <label
@@ -49,9 +49,8 @@ export const InputNumber: FC<Props> = ({
                             onBlur={onBlur}
                             value={value}
                             ref={ref}
-                            // parser={(value) => value!.replace(/\$\s?|(,*)/g, "")}
                             onChange={onChange}
-                        // min="0"
+                            parser={parser}
                         />
                     )}
                 />
@@ -59,4 +58,4 @@ export const InputNumber: FC<Props> = ({
             </div>
         </div>
     );
-};
+}

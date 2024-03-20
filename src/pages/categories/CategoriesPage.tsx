@@ -9,7 +9,7 @@ import { Pagination } from "../../components/Pagination/Pagination";
 import { itemsPerPageDefault } from "../../utils/constants";
 import { Section } from "../../components/Section/Section";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
-import { FetchItems } from "../../types/functions.type";
+import { FetchItems } from "../../types/functions";
 import { ICategory } from "../../models/entities/category.interface";
 import { CategoryTable } from "./components/CategoryTable";
 import { IGetCategoriesResponse } from "../../models/responses/category.response";

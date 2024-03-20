@@ -1,0 +1,28 @@
+.filter-list {
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    flex-wrap: wrap;
+    .filter {
+        display: flex;
+        align-items: center;
+        // padding: 0.7rem 0.5rem 0.7rem 1.5rem;
+        background-color: $color-blue-light-2;
+        border-radius: 1.2rem;
+    }
+
+    .filter__text {
+        padding: 0 1.5rem;
+    }
+
+    .btn-delete-filter {
+        width: 4rem;
+        height: 4rem;
+        padding: 1.5rem;
+    }
+
+    .icon-cross {
+        width: 100%;
+        height: 100%;
+    }
+}

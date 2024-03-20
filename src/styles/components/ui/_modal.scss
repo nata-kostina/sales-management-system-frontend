@@ -1,0 +1,12 @@
+.ant-modal-confirm-btns {
+    display: flex;
+    gap: 0.4rem;
+
+    .btn:last-child{
+        margin-left: auto;
+    }
+}
+
+.ant-modal-content {
+    width: max-content;
+}

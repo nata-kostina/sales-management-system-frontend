@@ -11,7 +11,9 @@
 
 /* UI */
 @import "./components/ui/buttons";
+@import "./components/ui/modal";
 @import "./components/ui/card";
+@import "./components/ui/table";
 @import "../components/ui/Buttons/ToggleButton/toggleButton.scss";
 @import "../components/ui/DropDown/dropdown.scss";
 @import "../components/ui/Loader/loader.scss";
@@ -20,12 +22,14 @@
 /* COMPONENTS */
 @import "./../components/Pagination/pagination.scss";
 @import "./../components/Table/table";
+@import "./../components/Table/table-filters";
 @import "./../components/Header/header";
 @import "./../components/Toolbar/toolbar.scss";
 @import "./../components/SideBar/sidebar.scss";
 @import "./../components/Section/section";
 @import "./components/forms/form-items";
 @import "./components/forms/form-items-layouts";
+@import "../pages/sales/components/form/form-sale";
 
 /* PAGES */
 @import "./pages/page-base";

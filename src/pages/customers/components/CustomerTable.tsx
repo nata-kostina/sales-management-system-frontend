@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import Column from "antd/es/table/Column";
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { App } from "antd";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../../components/Table/Table";
@@ -12,7 +12,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
 import { ICustomer } from "../../../models/entities/customer.interface";
-import { FetchItems } from "../../../types/functions.type";
+import { FetchItems } from "../../../types/functions";
 import { MessageService } from "../../../services/message.service";
 import { IDeleteCustomerResponse } from "../../../models/responses/customer.response";
 
@@ -21,9 +21,9 @@ interface Props {
     fetchCustomers: FetchItems<ICustomer>;
 }
 
-const { confirm } = Modal;
-
 export const CustomerTable: FC<Props> = ({ data, fetchCustomers }) => {
+    const { modal } = App.useApp();
+
     const [filter, setFilter] = useState<Record<string, string>>({});
     const [sorter, setSorter] = useState<SorterResult<ICustomer>>();
     const [openFilter, setOpenFilter] = useState<Record<keyof Pick<ICustomer, "name" | "email" | "phone" | "country" | "city">, boolean>>(
@@ -54,7 +54,7 @@ export const CustomerTable: FC<Props> = ({ data, fetchCustomers }) => {
     };
 
     const handleOnDelete = (customers: ICustomer[]) => {
-        confirm({
+        modal.confirm({
             title: customers.length === 1 ?
                 `Are you sure you want to delete ${customers[0].name}?` :
                 `Are you sure you want to delete ${customers.length} customers?`,

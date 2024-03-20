@@ -19,7 +19,7 @@ export const BasicFields: FC<Props> = ({ errors, register, control, customer }) 
             <InputText
                 name="name"
                 label="Name"
-                placeholder="Baseball bat"
+                placeholder="John Smith"
                 type="text"
                 defaultValue={customer?.name ?? ""}
                 error={errors.name?.message}
