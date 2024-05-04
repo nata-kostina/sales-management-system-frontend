@@ -98,10 +98,11 @@
     font-weight: 600;
 }
 
-body {
+body,
+#root {
     font-family: $font-primary !important;
-    color: $color-font;
-    font-variant-numeric: lining-nums;
+    color: $color-font-black !important;
+    font-variant-numeric: lining-nums !important;
 }
 
 .ant-modal-root,
@@ -114,14 +115,144 @@ body {
     color: $color-primary;
 }
 
-.btn-primary {
-    font-size: 1.6rem;
+@mixin uppercase {
+    text-transform: uppercase;
 }
 
-.input-error {
-    color: $color-red;
+
+@mixin h-1 {
+    font-family: $font-primary !important;
+    font-size: 10rem;
+    line-height: 132px;
+    font-weight: 700;
+    color: $color-font-black;
+}
+
+@mixin h-2 {
+    font-family: $font-primary !important;
+    font-size: 40px;
+    line-height: 110%;
+    font-weight: 700;
+    color: $color-font-black;
+
+    @media screen and (max-width: $bp-s) {
+        font-size: 2.4rem;
+    }
+}
+
+@mixin h-3 {
+    font-family: $font-primary !important;
+    font-size: 2.4rem;
+    line-height: 110%;
+    font-weight: 700;
+    color: $color-font-black;
+    @media screen and (max-width: $bp-m) {
+        font-size: 1.8rem;
+    }
+}
+
+@mixin h-4 {
+    font-family: $font-primary !important;
+    font-size: 16px;
+    line-height: 110%;
+    font-weight: 700;
+    color: $color-font-black;
+}
+
+@mixin h-5 {
+    font-family: $font-primary !important;
+    font-size: 1.4rem;
+    font-size: 20px;
+    line-height: 110%;
+    color: $color-font-black;
+}
+
+@mixin body-title {
+    font-family: $font-primary !important;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 110%;
+    color: $color-font-black;
+}
+
+@mixin body-title-2 {
+    font-family: $font-primary !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 110%;
+    color: $color-font-black;
+}
+
+@mixin body-text {
+    font-family: $font-primary !important;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 110%;
+    color: $color-font-black;
+}
+
+@mixin text-tiny {
+    font-family: $font-primary !important;
+    font-size: 12px;
+    line-height: 110%;
+    font-weight: 400;
+    color: $color-font-gray;
+}
+
+
+@mixin label {
+    font-family: $font-primary !important;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 110%;
+    color: $color-font-gray-light;
+}
+
+@mixin btn-1 {
+    color: $color-font-gray;
+    font-size: 2rem;
+    line-height: 140%;
+    font-weight: 400;
+    font-family: $font-primary !important;
+
+    @media screen and (max-width: $bp-l) {
+        font-size: 2rem;
+    }
 }
 
 .btn {
+    @include btn-1;
+}
+
+
+@mixin input {
+    font-family: $font-primary !important;
     font-size: 1.6rem;
+    line-height: 140%;
+    font-weight: 500;
+    color: $color-font-black;
+}
+
+.input {
+    @include input;
+}
+@mixin placeholder {
+    font-family: $font-primary !important;
+    font-size: 1.6rem !important;
+    line-height: 140% !important;
+    font-weight: 300 !important;
+    color: rgba($color-black, 0.38) !important;
+}
+
+@mixin table-cell {
+    font-family: $font-primary !important;
+    font-size: 1.6rem;
+    color: $color-black;
+    line-height: 140%;
+    font-weight: 400;
+}
+
+
+::placeholder {
+    @include placeholder;
 }

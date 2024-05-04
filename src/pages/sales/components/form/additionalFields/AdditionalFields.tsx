@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
-import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormGetValues, Control } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormSetValue, Control } from "react-hook-form";
 import { ISaleFormValues } from "../../../../../schemas/sale.form.schema";
 import { ISale } from "../../../../../models/entities/sale.interface";
 import { SaleProductsTable } from "./components/SaleProductsTable";
 import { SelectProduct } from "./components/SelectProduct";
-import { useFetch } from "../../../../../hooks/useFetch";
+import { useFetch } from "../../../../../hooks/shared/useFetch";
 import { IGetProductResponse } from "../../../../../models/responses/products.response";
 import { appService } from "../../../../../services";
 import { ISaleProduct } from "../../../../../models/entities/saleProduct.interface";
@@ -17,18 +17,17 @@ interface Props {
     sale: ISale | Omit<ISale, "id"> | null;
     register: UseFormRegister<ISaleFormValues>;
     setValue: UseFormSetValue<ISaleFormValues>;
-    getValues: UseFormGetValues<ISaleFormValues>;
     control: Control<ISaleFormValues>;
 }
 
-export const AdditionalFields: FC<Props> = ({ errors, sale, register, getValues, setValue, control }) => {
+export const AdditionalFields: FC<Props> = ({ errors, sale, register, setValue, control }) => {
     const [products, setProducts] = useState(() => sale?.products ?? []);
     const { makeRequest } = useFetch<IGetProductResponse>();
 
     const handleOnChange = async (value: string) => {
         const existingProduct = products.find((p) => p.id === value);
         if (existingProduct) { return; }
-        const { product } = await makeRequest(() => appService.products.getProduct({ id: value }));
+        const { product } = await makeRequest(() => appService.product.getProduct({ id: value }));
         const newProduct: ISaleProduct = {
             id: value,
             name: product.name,
@@ -73,7 +72,6 @@ export const AdditionalFields: FC<Props> = ({ errors, sale, register, getValues,
                 error={errors.products?.message}
             />
             <SaleProductsTable
-                // defaultValue={sale?.products}
                 products={products}
                 updateQuantity={updateQuantity}
                 handleDeleteProduct={handleDeleteProduct}

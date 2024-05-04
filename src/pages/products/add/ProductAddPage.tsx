@@ -2,14 +2,14 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Section } from "../../../components/Section/Section";
 import { ProductForm } from "../components/form/ProductForm";
-import { useFetch } from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/shared/useFetch";
 import { appService } from "../../../services";
-
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { Routes } from "../../../types/routes";
-import { MessageService } from "../../../services/message.service";
 import { IProduct } from "../../../models/entities/product.interface";
 import { IAddProductResponse } from "../../../models/responses/products.response";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../data/content";
+import { Sections } from "../../../types/entities";
 
 export const ProductAddPage: FC = () => {
     const [product, setProduct] = useState<Omit<IProduct, "id"> | null>(null);
@@ -20,6 +20,8 @@ export const ProductAddPage: FC = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { isLoading: isAddProductLoading, makeRequest: makeAddProductRequest } = useFetch<IAddProductResponse>();
+
+    const { modalSuccess, modalError } = useModalOperationResult();
 
     const navigate = useNavigate();
 
@@ -38,14 +40,13 @@ export const ProductAddPage: FC = () => {
     const handleSubmitForm = async (newProduct: FormData) => {
         try {
             const response = await makeAddProductRequest(() => {
-                return appService.products.addProduct(newProduct);
+                return appService.product.addProduct(newProduct);
             });
             setProduct(response.product);
-            const name = newProduct.get("name") as string | null;
-            MessageService.success(`The product ${name && `"${name}" `}was successfully added.`);
-            navigate(`../${Routes.Products}`, { relative: "route" });
+            modalSuccess(content.operation.create.success(Sections.Products, [response.product.name]));
+            navigate("..", { relative: "route" });
         } catch (error) {
-            MessageService.error("The product was not added.");
+            modalError(content.operation.create.error(Sections.Products, []));
         }
     };
 

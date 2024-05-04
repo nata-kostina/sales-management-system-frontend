@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import {
     GetCountries,
@@ -6,9 +7,10 @@ import {
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { Control, Controller } from "react-hook-form";
-import { Select } from "antd";
+import { Select, Empty } from "antd";
 import { ICustomerFormValues } from "../../../schemas/customer.form.schema";
 import { PreloaderPortal } from "../Preloader/PreloaderPortal";
+import { LocalPreloader } from "../Preloader/LocalPreloader";
 
 interface Props {
     control: Control<ICustomerFormValues>;
@@ -26,10 +28,10 @@ interface Props {
             name: string;
         };
     };
-    error?: {
-        country: string;
-        state: string;
-        city: string;
+    error: {
+        country?: string;
+        state?: string;
+        city?: string;
     };
 }
 
@@ -39,6 +41,9 @@ export function CountryCitySelect({
     control,
 }: Props): JSX.Element {
     const [isLoading, setIsLoading] = useState(true);
+    const [isCountryLoading, setIsCountryLoading] = useState(true);
+    const [isStateLoading, setIsStateLoading] = useState(true);
+    const [isCityLoading, setIsCityLoading] = useState(true);
     const [countryId, setCountryId] = useState<number | null>(null);
     const [stateId, setStateId] = useState<number | null>(null);
     const [cityId, setCityId] = useState<number | null>(null);
@@ -52,9 +57,12 @@ export function CountryCitySelect({
         GetCountries().then((countries) => {
             setCountriesList(countries as ICountry[]);
             if (defaultValue) {
+                setIsCountryLoading(false);
                 GetState(defaultValue.country.id).then((states) => {
                     setStateList(states);
+                    setIsStateLoading(false);
                     GetCity(defaultValue.country.id, defaultValue.state.id).then((cities) => {
+                        setIsCityLoading(false);
                         setCityList(cities);
                         setCountryId(defaultValue.country.id);
                         setStateId(defaultValue.state.id);
@@ -64,9 +72,14 @@ export function CountryCitySelect({
                 });
             } else {
                 setIsLoading(false);
+                setIsCountryLoading(false);
+                setIsStateLoading(false);
+                setIsCityLoading(false);
             }
         });
     }, []);
+
+    console.log({ isCityLoading });
 
     return (
         <>
@@ -77,6 +90,7 @@ export function CountryCitySelect({
                     <Controller<ICustomerFormValues>
                         control={control}
                         name="country"
+                        defaultValue={defaultValue?.country ?? undefined}
                         render={({ field: { onChange: onControllerChange } }) => (
                             <Select
                                 value={countryId}
@@ -101,11 +115,12 @@ export function CountryCitySelect({
                                 optionFilterProp="children"
                                 filterOption={(input: string, option?: { label: string; value: number; }) =>
                                     (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                                notFoundContent={isCountryLoading ? <LocalPreloader /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
                             />
                         )}
                     />
+                    {error.country && <p className="input-error">{error.country}</p>}
                 </div>
-                {error && <p className="input-error">{error.country}</p>}
             </div>
             <div className="input-group input-group-state">
                 <label htmlFor="state" className="label">State</label>
@@ -137,12 +152,12 @@ export function CountryCitySelect({
                                 optionFilterProp="children"
                                 filterOption={(input: string, option?: { label: string; value: number; }) =>
                                     (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
-
+                                notFoundContent={isStateLoading ? <LocalPreloader /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
                             />
                         )}
                     />
+                    {error.state && <p className="input-error">{error.state}</p>}
                 </div>
-                {error && <p className="input-error">{error.state}</p>}
             </div>
 
             <div className="input-group input-group-city">
@@ -171,11 +186,12 @@ export function CountryCitySelect({
                                 optionFilterProp="children"
                                 filterOption={(input: string, option?: { label: string; value: number; }) =>
                                     (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                                notFoundContent={isCityLoading ? <LocalPreloader /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
                             />
                         )}
                     />
+                    {error.city && <p className="input-error">{error.city}</p>}
                 </div>
-                {error && <p className="input-error">{error.city}</p>}
             </div>
         </>
     );

@@ -11,4 +11,5 @@ export enum Routes {
     Categories = "categories",
     Sales = "sales",
     Customers = "customers",
+    NotFound = "404",
 }

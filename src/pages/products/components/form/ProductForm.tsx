@@ -5,9 +5,7 @@ import { useForm } from "react-hook-form";
 import { IProductFormValues, productFormSchema } from "../../../../schemas/product.form.schema";
 import { BasicFields } from "./basicFields/BasicFields";
 import { AdditionalFields } from "./additionalFields/AdditionalFields";
-import foo from "../../../../styles/_vars.module.scss";
-import { Routes } from "../../../../types/routes";
-import { useFetch } from "../../../../hooks/useFetch";
+import { useFetch } from "../../../../hooks/shared/useFetch";
 import { appService } from "../../../../services";
 import { ProductDto } from "../../../../dtos/product.dto";
 import { IProduct } from "../../../../models/entities/product.interface";
@@ -40,6 +38,7 @@ export const ProductForm: FC<Props> = ({
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
         control,
     } = useForm<IProductFormValues>({
         resolver: yupResolver(productFormSchema),
@@ -48,7 +47,7 @@ export const ProductForm: FC<Props> = ({
     useEffect(() => {
         const fetchFormOptions = async () => {
             try {
-                const response = await makeFormOptionsRequest(() => appService.products.getProductsFormOptions());
+                const response = await makeFormOptionsRequest(() => appService.product.getProductsFormOptions());
                 response.units.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
                 response.brands.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
                 response.brands.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
@@ -64,36 +63,37 @@ export const ProductForm: FC<Props> = ({
         changeAreFormOptionsLoading(areFormOptionsLoading);
     }, [areFormOptionsLoading]);
 
-    const onSubmit = handleSubmit(async (data) => {
+    const onSubmit = handleSubmit((data) => {
         const productDto = new ProductDto(data);
         handleSubmitForm(productDto.formData);
     });
     return (
-            <form className={`form form-items form-product form-product-${name}`} onSubmit={onSubmit}>
-                <div className="form__inner">
-                    <div className="form__body">
-                        <BasicFields
-                            formOptions={formOptions}
-                            register={register}
-                            errors={errors}
-                            control={control}
-                            product={product}
-                        />
-                        <div className="separator" />
-                        <AdditionalFields
-                            changeIsFormLoading={changeIsFormLoading}
-                            product={product}
-                            errors={errors}
-                            control={control}
-                        />
-                    </div>
-                    <div className="form__footer">
-                        <div className="user-actions">
-                            <Link to={`../${Routes.Products}`} relative="route" className="btn btn-action btn-reset">Cancel</Link>
-                            <button type="submit" className="btn btn-action btn-apply">{submitBtn}</button>
-                        </div>
+        <form id="form-product" className={`form form-items form-product form-product-${name}`} onSubmit={onSubmit}>
+            <div className="form__inner">
+                <div className="form__body">
+                    <BasicFields
+                        formOptions={formOptions}
+                        register={register}
+                        errors={errors}
+                        control={control}
+                        product={product}
+                    />
+                    <div className="separator" />
+                    <AdditionalFields
+                        changeIsFormLoading={changeIsFormLoading}
+                        product={product}
+                        errors={errors}
+                        control={control}
+                        setValue={setValue}
+                    />
+                </div>
+                <div className="form__footer">
+                    <div className="user-actions">
+                        <Link to=".." relative="route" className="btn btn-action btn-reset">Cancel</Link>
+                        <button type="submit" className="btn btn-action btn-apply">{submitBtn}</button>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
     );
 };

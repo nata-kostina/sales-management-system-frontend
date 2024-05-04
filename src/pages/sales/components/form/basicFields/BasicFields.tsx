@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, FieldErrors } from "react-hook-form";
 import dayjs from "dayjs";
 import { ISaleFormValues } from "../../../../../schemas/sale.form.schema";
 import { SelectCustomer } from "./components/SelectCustomer";
@@ -10,35 +10,36 @@ import { SelectPayment } from "./components/SelectPayment";
 import { DatePicker } from "../../../../../components/ui/Inputs/DatePicker";
 import { ICustomer } from "../../../../../models/entities/customer.interface";
 import { appService } from "../../../../../services";
-import { MessageService, messages } from "../../../../../services/message.service";
-import { useFetch } from "../../../../../hooks/useFetch";
+import { useFetch } from "../../../../../hooks/shared/useFetch";
 import { IGetCustomerResponse } from "../../../../../models/responses/customer.response";
 import { NonEditableInput } from "../../../../../components/ui/Inputs/NonEditableInput";
+import { useModalOperationResult } from "../../../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../../../data/content";
 
 interface Props {
-    register: UseFormRegister<ISaleFormValues>;
     errors: FieldErrors<ISaleFormValues>;
     control: Control<ISaleFormValues>;
     sale: ISale | Omit<ISale, "id"> | null;
     formOptions: IGetSaleFormOptionsResponse;
 }
 
-export const BasicFields: FC<Props> = ({ errors, register, control, sale, formOptions: { statuses, payment } }) => {
-    const { isLoading: isGetCustomerLoading, makeRequest: makeGetCustomerRequest } = useFetch<IGetCustomerResponse>(true);
+export const BasicFields: FC<Props> = ({ errors, control, sale, formOptions: { statuses, payment } }) => {
+    const { modalError } = useModalOperationResult();
+    const { makeRequest: makeGetCustomerRequest } = useFetch<IGetCustomerResponse>(true);
     const [selectedCustomer, setSelectedCustomer] = useState<ICustomer | null>(() => sale ? sale.customer : null);
     const fetchCustomer = async (id: string) => {
         try {
             const response = await makeGetCustomerRequest(() => {
-                return appService.customers.getCustomer({ id });
+                return appService.customer.getCustomer({ id });
             });
             setSelectedCustomer(response.customer);
         } catch (error) {
-            MessageService.error(messages.default);
+            modalError(content.error.notFound());
             setSelectedCustomer(null);
         }
     };
-    const handleOnSelectCustomer = async (id: string) => {
-        fetchCustomer(id);
+    const handleOnSelectCustomer = async (id: string): Promise<void> => {
+        await fetchCustomer(id);
     };
     return (
         <div className="fields-section fields-basic">
@@ -67,7 +68,7 @@ export const BasicFields: FC<Props> = ({ errors, register, control, sale, formOp
                 control={control}
                 label="Date"
                 name="date"
-                defaultValue={sale ? dayjs(+sale.date) : undefined}
+                defaultValue={sale ? dayjs(sale.date) : undefined}
                 error={errors.date?.message}
             />
             <SelectSaleStatus

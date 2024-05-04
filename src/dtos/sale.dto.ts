@@ -3,10 +3,11 @@ import { ISaleFormValues } from "../schemas/sale.form.schema";
 export class SaleDto {
     public formData: FormData;
     public constructor(data: ISaleFormValues) {
-        console.log("DATE: ", data.date.toString());
+        console.log("saledto sale: ", data);
+        console.log("DATE: ", data.date.valueOf());
         this.formData = new FormData();
         this.formData.append("customer", data.customer);
-        this.formData.append("date", data.date.toString());
+        this.formData.append("date", data.date.valueOf().toString());
         this.formData.append("payment", data.payment);
         this.formData.append("status", data.status);
         this.formData.append("total", data.total.toString());

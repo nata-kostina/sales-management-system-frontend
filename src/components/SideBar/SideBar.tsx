@@ -1,7 +1,6 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
-import { Typography } from "antd";
 import { Routes } from "../../types/routes";
 import { IMenuItem } from "../../types/ui.types";
 import { DashboardSvg } from "../vectors/menuIcons/Dashboard";
@@ -14,8 +13,19 @@ import { selectIsSidebarExpanded } from "../../store/selector";
 
 export const Sidebar: FC = () => {
     const isExpanded = useAppSelector(selectIsSidebarExpanded);
+    const [isTitleDisplayed, setIsTitleDisplayed] = useState(isExpanded);
+
+    useEffect(() => {
+        if (isExpanded) {
+            setTimeout(() => {
+                setIsTitleDisplayed(true);
+            }, 200);
+        } else {
+            setIsTitleDisplayed(false);
+        }
+    }, [isExpanded]);
     return (
-        <div id="sidebar" className={cn("sidebar sidebar-desktop", { sidebar_expanded: isExpanded })}>
+        <aside id="sidebar" className={cn("sidebar sidebar-desktop", { sidebar_expanded: isExpanded, sidebar_titleDisplayed: isTitleDisplayed })}>
             <div className="sidebar-menu">
                 <ul className="menu">
                     {sidebarLinks.map(({ icon, link, title }) => (
@@ -30,15 +40,15 @@ export const Sidebar: FC = () => {
                                 <span className="link-icon">
                                     {icon}
                                 </span>
-                                <Typography.Text className="link-title">
+                                <span className="link-title">
                                     {title}
-                                </Typography.Text>
+                                </span>
                             </NavLink>
                         </li>
                     ))}
                 </ul>
             </div>
-        </div>
+        </aside>
     );
 };
 

@@ -1,17 +1,18 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { App } from "antd";
 import { Section } from "../../../components/Section/Section";
-import { useFetch } from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/shared/useFetch";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
 import { ISale } from "../../../models/entities/sale.interface";
 import { IAddSaleResponse } from "../../../models/responses/sales.response";
 import { SaleForm } from "../components/form/SaleForm";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../data/content";
+import { Sections } from "../../../types/entities";
+import { getDisplayedValueFromItems } from "../../../utils/helper";
 
 export const SaleAddPage: FC = () => {
-    const { modal } = App.useApp();
-
     const [sale, setSale] = useState<Omit<ISale, "id"> | null>(null);
 
     const [areFormOptionsLoading, setAreFormOptionsLoading] = useState(true);
@@ -19,6 +20,8 @@ export const SaleAddPage: FC = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { isLoading: isAddSaleLoading, makeRequest: makeAddSaleRequest } = useFetch<IAddSaleResponse>();
+
+    const { modalSuccess, modalError } = useModalOperationResult();
 
     const navigate = useNavigate();
 
@@ -36,10 +39,11 @@ export const SaleAddPage: FC = () => {
                 return appService.sale.addSale(newSale);
             });
             setSale(response.sale);
-            modal.success({ content: `The sale was successfully added.` });
-            navigate(`..`, { relative: "route" });
+            const value = getDisplayedValueFromItems([response.sale], response.sale.id);
+            modalSuccess(content.operation.create.success(Sections.Sales, value));
+            navigate("..", { relative: "route" });
         } catch (error) {
-            modal.error({ content: "The sale was not added." });
+            modalError(content.operation.create.error(Sections.Sales, []));
         }
     };
 
@@ -58,7 +62,6 @@ export const SaleAddPage: FC = () => {
                                 handleSubmitForm={handleSubmitForm}
                             />
                         </div>
-                        <div className="card__footer" />
                     </div>
                 </div>
             </Section>

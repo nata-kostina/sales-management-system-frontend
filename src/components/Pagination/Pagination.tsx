@@ -12,7 +12,7 @@ interface Props {
 
 export const Pagination: FC<Props> = ({ handlePerPageChange, perPage, ...rest }) => {
     return (
-        <div className="pagination">
+        <div id="pagination" className="pagination">
             <div className="pagination__inner">
                 <PerPage perPage={perPage} handlePerPageChange={handlePerPageChange} />
                 <PageList perPage={perPage} {...rest} />

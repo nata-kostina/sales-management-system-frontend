@@ -10,7 +10,6 @@ import { assets } from "../../../../../../utils/assetsManager";
 
 interface Props {
     products?: ISaleProduct[];
-    // defaultValue?: string;
     updateQuantity: (id: string, value: number) => void;
     handleDeleteProduct: (id: string) => void;
 }
@@ -18,7 +17,6 @@ interface Props {
 export const SaleProductsTable: FC<Props> = ({ products, updateQuantity, handleDeleteProduct }) => {
     const { modal } = App.useApp();
     const handleOnDelete = (product: ISaleProduct) => {
-        console.log(product.id);
         modal.confirm({
             title: `Are you sure you want to delete ${product.name}?`,
             icon: <ExclamationCircleFilled />,

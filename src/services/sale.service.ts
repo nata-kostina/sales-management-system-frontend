@@ -1,8 +1,19 @@
 import { AxiosResponse } from "axios";
 import { Key } from "react";
 import { $api } from "../api";
-import { IAddSaleResponse, IDeleteSaleResponse, IEditSaleResponse, IGetSaleFormOptionsResponse, IGetSaleResponse, IGetSalesResponse } from "../models/responses/sales.response";
-import { IAddSalePayload, IDeleteSalePayload, IEditSalePayload, IGetSalePayload } from "../models/requests/sale.request";
+import {
+    IAddSaleResponse,
+    IEditSaleResponse,
+    IGetSaleFormOptionsResponse,
+    IGetSaleResponse,
+    IGetSalesResponse,
+} from "../models/responses/sales.response";
+import {
+    IAddSalePayload,
+    IEditSalePayload,
+    IGetSalePayload,
+} from "../models/requests/sale.request";
+import { IDeletePayload, IGetCsvPayload } from "../models/requests/shared.request";
 
 export class SaleService {
     private baseUrl: string;
@@ -47,7 +58,11 @@ export class SaleService {
         return $api.post(`${this.baseUrl}/add`, payload);
     }
 
-    public async deleteSale(payload: IDeleteSalePayload): Promise<AxiosResponse<IDeleteSaleResponse>> {
+    public async delete(payload: IDeletePayload): Promise<AxiosResponse<void>> {
         return $api.delete(`${this.baseUrl}/`, { data: payload });
+    }
+
+    public async getCsv(payload: IGetCsvPayload): Promise<AxiosResponse<Blob>> {
+        return $api.post(`${this.baseUrl}/get-csv`, payload, { responseType: "blob" });
     }
 }

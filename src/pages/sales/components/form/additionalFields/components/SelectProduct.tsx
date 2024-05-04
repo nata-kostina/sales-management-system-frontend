@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { AsyncSelect } from "../../../../../../components/ui/Inputs/AsyncSelect";
-import { useFetch } from "../../../../../../hooks/useFetch";
+import { useFetch } from "../../../../../../hooks/shared/useFetch";
 import { appService } from "../../../../../../services";
 import { IGetProductsListResponse } from "../../../../../../models/responses/products.response";
 import { ISelectOption } from "../../../../../../types/ui.types";
@@ -17,7 +17,7 @@ interface Props {
 export const SelectProduct: FC<Props> = ({ ...rest }) => {
     const { makeRequest } = useFetch<IGetProductsListResponse>();
     const fetchOptions = async (value: string) => {
-        const response = await makeRequest(() => appService.products.getProductsList(value));
+        const response = await makeRequest(() => appService.product.getProductsList(value));
         return response.products.map((c) => ({ label: c.name, value: c.id }));
     };
 

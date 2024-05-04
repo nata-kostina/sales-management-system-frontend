@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Control } from "react-hook-form";
 import { ISaleFormValues } from "../../../../../../schemas/sale.form.schema";
 import { AsyncSelect } from "../../../../../../components/ui/Inputs/AsyncSelect";
-import { useFetch } from "../../../../../../hooks/useFetch";
+import { useFetch } from "../../../../../../hooks/shared/useFetch";
 import { IGetCustomersListResponse } from "../../../../../../models/responses/customer.response";
 import { appService } from "../../../../../../services";
 import { ISelectOption } from "../../../../../../types/ui.types";
@@ -20,7 +20,7 @@ interface Props {
 export const SelectCustomer: FC<Props> = ({ defaultValue, ...rest }) => {
     const { makeRequest } = useFetch<IGetCustomersListResponse>();
     const fetchOptions = async (value: string) => {
-        const response = await makeRequest(() => appService.customers.getCustomersList(value));
+        const response = await makeRequest(() => appService.customer.getCustomersList(value));
         return response.customers.map((c) => ({ key: c.id, label: c.name, value: c.id }));
     };
     return (

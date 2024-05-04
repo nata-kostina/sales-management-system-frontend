@@ -1,6 +1,6 @@
 import { IGetUnitList } from "../models/responses/unit.response";
 import { appService } from "../services";
-import { useFetch } from "./useFetch";
+import { useFetch } from "./shared/useFetch";
 
 export const useGetUnitList = (): {
     fetchData: () => Promise<IGetUnitList>;
@@ -9,7 +9,7 @@ export const useGetUnitList = (): {
     const { makeRequest, isLoading } = useFetch<IGetUnitList>();
 
     const fetchData = async () => {
-        const response = await makeRequest(async () => appService.units.getUnitList());
+        const response = await makeRequest(async () => appService.unit.getUnitList());
         return response;
     };
 

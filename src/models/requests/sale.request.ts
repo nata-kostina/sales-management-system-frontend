@@ -10,5 +10,5 @@ export interface IEditSalePayload {
 }
 
 export type IDeleteSalePayload = {
-    sales: string[];
+    sales?: string[];
 };

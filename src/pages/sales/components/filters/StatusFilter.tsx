@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { SelectFilter } from "../../../../components/Table/SelectFilter";
-import { useFetch } from "../../../../hooks/useFetch";
+import { useFetch } from "../../../../hooks/shared/useFetch";
 import { IGetStatusesResponse } from "../../../../models/responses/saleStatuses.response";
 import { appService } from "../../../../services";
 import { TableFilterValue } from "../../../../types/filters";
@@ -17,7 +17,7 @@ export const StatusFilter: FC<Props> = ({ onSelect, changeLocalFilter, localFilt
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await makeRequest(async () => appService.statuses.getStatuses());
+            const response = await makeRequest(async () => appService.status.getStatuses());
             setOptions(response.statuses.map((s) => ({ label: s.name, value: s.id })));
         };
         fetchData();

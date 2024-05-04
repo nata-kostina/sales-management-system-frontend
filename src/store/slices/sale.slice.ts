@@ -16,7 +16,7 @@ const initialState: SaleState = {
     perPage: itemsPerPageDefault,
 };
 
-const saleSlice = createSlice({
+export const saleSlice = createSlice({
     name: "sale",
     initialState,
     reducers: {
@@ -37,4 +37,5 @@ const saleSlice = createSlice({
 
 export const { setSales, setSalesPage, setSalesPerPage, setSalesTotal } =
     saleSlice.actions;
+
 export const saleReducer = saleSlice.reducer;

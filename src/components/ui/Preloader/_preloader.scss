@@ -17,57 +17,69 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+    .circle,
+    .circle:before,
+    .circle:after {
+        border: 3px solid transparent;
+        border-radius: 50%;
+    }
+    
+    .circle {
+        height: 110px;
+        width: 110px;
+        position: relative;
+        border-top-color: $color-yellow;
+        animation-name: spin;
+        animation-duration: 1.1s;
+        animation-iteration-count: infinite;
+        animation-direction: normal;
+    }
+    
+    .circle:before,
+    .circle:after {
+        content: "";
+        position: absolute;
+    }
+    
+    .circle:before {
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        right: 10px;
+        border-top-color: $color-purple;
+        animation-name: spin;
+        animation-duration: 2.1s;
+        animation-iteration-count: infinite;
+        animation-direction: normal;
+        animation-duration: 2.1s;
+    }
+    
+    .circle:after {
+        top: 23px;
+        left: 23px;
+        bottom: 23px;
+        right: 23px;
+        border-top-color: $color-blue;
+        animation-name: spin;
+        animation-delay: 1.3s;
+        animation-duration: 3.1s;
+        animation-iteration-count: infinite;
+        animation-direction: normal;
+    }
 }
 
-.circle,
-.circle:before,
-.circle:after {
-    border: 3px solid transparent;
-    border-radius: 50%;
+.preloader-local {
+    .circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: radial-gradient(farthest-side,#2275fc 94%,#0000) top/9px 9px no-repeat,
+               conic-gradient(#0000 30%,#2275fc);
+        -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 9px),#000 0);
+        animation: local-spinner 1s infinite linear;
+    }
 }
 
-.circle {
-    height: 110px;
-    width: 110px;
-    position: relative;
-    border-top-color: $color-yellow;
-    animation-name: spin;
-    animation-duration: 1.1s;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-}
-
-.circle:before,
-.circle:after {
-    content: "";
-    position: absolute;
-}
-
-.circle:before {
-    top: 10px;
-    left: 10px;
-    bottom: 10px;
-    right: 10px;
-    border-top-color: $color-purple;
-    animation-name: spin;
-    animation-duration: 2.1s;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-    animation-duration: 2.1s;
-}
-
-.circle:after {
-    top: 23px;
-    left: 23px;
-    bottom: 23px;
-    right: 23px;
-    border-top-color: $color-blue;
-    animation-name: spin;
-    animation-delay: 1.3s;
-    animation-duration: 3.1s;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-}
 
 @keyframes spin {
     from {
@@ -77,3 +89,9 @@
         transform: rotate(360deg);
     }
 }
+
+@keyframes local-spinner {
+    100% {
+       transform: rotate(1turn);
+    }
+ }

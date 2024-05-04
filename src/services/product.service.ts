@@ -3,7 +3,6 @@ import { Key } from "react";
 import { $api } from "../api";
 import {
     IAddProductPayload,
-    IDeleteProductPayload,
     IEditProductPayload,
     IGetProductPayload,
 } from "../models/requests/product.request";
@@ -13,9 +12,9 @@ import {
     IGetProductsFormOptionsResponse,
     IEditProductResponse,
     IAddProductResponse,
-    IDeleteProductResponse,
     IGetProductsListResponse,
 } from "../models/responses/products.response";
+import { IDeletePayload, IGetCsvPayload } from "../models/requests/shared.request";
 
 export class ProductService {
     private baseUrl: string;
@@ -60,11 +59,15 @@ export class ProductService {
         return $api.post(`${this.baseUrl}/add`, payload);
     }
 
-    public async deleteProduct(payload: IDeleteProductPayload): Promise<AxiosResponse<IDeleteProductResponse>> {
+    public async delete(payload: IDeletePayload): Promise<AxiosResponse<void>> {
         return $api.delete(`${this.baseUrl}/`, { data: payload });
     }
 
     public async getProductsList(payload: string): Promise<AxiosResponse<IGetProductsListResponse>> {
         return $api.get(`${this.baseUrl}/list/`, { params: { name: payload } });
+    }
+
+    public async getCsv(payload: IGetCsvPayload): Promise<AxiosResponse<Blob>> {
+        return $api.post(`${this.baseUrl}/get-csv`, payload, { responseType: "blob" });
     }
 }

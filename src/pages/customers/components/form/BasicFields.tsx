@@ -42,6 +42,11 @@ export const BasicFields: FC<Props> = ({ errors, register, control, customer }) 
                     state: customer.state,
                 } : undefined}
                 control={control}
+                error={{
+                    country: errors.country?.name?.message,
+                    state: errors.state?.name?.message,
+                    city: errors.city?.name?.message,
+                }}
             />
             <InputText
                 name="address"

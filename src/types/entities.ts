@@ -14,3 +14,16 @@ export interface IUser {
     transactions: string[];
     role: Role;
 }
+
+export enum Sections {
+    Products = "products",
+    Customers = "customers",
+    Categories = "categories",
+    Sales = "sales",
+}
+
+export enum Operations {
+    Create = "create",
+    Delete = "delete",
+    Edit = "edit",
+}

@@ -53,7 +53,7 @@ export const BasicFields: FC<Props> = ({ errors, register, control, product, for
                 label="Units"
                 placeholder="Choose units"
                 units={units}
-                defaultValue={product?.unit?.id}
+                defaultValue={product?.unit ? { label: product.unit.name, value: product.unit.id } : undefined}
                 control={control}
                 error={errors.unit?.message}
             />
@@ -62,9 +62,18 @@ export const BasicFields: FC<Props> = ({ errors, register, control, product, for
                 label="Brand"
                 placeholder="Choose brand"
                 brands={brands}
-                defaultValue={product?.brand?.id}
+                defaultValue={product?.brand ? { label: product.brand.name, value: product.brand.id } : undefined}
                 control={control}
                 error={errors.brand?.message}
+            />
+            <InputText
+                name="sku"
+                label="SKU"
+                placeholder="SKU"
+                type="text"
+                defaultValue={product?.sku ?? ""}
+                error={errors.sku?.message}
+                register={register}
             />
             <InputNumber<IProductFormValues>
                 name="quantity"

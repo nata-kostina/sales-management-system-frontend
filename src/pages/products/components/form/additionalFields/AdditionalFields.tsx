@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { FieldErrors, Control } from "react-hook-form";
+import { FieldErrors, Control, UseFormSetValue } from "react-hook-form";
 import { EditorField } from "../../../../../components/ui/Inputs/EditorField";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { DnDImages } from "../../../../../components/ui/Inputs/DnDImages";
@@ -10,9 +10,10 @@ interface Props {
     control: Control<IProductFormValues>;
     product: IProduct | Omit<IProduct, "id"> | null;
     changeIsFormLoading: (value: boolean) => void;
+    setValue: UseFormSetValue<IProductFormValues>;
 }
 
-export const AdditionalFields: FC<Props> = ({ control, errors, product, changeIsFormLoading }) => {
+export const AdditionalFields: FC<Props> = ({ setValue, control, errors, product, changeIsFormLoading }) => {
     return (
         <div className="fields-section fields-additional">
             <EditorField
@@ -29,6 +30,7 @@ export const AdditionalFields: FC<Props> = ({ control, errors, product, changeIs
                 defaultValue={product?.images ?? []}
                 control={control}
                 error={errors.images?.message}
+                setValue={(value: any) => setValue("images", value)}
             />
         </div>
     );

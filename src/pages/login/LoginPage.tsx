@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginForm } from "./components/LoginForm/LoginForm";
 import { Routes } from "../../types/routes";
 import { appService } from "../../services";
-import { useFetch } from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/shared/useFetch";
 import { appController } from "../../controllers";
 import { ILoginFormValues, loginFormSchema } from "../../schemas/login.form.schema";
 import { Hero } from "./components/Hero/Hero";
@@ -51,20 +51,22 @@ export const LoginPage: FC = () => {
                 auth ? <Navigate to={`../${Routes.Account}`} /> :
                     (
                         <div className="page-wrapper page-wrapper-login">
-                            <div className="page page-layout">
-                                <div className="page__inner">
-                                    <div className="grid-item grid-item_form">
-                                        <div className="container">
-                                            <div className="grid-item__inner">
-                                                <LoginForm errors={errors} register={register} onSubmit={handleSubmit(login)} />
+                            <div className="page page-login">
+                                <main id="main" className="main">
+                                    <div className="page__inner">
+                                        <div className="grid-item grid-item_form">
+                                            <div className="container">
+                                                <div className="grid-item__inner">
+                                                    <LoginForm errors={errors} register={register} onSubmit={handleSubmit(login)} />
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="grid-item grid-item_hero">
+                                            <BgLogin />
+                                            <Hero />
+                                        </div>
                                     </div>
-                                    <div className="grid-item grid-item_hero">
-                                        <BgLogin />
-                                        <Hero />
-                                    </div>
-                                </div>
+                                </main>
                             </div>
                         </div>
                     )}

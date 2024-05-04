@@ -24,15 +24,20 @@ export const CategoryForm: FC<Props> = ({
         register,
         handleSubmit,
         formState: { errors },
+        getValues,
+        setValue,
         control,
     } = useForm<ICategoryFormValues>({
         resolver: yupResolver(categoryFormSchema),
     });
 
     const onSubmit = handleSubmit(async (data) => {
+        console.log("data: ", data);
         const categoryDto = new CategoryDto(data);
+        console.log("categoryDto: ", categoryDto);
         handleSubmitForm(categoryDto.formData);
     });
+    console.log("getValues ", getValues());
     return (
         <form className={`form form-items form-category form-category-${name}`} onSubmit={onSubmit}>
             <div className="form__inner">
@@ -43,11 +48,12 @@ export const CategoryForm: FC<Props> = ({
                         control={control}
                         category={category}
                         changeIsFormLoading={changeIsFormLoading}
+                        setValue={setValue}
                     />
                 </div>
                 <div className="form__footer">
                     <div className="user-actions">
-                        <Link to="../" relative="route" className="btn btn-action btn-reset">Cancel</Link>
+                        <Link to=".." relative="route" className="btn btn-action btn-reset">Cancel</Link>
                         <button type="submit" className="btn btn-action btn-apply">{submitBtn}</button>
                     </div>
                 </div>

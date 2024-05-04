@@ -27,20 +27,19 @@
         &:hover {
             color: var(--theme-primary);
         }
-
-        &_active {
-            background: rgba(254, 159, 67, 0.08);
-            border-radius: 5px;
-            color: var(--theme-primary);
-        }
     }
 
     .menu__link {
+        @include body-text;
         color: currentColor;
 
         display: flex;
         align-items: center;
         justify-content: center;
+
+        &_active {
+            color: var(--theme-primary);
+        }
     }
     .link-icon {
         width: 2rem;
@@ -64,7 +63,7 @@
 .sidebar-desktop {
     position: relative;
     width: $sidebar-width-short;
-    
+
     .sidebar-menu {
         position: fixed;
         padding: 2rem 1rem;
@@ -79,14 +78,16 @@
         align-items: center;
     }
 
-    .link-icon { 
+    .link-icon {
         margin-right: 0;
     }
 
     .link-title {
         display: none;
+        opacity: 0;
+        // position: absolute;
+        transition: opacity 0.2s ease-in-out 0s; // expanded --> non-expanded
     }
-
 
     &.sidebar_expanded {
         width: $sidebar-width-full;
@@ -107,6 +108,13 @@
             display: block;
         }
     }
+
+    &.sidebar_titleDisplayed {
+        .link-title {
+            transition: opacity 0.2s ease-in-out 0s; // non-expanded --> expanded
+            opacity: 1;
+        }
+    }
 }
 
 .sidebar-mobile {
@@ -121,6 +129,13 @@
 
     &.sidebar-mobile_expanded {
         transform: translateX(0);
+    }
+
+    &.sidebar-mobile_titleDisplayed {
+        .link-title {
+            transition: opacity 0.2s ease-in-out 0.3s; // non-expanded --> expanded
+            opacity: 1;
+        }
     }
 }
 

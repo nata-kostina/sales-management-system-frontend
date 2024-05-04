@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useFetch } from "./useFetch";
+import { useFetch } from "./shared/useFetch";
 import { appService } from "../services";
 import { IRefreshResponse } from "../models/responses/auth.response";
 import { IUser } from "../types/entities";

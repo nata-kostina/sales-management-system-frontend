@@ -1,31 +1,33 @@
 import { FC, useState, useEffect } from "react";
 import { useGetCategoryList } from "../../../../hooks/useGetCategoryList";
 import { SelectFilter } from "../../../../components/Table/SelectFilter";
+import { TableFilterValue } from "../../../../types/filters";
 
 interface Props {
-    isOpen: boolean;
-    onSelect: (value: string) => void;
+    onSelect: (value: TableFilterValue[] | null) => void;
+    localFilter?: TableFilterValue[] | null;
+    changeLocalFilter: (value: TableFilterValue[] | null) => void;
 }
 
-export const CategoryFilter: FC<Props> = ({ isOpen, onSelect }) => {
+export const CategoryFilter: FC<Props> = ({ onSelect, changeLocalFilter, localFilter }) => {
     const { fetchData, isLoading } = useGetCategoryList();
     const [options, setOptions] = useState<{ label: string; value: string; }[]>([]);
 
     useEffect(() => {
         const fetchCategoryList = async () => {
-            if (isOpen) {
-                const response = await fetchData();
-                setOptions(response.categories.map((c) => ({ label: c.name, value: c.id })));
-            }
+            const response = await fetchData();
+            setOptions(response.categories.map((c) => ({ label: c.name, value: c.id })));
         };
         fetchCategoryList();
-    }, [isOpen]);
+    }, []);
 
     return (
         <SelectFilter
             options={options}
             isLoading={isLoading}
             onSelect={onSelect}
+            changeLocalFilter={changeLocalFilter}
+            localFilter={localFilter}
         />
     );
 };

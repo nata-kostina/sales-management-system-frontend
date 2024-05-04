@@ -9,7 +9,6 @@
         max-width: 100%;
         max-height: 100%;
         transform: translate(-50%, -50%);
-        transition: 0.45s cubic-bezier(0.2, 0.49, 0.32, 0.99);
     }
 
     .bg {
@@ -28,6 +27,7 @@
         top: 40%;
         left: 15%;
         z-index: 2;
+        animation: floatingImages 2s infinite alternate;
     }
 
     .charts {
@@ -35,5 +35,15 @@
         top: 60%;
         left: 85%;
         z-index: 2;
+        animation: floatingImages 2.5s infinite alternate 2s;
+    }
+}
+
+@keyframes floatingImages {
+    0% {
+        transform: translate(-50%, -58%);
+    }
+    100% {
+        transform: translate(-50%, -50%);
     }
 }

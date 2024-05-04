@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
 import { sidebarLinks } from "./SideBar";
@@ -7,8 +7,19 @@ import { selectIsSidebarExpanded } from "../../store/selector";
 
 export const SideBarMobile: FC = () => {
     const isExpanded = useAppSelector(selectIsSidebarExpanded);
+    const [isTitleDisplayed, setIsTitleDisplayed] = useState(isExpanded);
+
+    useEffect(() => {
+        if (isExpanded) {
+            setTimeout(() => {
+                setIsTitleDisplayed(true);
+            }, 200);
+        } else {
+            setIsTitleDisplayed(false);
+        }
+    }, [isExpanded]);
     return (
-        <div id="sidebar" className={cn("sidebar sidebar-mobile", { "sidebar-mobile_expanded": isExpanded })}>
+        <aside id="sidebar" className={cn("sidebar sidebar-mobile", { "sidebar-mobile_expanded": isExpanded, "sidebar-mobile_titleDisplayed": isTitleDisplayed })}>
             <div className="sidebar-menu">
                 <ul className="menu">
                     {sidebarLinks.map(({ icon, link, title }) => (
@@ -31,6 +42,6 @@ export const SideBarMobile: FC = () => {
                     ))}
                 </ul>
             </div>
-        </div>
+        </aside>
     );
 };

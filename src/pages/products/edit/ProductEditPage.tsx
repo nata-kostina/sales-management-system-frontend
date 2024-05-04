@@ -2,16 +2,20 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Section } from "../../../components/Section/Section";
 import { ProductForm } from "../components/form/ProductForm";
-import { useFetch } from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/shared/useFetch";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { MessageService, messages } from "../../../services/message.service";
-import { Routes } from "../../../types/routes";
 import { IProduct } from "../../../models/entities/product.interface";
 import { IGetProductResponse, IEditProductResponse } from "../../../models/responses/products.response";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../data/content";
+import { Sections } from "../../../types/entities";
+import { getDisplayedValueFromItems } from "../../../utils/helper";
 
 export const ProductEditPage: FC = () => {
     const { id } = useParams();
+
+    const { modalSuccess, modalError } = useModalOperationResult();
 
     const [product, setProduct] = useState<IProduct | null>(null);
 
@@ -30,14 +34,14 @@ export const ProductEditPage: FC = () => {
             try {
                 if (id) {
                     const response = await makeGetProductRequest(() => {
-                        return appService.products.getProduct({ id });
+                        return appService.product.getProduct({ id });
                     });
                     setProduct(response.product);
                 }
             } catch (error) {
-                MessageService.error(messages.default);
+                modalError(content.error.notFound());
                 setProduct(null);
-                navigate(`../${Routes.Products}`, { relative: "route" });
+                navigate("..", { relative: "route" });
             }
         };
         fetchProduct();
@@ -59,16 +63,18 @@ export const ProductEditPage: FC = () => {
         try {
             if (!id) { return; }
             const response = await makeEditProductRequest(() => {
-                return appService.products.editProduct({ id, product: updatedProduct });
+                return appService.product.editProduct({ id, product: updatedProduct });
             });
             setProduct(response.product);
-            const name = updatedProduct.get("name") as string | null;
-            MessageService.success(`The product ${name && `"${name}" `}was successfully updated.`);
-            navigate(`../${Routes.Products}`, { relative: "route" });
+            const value = getDisplayedValueFromItems([response.product], response.product.id);
+            modalSuccess(content.operation.edit.success(Sections.Products, value));
+            navigate("..", { relative: "route" });
         } catch (error) {
-            MessageService.error("The product was not updated.");
+            modalError(content.operation.edit.error(Sections.Products, []));
         }
     };
+
+    console.log({ product });
 
     return (
         <>

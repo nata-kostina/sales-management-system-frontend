@@ -18,7 +18,7 @@ export const LoginForm: FC<Props> = ({ onSubmit, register, errors }) => {
         setPasswordShown((prev) => !prev);
     };
     return (
-        <form onSubmit={onSubmit} className="form form-login">
+        <form onSubmit={onSubmit} className="form form-login form-items">
             <div className="form__inner">
                 <div className="form-section form-section_top">
                     <h2 className="form__title">Login to your account</h2>
@@ -27,9 +27,7 @@ export const LoginForm: FC<Props> = ({ onSubmit, register, errors }) => {
                     <div className="input-group">
                         <label className="label" htmlFor="email">Email</label>
                         <div className="input-box">
-                            <div className="input-field">
-                                <input className="input" id="email" placeholder="email@mail.com" {...register("email")} />
-                            </div>
+                            <input className="input" id="email" placeholder="email@mail.com" {...register("email")} />
                             <div className="input-icon">
                                 <svg className="input-icon-svg">
                                     <use xlinkHref={`${assets.icons}#icon-mail_outline`} />
@@ -41,14 +39,12 @@ export const LoginForm: FC<Props> = ({ onSubmit, register, errors }) => {
                     <div className="input-group">
                         <label className="label" htmlFor="password">Password</label>
                         <div className="input-box">
-                            <div className="input-field">
-                                <input
-                                    type={passwordShown ? "text" : "password"}
-                                    className="input"
-                                    id="password"
-                                    {...register("password")}
-                                />
-                            </div>
+                            <input
+                                type={passwordShown ? "text" : "password"}
+                                className="input"
+                                id="password"
+                                {...register("password")}
+                            />
                             <button
                                 type="button"
                                 className="btn btn-password input-icon"
@@ -61,7 +57,7 @@ export const LoginForm: FC<Props> = ({ onSubmit, register, errors }) => {
                     </div>
                 </div>
                 <div className="form-section form-section_bottom">
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button type="submit" className="btn btn-primary btn-info btn-login">Login</button>
                 </div>
             </div>
         </form>

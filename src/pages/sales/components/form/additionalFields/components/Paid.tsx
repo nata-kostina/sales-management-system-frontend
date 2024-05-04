@@ -15,15 +15,14 @@ export const Paid: FC<Props> = ({ control, error, defaultValue }) => {
         <div className="summary paid">
             <InputNumber<ISaleFormValues>
                 control={control}
-                defaultValue={defaultValue}
+                defaultValue={defaultValue ?? 0}
                 error={error}
-                label="Paid"
+                label="Paid:"
                 min="0"
                 name="paid"
                 placeholder="0"
                 formatter={currencyFormatter}
             />
-            {/* <span className="paid__currency">€</span> */}
         </div>
     );
 };

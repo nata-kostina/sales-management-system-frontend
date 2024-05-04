@@ -1,17 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Section } from "../../../components/Section/Section";
-import { useFetch } from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/shared/useFetch";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { MessageService, messages } from "../../../services/message.service";
-import { Routes } from "../../../types/routes";
 import { ICategory } from "../../../models/entities/category.interface";
 import { IEditCategoryResponse, IGetCategoryResponse } from "../../../models/responses/category.response";
 import { CategoryForm } from "../components/form/CategoryForm";
+import { content } from "../../../data/content";
+import { getDisplayedValueFromItems, logFormData } from "../../../utils/helper";
+import { Sections } from "../../../types/entities";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
 
 export const CategoryEditPage: FC = () => {
     const { id } = useParams();
+
+    const { modalSuccess, modalError } = useModalOperationResult();
 
     const [category, setCategory] = useState<ICategory | null>(null);
 
@@ -29,14 +33,14 @@ export const CategoryEditPage: FC = () => {
             try {
                 if (id) {
                     const response = await makeGetCategoryRequest(() => {
-                        return appService.categories.getCategory({ id });
+                        return appService.category.getCategory({ id });
                     });
                     setCategory(response.category);
                 }
             } catch (error) {
-                MessageService.error(messages.default);
+                modalError(content.error.notFound());
                 setCategory(null);
-                navigate(`../${Routes.Categories}`, { relative: "route" });
+                navigate("..", { relative: "route" });
             }
         };
         fetchCategory();
@@ -52,16 +56,17 @@ export const CategoryEditPage: FC = () => {
 
     const handleSubmitForm = async (updatedCategory: FormData) => {
         try {
+            logFormData(updatedCategory);
             if (!id) { return; }
             const response = await makeEditCategoryRequest(() => {
-                return appService.categories.editProduct({ id, category: updatedCategory });
+                return appService.category.editProduct({ id, category: updatedCategory });
             });
             setCategory(response.category);
-            const name = updatedCategory.get("name") as string | null;
-            MessageService.success(`The category ${name && `"${name}" `}was successfully updated.`);
-            navigate("../", { relative: "route" });
+            const value = getDisplayedValueFromItems([response.category], response.category.id);
+            modalSuccess(content.operation.edit.success(Sections.Categories, value));
+            navigate("..", { relative: "route" });
         } catch (error) {
-            MessageService.error("The category was not updated.");
+            modalError(content.operation.edit.error(Sections.Sales, []));
         }
     };
 
@@ -82,7 +87,6 @@ export const CategoryEditPage: FC = () => {
                                         handleSubmitForm={handleSubmitForm}
                                     />
                                 </div>
-                                <div className="card__footer" />
                             </div>
                         </div>
                     </Section>

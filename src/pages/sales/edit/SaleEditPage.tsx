@@ -1,19 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { App } from "antd";
 import { Section } from "../../../components/Section/Section";
 import { SaleForm } from "../components/form/SaleForm";
-import { useFetch } from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/shared/useFetch";
 import { appService } from "../../../services";
 import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { messages } from "../../../services/message.service";
 import { ISale } from "../../../models/entities/sale.interface";
 import { IGetSaleResponse, IEditSaleResponse } from "../../../models/responses/sales.response";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../data/content";
+import { Sections } from "../../../types/entities";
+import { getDisplayedValueFromItems } from "../../../utils/helper";
 
 export const SaleEditPage: FC = () => {
-    const { modal } = App.useApp();
-
     const { id } = useParams();
+
+    const { modalSuccess, modalError } = useModalOperationResult();
 
     const [sale, setSale] = useState<ISale | null>(null);
 
@@ -36,7 +38,7 @@ export const SaleEditPage: FC = () => {
                     setSale(response.sale);
                 }
             } catch (error) {
-                modal.error({ content: messages.default });
+                modalError(content.error.notFound());
                 setSale(null);
                 navigate("..", { relative: "route" });
             }
@@ -55,16 +57,15 @@ export const SaleEditPage: FC = () => {
     const handleSubmitForm = async (updatedSale: FormData) => {
         try {
             if (!id) { return; }
-            console.log({ updatedSale });
             const response = await makeEditSaleRequest(() => {
                 return appService.sale.editSale({ id, sale: updatedSale });
             });
             setSale(response.sale);
-            const name = updatedSale.get("name") as string | null;
-            modal.success({ content: `The sale ${name && `"${name}" `}was successfully updated.` });
-            navigate(`..`, { relative: "route" });
+            const value = getDisplayedValueFromItems([response.sale], response.sale.id);
+            modalSuccess(content.operation.edit.success(Sections.Sales, value));
+            navigate("..", { relative: "route" });
         } catch (error) {
-            modal.error({ content: "The sale was not updated." });
+            modalError(content.operation.edit.error(Sections.Sales, []));
         }
     };
 
@@ -81,11 +82,10 @@ export const SaleEditPage: FC = () => {
                                         changeAreFormOptionsLoading={changeAreFormOptionsLoading}
                                         sale={sale}
                                         name="edit"
-                                        submitBtn="Update item"
+                                        submitBtn="Update sale"
                                         handleSubmitForm={handleSubmitForm}
                                     />
                                 </div>
-                                <div className="card__footer" />
                             </div>
                         </div>
                     </Section>

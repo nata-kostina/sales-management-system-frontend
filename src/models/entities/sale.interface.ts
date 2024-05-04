@@ -6,7 +6,7 @@ import { ISaleStatus } from "./saleStatus.interface";
 export interface ISale {
     id: string;
     reference: string;
-    date: string;
+    date: number;
     status: ISaleStatus;
     payment: IPayment;
     total: number;

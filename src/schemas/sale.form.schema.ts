@@ -3,11 +3,11 @@ import dayjs from "dayjs";
 import { ISale } from "../models/entities/sale.interface";
 
 export const saleFormSchema = yup.object({
-    customer: yup.string().required("Select a customer"),
+    customer: yup.string().required("Select customer"),
     date: yup
         .mixed()
-        .test("is-dayjs", "Select a date", isDayjs)
-        .required("Select a date"),
+        .test("is-dayjs", "Select date", isDayjs)
+        .required("Select date"),
     products: yup.array().of(yup.object({
         id: yup.string().required(),
         name: yup.string().required(),
@@ -19,7 +19,7 @@ export const saleFormSchema = yup.object({
     status: yup.string().required("Select sale status"),
     payment: yup.string().required("Select payment status"),
     total: yup.number().required(),
-    paid: yup.number().required(),
+    paid: yup.number().required("Enter paid amount"),
 }).required();
 
 export type ISaleFormValues = yup.InferType<typeof saleFormSchema>;

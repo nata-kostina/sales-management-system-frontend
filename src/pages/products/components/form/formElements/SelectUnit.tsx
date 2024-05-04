@@ -3,6 +3,7 @@ import { Control } from "react-hook-form";
 import { IProductFormValues } from "../../../../../schemas/product.form.schema";
 import { SingleSelect } from "../../../../../components/ui/Inputs/SingleSelect";
 import { IUnit } from "../../../../../models/entities/unit.interface";
+import { ISelectOption } from "../../../../../types/ui.types";
 
 interface Props {
     control: Control<IProductFormValues>;
@@ -11,14 +12,14 @@ interface Props {
     label: string;
     placeholder: string;
     units: IUnit[];
-    defaultValue?: string;
+    defaultValue?: ISelectOption<IProductFormValues>;
 }
 
 export const SelectUnit: FC<Props> = ({ units, ...rest }) => {
-    const options: { value: string; label: string; }[] = useMemo(() => {
+    const options: ISelectOption<IProductFormValues>[] = useMemo(() => {
         return units.map((unit) => ({ value: unit.id, label: unit.name }));
     }, [units]);
     return (
-        <SingleSelect options={options} {...rest} />
+        <SingleSelect<IProductFormValues> options={options} {...rest} />
     );
 };

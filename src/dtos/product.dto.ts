@@ -3,6 +3,7 @@ import { IProductFormValues } from "../schemas/product.form.schema";
 export class ProductDto {
     public formData: FormData;
     public constructor(data: IProductFormValues) {
+        console.log("product form data: ", data);
         this.formData = new FormData();
         this.formData.append("name", data.name);
         if (data.sku) {

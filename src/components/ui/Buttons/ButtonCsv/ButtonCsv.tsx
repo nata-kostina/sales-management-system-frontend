@@ -1,15 +1,15 @@
 import { ButtonHTMLAttributes, FC } from "react";
-import { ExcelSvg } from "../../../vectors/userActions/ExcelSvg";
+import { CsvSvg } from "../../../vectors/userActions/CsvSvg";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     onClick: () => void;
 }
 
-export const ButtonExcel: FC<Props> = (props) => {
+export const ButtonCsv: FC<Props> = (props) => {
     return (
-        <button type="button" className="btn btn-tool btn-with-icon btn-excel" {...props}>
+        <button type="button" className="btn btn-tool btn-with-icon btn-csv" {...props}>
             <div className="btn__icon">
-                <ExcelSvg />
+                <CsvSvg />
             </div>
         </button>
     );

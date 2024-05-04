@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { ISaleFormValues, getDefaultSaleValues, saleFormSchema } from "../../../../schemas/sale.form.schema";
+import { ISaleFormValues, saleFormSchema } from "../../../../schemas/sale.form.schema";
 import { BasicFields } from "./basicFields/BasicFields";
-import { useFetch } from "../../../../hooks/useFetch";
+import { useFetch } from "../../../../hooks/shared/useFetch";
 import { appService } from "../../../../services";
 import { SaleDto } from "../../../../dtos/sale.dto";
 import { ISale } from "../../../../models/entities/sale.interface";
@@ -37,11 +37,9 @@ export const SaleForm: FC<Props> = ({
         handleSubmit,
         formState: { errors },
         setValue,
-        getValues,
         control,
     } = useForm<ISaleFormValues>({
         resolver: yupResolver(saleFormSchema),
-        // defaultValues: getDefaultSaleValues(sale),
     });
 
     useEffect(() => {
@@ -61,21 +59,17 @@ export const SaleForm: FC<Props> = ({
     }, [areFormOptionsLoading]);
 
     const onSubmit = handleSubmit((data) => {
-        console.log(data);
         const saleDto = new SaleDto(data);
         logFormData(saleDto.formData);
         handleSubmitForm(saleDto.formData);
     });
 
-    console.log(getValues());
-
     return (
-        <form className={`form form-items form-sale form-sale-${name}`} onSubmit={onSubmit}>
+        <form id="form-sale" className={`form form-items form-sale form-sale-${name}`} onSubmit={onSubmit}>
             <div className="form__inner">
                 <div className="form__body">
                     <BasicFields
                         formOptions={formOptions}
-                        register={register}
                         errors={errors}
                         control={control}
                         sale={sale}
@@ -86,13 +80,12 @@ export const SaleForm: FC<Props> = ({
                         errors={errors}
                         register={register}
                         setValue={setValue}
-                        getValues={getValues}
                         control={control}
                     />
                 </div>
                 <div className="form__footer">
                     <div className="user-actions">
-                        <Link to="../" relative="route" className="btn btn-action btn-reset">Cancel</Link>
+                        <Link to=".." relative="route" className="btn btn-action btn-reset">Cancel</Link>
                         <button type="submit" className="btn btn-action btn-apply">{submitBtn}</button>
                     </div>
                 </div>

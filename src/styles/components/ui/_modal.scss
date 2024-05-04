@@ -1,12 +1,31 @@
 .ant-modal-confirm-btns {
     display: flex;
-    gap: 0.4rem;
-
-    .btn:last-child{
-        margin-left: auto;
+    gap: 4rem;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+    .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
     }
 }
+.ant-modal {
+    width: max-content !important;
+    max-width: 97vw;
+    display: flex;
 
+}
 .ant-modal-content {
     width: max-content;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+@media screen and (max-width: $bp-s) {
+    .ant-modal-confirm-btns {
+        flex-wrap: wrap;
+        width: auto;
+    }
 }

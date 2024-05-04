@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const SelectPayment: FC<Props> = ({ payment, ...rest }) => {
-    const options: { value: string; label: string; }[] = useMemo(() => {
+    const options: ISelectOption<ISaleFormValues>[] = useMemo(() => {
         return payment.map((p) => ({ value: p.id, label: p.name }));
     }, [payment]);
     return (

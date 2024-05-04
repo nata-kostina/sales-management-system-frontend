@@ -1,90 +1,93 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import Column from "antd/es/table/Column";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
-import { App } from "antd";
 import { Table } from "../../../components/Table/Table";
-import { useAppSelector } from "../../../store/hooks";
 import { ActionsCell } from "../../../components/Table/ActionsCell";
 import { baseURL } from "../../../api";
 import { assets } from "../../../utils/assetsManager";
-import { useFetch } from "../../../hooks/useFetch";
-import { appService } from "../../../services";
-import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
-import { FetchItems } from "../../../types/functions";
 import { ICategory } from "../../../models/entities/category.interface";
-import { IDeleteCategoryResponse } from "../../../models/responses/category.response";
-import { MessageService } from "../../../services/message.service";
+import { CategoryFilter, TableFilterValue } from "../../../types/filters";
+import { withLocalFilterValues } from "../../../hocs/TableWithLocalFilterValues";
+import { WithLocalFilterValuesProps } from "../../../types/props";
+import { content } from "../../../data/content";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { Sections } from "../../../types/entities";
+import { getDisplayedValueFromItems } from "../../../utils/helper";
+import { SearchFilter } from "../../../components/Table/SearchFilter";
 
-interface Props {
+interface Props extends Partial<WithLocalFilterValuesProps<CategoryFilter>> {
     data: ICategory[];
-    fetchCategories: FetchItems<ICategory>;
+    openFilter: Record<CategoryFilter, boolean>;
+    handleSortChange: (_sorter: SorterResult<ICategory>) => void;
+    handleFilterSearch: (key: CategoryFilter, value: TableFilterValue | TableFilterValue[] | null) => void;
+    handleToggleFilter: (visible: boolean, key: string) => void;
+    selectedRowKeys: React.Key[];
+    onSelectChange: (newSelectedRowKeys: React.Key[]) => void;
+    handleDelete: (items: string[]) => Promise<void>;
 }
 
-export const CategoryTable: FC<Props> = ({ data, fetchCategories }) => {
-    const { modal } = App.useApp();
-
-    const [sorter, setSorter] = useState<SorterResult<ICategory>>();
-
-    const page = useAppSelector((state) => state.category.page);
-    const perPage = useAppSelector((state) => state.category.perPage);
-
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-    const { makeRequest, isLoading } = useFetch<IDeleteCategoryResponse>();
+export const LocalCategoryTable: FC<Props> = ({
+    data, filter, openFilter,
+    handleToggleFilter, handleSortChange, handleFilterSearch,
+    handleFilterDropdownOpenChange, changeLocalTableFilter,
+    localTableFilter, selectedRowKeys, onSelectChange, handleDelete,
+}) => {
+    const { modalConfirm } = useModalOperationResult();
 
     const navigate = useNavigate();
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const handleOnChange = (
-        _sorter: SorterResult<ICategory>,
-    ) => {
-        setSorter(_sorter);
-        fetchCategories(page, perPage, _sorter);
-    };
 
     const handleOnEdit = (category: ICategory) => {
         navigate(`${category.id}/edit`);
     };
 
-    const handleOnDelete = (categories: ICategory[]) => {
-        modal.confirm({
-            title: categories.length === 1 ?
-                `Are you sure you want to delete ${categories[0].name}?` :
-                `Are you sure you want to delete ${categories.length} categories?`,
-            icon: <ExclamationCircleFilled />,
-            okText: "Yes",
-            okType: "danger",
-            cancelText: "No",
-            async onOk() {
-                try {
-                    await makeRequest(() => appService.categories.deleteCategory({ categories: categories.map((p) => p.id) }));
-                    fetchCategories(page, perPage, sorter);
-                } catch {
-                    MessageService.error(`Something went wrong. The ${categories.length > 0 ? "categories were" : "category was"} not deleted.`);
-                }
+    const handleOnDelete = (category: ICategory) => {
+        const value = getDisplayedValueFromItems([category], [category.id]);
+        modalConfirm(content.confirm.delete(Sections.Categories, value),
+            async () => {
+                await handleDelete([category.id]);
             },
-        });
+        );
+    };
+
+    const handleFilterDropdown = (visible: boolean, key: CategoryFilter) => {
+        if (handleFilterDropdownOpenChange) {
+            handleFilterDropdownOpenChange(key);
+        }
+        handleToggleFilter(visible, key);
+    };
+
+    const handleChangeLocalTableFilter = (key: CategoryFilter, value: TableFilterValue | TableFilterValue[] | null) => {
+        if (changeLocalTableFilter) {
+            changeLocalTableFilter(key, value);
+        }
     };
 
     return (
         <>
-            {isLoading && <PreloaderPortal />}
-            <Table<ICategory> handleOnChange={handleOnChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
+            <Table<ICategory> handleOnChange={handleSortChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
                 <Column<ICategory>
                     key="name"
                     title="Name"
                     dataIndex="name"
                     sorter={true}
+                    filters={[]}
+                    filterDropdownOpen={openFilter.name}
+                    onFilterDropdownOpenChange={(visible) => handleFilterDropdown(visible, "name")}
+                    filtered={!!(filter?.name)}
+                    filterDropdown={(
+                        <SearchFilter
+                            localFilter={localTableFilter?.name as TableFilterValue}
+                            changeLocalFilter={(value: TableFilterValue | null) => handleChangeLocalTableFilter("name", value)}
+                            placeholder="Category name"
+                            onSearch={(value: TableFilterValue | null) => handleFilterSearch("name", value)}
+                        />
+                    )}
                     render={(value, record) => (
                         <div className="col-img-text">
                             <div className="col__img-box">
                                 {record.images.length > 0 ?
-                                    <img src={`${baseURL}/${record.images[0].filename}`} className="col__img" /> :
+                                    <img src={`${baseURL}/${record.images[0].path}`} alt={record.images[0].originalname} className="col__img" /> :
                                     <img src={assets.shared.placeholder} alt="Placeholder" className="col__img" />
                                 }
                             </div>
@@ -104,7 +107,7 @@ export const CategoryTable: FC<Props> = ({ data, fetchCategories }) => {
                     render={(_, record) => (
                         <ActionsCell
                             handleOnEdit={() => handleOnEdit(record)}
-                            handleOnDelete={() => handleOnDelete([record])}
+                            handleOnDelete={() => handleOnDelete(record)}
                             deleteTooltip="Delete category"
                             editTooltip="Edit category"
                         />
@@ -114,3 +117,5 @@ export const CategoryTable: FC<Props> = ({ data, fetchCategories }) => {
         </>
     );
 };
+
+export const CategoryTable = withLocalFilterValues<CategoryFilter, Props>(LocalCategoryTable);

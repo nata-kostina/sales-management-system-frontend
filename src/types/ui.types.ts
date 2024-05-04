@@ -1,4 +1,3 @@
-import { MessageInstance } from "antd/es/message/interface";
 import { PathValue, Path } from "react-hook-form";
 
 export interface IMenuItem {
@@ -19,11 +18,17 @@ export interface ISelectOption<T> {
     label: string;
 }
 
-export type IMessageContext = MessageInstance | null;
-
 export interface IMenuLink {
     icon?: string;
     title: string;
     highlighted?: boolean;
     onClick?: () => void;
 }
+
+export enum SaleStatisticsOption {
+    ByMonth = "byMonth",
+    ByYear = "byYear",
+}
+
+export type SaleStatisticsData = [month: string, amount: number, color?: string][];
+export type SaleStatisticsByCategoriesData = [month: string, amount: number, color?: string][];

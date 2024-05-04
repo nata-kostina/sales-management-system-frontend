@@ -1,82 +1,57 @@
 import { FC } from "react";
 import Column from "antd/es/table/Column";
-import { ExclamationCircleFilled } from "@ant-design/icons";
-import { App } from "antd";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../../components/Table/Table";
-import { useAppSelector } from "../../../store/hooks";
 import { ActionsCell } from "../../../components/Table/ActionsCell";
 import { SearchFilter } from "../../../components/Table/SearchFilter";
 import { StatusFilter } from "./filters/StatusFilter";
-import { useFetch } from "../../../hooks/useFetch";
-import { appService } from "../../../services";
-import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
 import { ISale } from "../../../models/entities/sale.interface";
-import { IDeleteSaleResponse } from "../../../models/responses/sales.response";
-import { FetchItems } from "../../../types/functions";
 import { ICustomer } from "../../../models/entities/customer.interface";
 import { ISaleStatus } from "../../../models/entities/saleStatus.interface";
 import { IPayment } from "../../../models/entities/payment.interface";
 import { PaymentFilter } from "./filters/PaymentFilter";
-import { formatDateFromString } from "../../../utils/helper";
+import { formatDateFromNumber, getDisplayedValueFromItems } from "../../../utils/helper";
 import { SaleFilter, TableFilterValue } from "../../../types/filters";
 import { withLocalFilterValues } from "../../../hocs/TableWithLocalFilterValues";
 import { WithLocalFilterValuesProps } from "../../../types/props";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../data/content";
+import { Sections } from "../../../types/entities";
 
 interface Props extends Partial<WithLocalFilterValuesProps<SaleFilter>> {
     data: ISale[];
-    fetchSales: FetchItems<ISale, SaleFilter>;
-    sorter?: SorterResult<ISale>;
-    openFilter: Record<string, boolean>;
+    openFilter: Record<SaleFilter, boolean>;
     handleSortChange: (_sorter: SorterResult<ISale>) => void;
     handleFilterSearch: (key: SaleFilter, value: TableFilterValue | TableFilterValue[] | null) => void;
     handleToggleFilter: (visible: boolean, key: string) => void;
     selectedRowKeys: React.Key[];
     onSelectChange: (newSelectedRowKeys: React.Key[]) => void;
+    handleDelete: (items: string[]) => Promise<void>;
 }
 
 export const LocalSaleTable: FC<Props> = ({
-    data, fetchSales, filter, openFilter, sorter,
+    data, filter, openFilter,
     handleToggleFilter, handleSortChange, handleFilterSearch,
     handleFilterDropdownOpenChange, changeLocalTableFilter,
-    localTableFilter, selectedRowKeys, onSelectChange,
+    localTableFilter, selectedRowKeys, onSelectChange, handleDelete,
 }) => {
-    const { modal } = App.useApp();
+    const { modalConfirm } = useModalOperationResult();
 
-    const page = useAppSelector((state) => state.sale.page);
-    const perPage = useAppSelector((state) => state.sale.perPage);
-
-    const { makeRequest, isLoading } = useFetch<IDeleteSaleResponse>();
     const navigate = useNavigate();
 
     const handleOnEdit = (sale: ISale) => {
         navigate(`${sale.id}/edit`);
     };
 
-    const handleOnDelete = (sales: ISale[]) => {
-        modal.confirm({
-            title: sales.length === 1 ?
-                <span>Are you sure you want to delete the sale Ref&nbsp;{sales[0].reference}?</span> :
-                <span>Are you sure you want to delete ${sales.length} sales?</span>,
-            icon: <ExclamationCircleFilled />,
-            okText: "Yes",
-            okType: "danger",
-            cancelText: "No",
-            async onOk() {
-                try {
-                    await makeRequest(() => appService.sale.deleteSale({ sales: sales.map((p) => p.id) }));
-                    fetchSales(page, perPage, sorter, filter);
-                    modal.success({
-                        content: sales.length === 1 ?
-                            <span>The sale Ref&nbsp;{sales[0].reference} was successfully deleted.</span> :
-                            <span>The sales were successfully deleted.</span>,
-                    });
-                } catch {
-                    modal.error({ content: `Something went wrong. The ${sales.length > 0 ? "sales were" : "sale was"} not deleted.` });
-                }
+    const handleOnDelete = (sale: ISale) => {
+        console.log({ sale });
+        const value = getDisplayedValueFromItems([sale], [sale.id]);
+        modalConfirm(content.confirm.delete(Sections.Sales, value),
+            async () => {
+                await handleDelete([sale.id]);
             },
-        });
+        );
     };
 
     const handleFilterDropdown = (visible: boolean, key: SaleFilter) => {
@@ -94,7 +69,6 @@ export const LocalSaleTable: FC<Props> = ({
 
     return (
         <>
-            {isLoading && <PreloaderPortal />}
             <Table<ISale> handleOnChange={handleSortChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
                 <Column<ISale>
                     key="reference"
@@ -119,8 +93,8 @@ export const LocalSaleTable: FC<Props> = ({
                     key="date"
                     dataIndex="date"
                     sorter={true}
-                    render={(value: string) => {
-                        const dateValue = formatDateFromString(value);
+                    render={(value: number) => {
+                        const dateValue = formatDateFromNumber(value);
                         return <>{dateValue}</>;
                     }}
                 />
@@ -220,7 +194,7 @@ export const LocalSaleTable: FC<Props> = ({
                     render={(_, record) => (
                         <ActionsCell
                             handleOnEdit={() => handleOnEdit(record)}
-                            handleOnDelete={() => handleOnDelete([record])}
+                            handleOnDelete={() => handleOnDelete(record)}
                             deleteTooltip="Delete sale"
                             editTooltip="Edit sale"
                         />

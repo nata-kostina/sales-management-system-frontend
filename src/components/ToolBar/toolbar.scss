@@ -54,9 +54,9 @@
             }
         }
         .user-name {
-            font-size: 1.6rem;
+            @include h-4;
+            color: $color-font-gray;
             font-weight: 400;
-            color: $color-black;
             align-self: center;
         }
     }

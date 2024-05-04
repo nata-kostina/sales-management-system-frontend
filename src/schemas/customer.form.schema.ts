@@ -1,22 +1,22 @@
 import * as yup from "yup";
 
 export const customerFormSchema = yup.object({
-    name: yup.string().required("Enter a name"),
-    email: yup.string().email("Enter an e-mail").required(),
-    phone: yup.string().required("Enter a phone"),
+    name: yup.string().required("Enter name"),
+    email: yup.string().email("Invalid format").required("Enter e-mail"),
+    phone: yup.string().required("Enter phone"),
     country: yup.object({
-        id: yup.number().required(),
-        name: yup.string().required(),
-    }).required("Choose a country"),
+        id: yup.number().required("Choose country"),
+        name: yup.string().required("Choose country"),
+    }).required("Choose country"),
     state: yup.object({
-        id: yup.number().required(),
-        name: yup.string().required(),
-    }).required("Choose a state"),
+        id: yup.number().required("Choose state"),
+        name: yup.string().required("Choose state"),
+    }).required("Choose state"),
     city: yup.object({
-        id: yup.number().required(),
-        name: yup.string().required(),
-    }).required("Choose a city"),
-    address: yup.string().required("Enter an address"),
+        id: yup.number().required("Choose city"),
+        name: yup.string().required("Choose city"),
+    }).required("Choose city"),
+    address: yup.string().required("Enter address"),
 }).required();
 
 export type ICustomerFormValues = yup.InferType<typeof customerFormSchema>;

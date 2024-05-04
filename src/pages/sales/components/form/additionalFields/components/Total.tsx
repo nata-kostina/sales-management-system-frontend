@@ -10,15 +10,15 @@ interface Props {
 export const Total: FC<Props> = ({ defaultValue, register }) => {
     return (
         <div className="summary total">
-            <span className="summary__title total__text">Total: </span>
-            <div className="summary__text">
+            <span className="label">Total: </span>
+            <div className="summary-input-group">
                 <input
                     type="text"
-                    className="summary__text total__amount input input_disabled input_not-editable"
+                    className="total__amount input input_disabled input_not-editable"
                     autoComplete="off"
                     id="total"
                     disabled={true}
-                    defaultValue={defaultValue}
+                    defaultValue={defaultValue ?? 0}
                     {...register("total")}
                 />
                 <span className="total__currency">€</span>

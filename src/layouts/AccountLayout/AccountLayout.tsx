@@ -13,7 +13,7 @@ export const AccountLayout: FC = () => {
         <div className="account-layout-wrapper">
             <Header />
             <div className="account-header-offset">
-                <main className="main-account-layout">
+                <main id="main" className="main-account-layout">
                     {bp === breakpoints.Ms || bp === breakpoints.S ? <SideBarMobile /> : <Sidebar />}
                     <Outlet />
                 </main>

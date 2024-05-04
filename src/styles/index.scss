@@ -27,18 +27,17 @@
 @import "./../components/Toolbar/toolbar.scss";
 @import "./../components/SideBar/sidebar.scss";
 @import "./../components/Section/section";
+@import "./components/forms/form-base";
 @import "./components/forms/form-items";
 @import "./components/forms/form-items-layouts";
 @import "../pages/sales/components/form/form-sale";
 
 /* PAGES */
 @import "./pages/page-base";
+@import "../pages/dashboard/page-dashboard.scss";
+@import "./pages/page-not-found";
 
 /* Login Page */
 @import "../pages/login/components/Hero/hero";
 @import "../pages/login/components/LoginForm/form";
 @import "../pages/login/login-page";
-
-@import "./pages/products/productsEditPage";
-@import "./pages/products/productsPage";
-

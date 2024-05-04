@@ -12,41 +12,50 @@ interface Props<T extends object> {
     label: string;
     error: string | undefined;
     defaultValue: IImage[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setValue: (value: any) => void;
 }
 
-export function DnDImages<T extends object>({ name, error, label, control, defaultValue }: Props<T>) {
+export function DnDImages<T extends object>({ name, error, label, control, defaultValue, setValue }: Props<T>): JSX.Element {
     const [images, setImages] = useState<File[]>([]);
+
     useEffect(() => {
+        const defaultImages: File[] = [];
         const urlToObject = async (image: IImage) => {
-            const response = await fetch(`${baseURL}/${image.filename}`);
+            const response = await fetch(`${baseURL}/${image.path}`);
             const blob = await response.blob();
             const file = new File([blob], image.originalname, { type: blob.type });
-
-            setImages((prev) => ([...prev, file]));
+            defaultImages.push(file);
         };
-        defaultValue.map((image) => urlToObject(image));
+        const processDefaultImages = async () => {
+            for (const image of defaultValue) {
+                await urlToObject(image);
+            }
+            setImages(defaultImages);
+            setValue(defaultImages);
+        };
+        processDefaultImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            // const files: IImageFile[] = [];
-            // for (let i = 0; i < e.target.files.length; i++) {
-            //     files.push({
-            //         src: URL.createObjectURL(e.target.files[i]),
-            //         file: e.target.files[i],
-            //     });
-            // }
             const updatedImages = [...images, ...e.target.files];
             setImages(updatedImages);
-
             return updatedImages;
         }
         return images;
     };
+
     const handleDelete = (fileName: string) => {
+        console.log("handleDelete fileName: ", fileName);
         const file = images.find((item) => item.name === fileName);
+        console.log("handleDelete file: ", file);
         if (file) {
             const updatedFiles = images.filter((item) => item.name !== file.name);
+            console.log("handleDelete updatedFiles: ", updatedFiles);
             setImages(updatedFiles);
+            setValue(updatedFiles);
         }
     };
 
@@ -60,6 +69,7 @@ export function DnDImages<T extends object>({ name, error, label, control, defau
         }
         return images;
     };
+
     return (
         <div className={cn(`input-group input-group-${name}`, {
             [`input-group-${name}_no-image`]: images.length === 0,

@@ -3,7 +3,6 @@ import { Key } from "react";
 import { $api } from "../api";
 import {
     IAddCategoryResponse,
-    IDeleteCategoryResponse,
     IEditCategoryResponse,
     IGetCategoriesResponse,
     IGetCategoryList,
@@ -11,10 +10,10 @@ import {
 } from "../models/responses/category.response";
 import {
     IAddCategoryPayload,
-    IDeleteCategoryPayload,
     IEditCategoryPayload,
     IGetCategoryPayload,
 } from "../models/requests/category.request";
+import { IDeletePayload, IGetCsvPayload } from "../models/requests/shared.request";
 
 export class CategoryService {
     private baseUrl: string;
@@ -32,6 +31,7 @@ export class CategoryService {
         perPage = 1,
         sort?: Key,
         order?: "ascend" | "descend" | null,
+        filter?: Record<string, string | null>,
     ): Promise<AxiosResponse<IGetCategoriesResponse>> {
         return $api.get(`${this.baseUrl}/`, {
             params: {
@@ -39,11 +39,12 @@ export class CategoryService {
                 perPage,
                 sort,
                 order,
+                ...filter,
             },
         });
     }
 
-    public async deleteCategory(payload: IDeleteCategoryPayload): Promise<AxiosResponse<IDeleteCategoryResponse>> {
+    public async delete(payload: IDeletePayload): Promise<AxiosResponse<void>> {
         return $api.delete(`${this.baseUrl}/`, { data: payload });
     }
 
@@ -57,5 +58,9 @@ export class CategoryService {
 
     public async editProduct(payload: IEditCategoryPayload): Promise<AxiosResponse<IEditCategoryResponse>> {
         return $api.put(`${this.baseUrl}/${payload.id}/edit`, payload.category);
+    }
+
+    public async getCsv(payload: IGetCsvPayload): Promise<AxiosResponse<Blob>> {
+        return $api.post(`${this.baseUrl}/get-csv`, payload, { responseType: "blob" });
     }
 }

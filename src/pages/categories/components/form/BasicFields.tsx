@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { ICategoryFormValues } from "../../../../schemas/category.form.schema";
 import { ICategory } from "../../../../models/entities/category.interface";
 import { InputText } from "../../../../components/ui/Inputs/InputText";
@@ -12,15 +13,16 @@ interface Props {
     control: Control<ICategoryFormValues>;
     category: ICategory | Omit<ICategory, "id"> | null;
     changeIsFormLoading: (value: boolean) => void;
+    setValue: UseFormSetValue<ICategoryFormValues>;
 }
 
-export const BasicFields: FC<Props> = ({ errors, register, control, category, changeIsFormLoading }) => {
+export const BasicFields: FC<Props> = ({ errors, register, control, category, changeIsFormLoading, setValue }) => {
     return (
         <div className="fields-section fields-basic">
             <InputText
                 name="name"
                 label="Name"
-                placeholder="Baseball bat"
+                placeholder="Baseball"
                 type="text"
                 defaultValue={category?.name ?? ""}
                 error={errors.name?.message}
@@ -49,6 +51,7 @@ export const BasicFields: FC<Props> = ({ errors, register, control, category, ch
                 defaultValue={category?.images ?? []}
                 control={control}
                 error={errors.images?.message}
+                setValue={(value: any) => setValue("images", value)}
             />
         </div>
     );

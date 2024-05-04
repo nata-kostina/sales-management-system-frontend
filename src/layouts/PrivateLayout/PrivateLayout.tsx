@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useLocation, Outlet, Navigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
-import { useFetch } from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/shared/useFetch";
 import { appService } from "../../services";
 import { appController } from "../../controllers";
 import { selectIsAuth } from "../../store/selector";

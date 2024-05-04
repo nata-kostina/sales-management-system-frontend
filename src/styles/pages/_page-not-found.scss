@@ -1,0 +1,55 @@
+.page-not-found {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    .main {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3.2rem;
+
+        text-align: center;
+    }
+
+    .page__img-box {
+        width: 55rem;
+    }
+
+    .page__img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .page__title {
+        @include h-2;
+    }
+
+    .page__subtitle {
+        @include h-3;
+        width: 90%;
+    }
+
+    a.btn-back {
+        height: 6.4rem;
+    }
+}
+
+
+@media screen and (max-width: $bp-ms) {
+    .page-not-found {
+        .page__img-box {
+            width: 90%;
+            max-width: 55rem;
+        }
+        a.btn-back {
+            height: 6.4rem;
+        }
+    }
+}

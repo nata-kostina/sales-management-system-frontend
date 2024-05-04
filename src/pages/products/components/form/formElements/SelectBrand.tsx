@@ -12,15 +12,15 @@ interface Props {
     label: string;
     placeholder: string;
     brands: IBrand[];
-    defaultValue?: string;
+    defaultValue?: ISelectOption<IProductFormValues>;
 }
 
 export const SelectBrand: FC<Props> = ({ brands, ...rest }) => {
-    const options: ISelectOption[] = useMemo(() => {
+    const options: ISelectOption<IProductFormValues>[] = useMemo(() => {
         return brands.map((brand) => ({ value: brand.id, label: brand.name, key: brand.id }));
     }, [brands]);
 
     return (
-        <SingleSelect options={options} {...rest} />
+        <SingleSelect<IProductFormValues> options={options} {...rest} />
     );
 };

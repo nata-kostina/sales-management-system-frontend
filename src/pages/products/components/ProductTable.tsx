@@ -1,93 +1,76 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import Column from "antd/es/table/Column";
-import { ExclamationCircleFilled } from "@ant-design/icons";
-import { App } from "antd";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../../components/Table/Table";
-import { useAppSelector } from "../../../store/hooks";
 import { ActionsCell } from "../../../components/Table/ActionsCell";
 import { SearchFilter } from "../../../components/Table/SearchFilter";
 import { CategoryFilter } from "./filters/CategoryFilter";
 import { BrandFilter } from "./filters/BrandFilter";
-import { UnitFilter } from "./filters/UnitFilter";
 import { baseURL } from "../../../api";
 import { assets } from "../../../utils/assetsManager";
-import { useFetch } from "../../../hooks/useFetch";
-import { appService } from "../../../services";
-import { PreloaderPortal } from "../../../components/ui/Preloader/PreloaderPortal";
 import { IProduct } from "../../../models/entities/product.interface";
-import { IDeleteProductResponse } from "../../../models/responses/products.response";
-import { FetchItems } from "../../../types/functions";
-import { MessageService } from "../../../services/message.service";
+import { ProductFilter, TableFilterValue } from "../../../types/filters";
+import { withLocalFilterValues } from "../../../hocs/TableWithLocalFilterValues";
+import { WithLocalFilterValuesProps } from "../../../types/props";
+import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
+import { content } from "../../../data/content";
+import { Sections } from "../../../types/entities";
+import { getDisplayedValueFromItems } from "../../../utils/helper";
+import { UnitFilter } from "./filters/UnitFilter";
 
-interface Props {
+interface Props extends Partial<WithLocalFilterValuesProps<ProductFilter>> {
     data: IProduct[];
-    fetchProducts: FetchItems<IProduct>;
+    openFilter: Record<ProductFilter, boolean>;
+    selectedRowKeys: React.Key[];
+    handleSortChange: (_sorter: SorterResult<IProduct>) => void;
+    handleFilterSearch: (key: ProductFilter, value: TableFilterValue | TableFilterValue[] | null) => void;
+    handleToggleFilter: (visible: boolean, key: string) => void;
+    onSelectChange: (newSelectedRowKeys: React.Key[]) => void;
+    handleDelete: (items: string[]) => Promise<void>;
 }
 
-export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
-    const { modal } = App.useApp();
-
-    const [filter, setFilter] = useState<Record<string, string>>({});
-    const [sorter, setSorter] = useState<SorterResult<IProduct>>();
-    const [openFilter, setOpenFilter] = useState<Record<keyof Pick<IProduct, "name" | "categories" | "sku" | "brand" | "unit">, boolean>>(
-        { name: false, categories: false, sku: false, brand: false, unit: false },
-    );
-    const page = useAppSelector((state) => state.product.page);
-    const perPage = useAppSelector((state) => state.product.perPage);
-
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-    const { makeRequest, isLoading } = useFetch<IDeleteProductResponse>();
+export const LocalProductTable: FC<Props> = (
+    {
+        data, filter, openFilter, localTableFilter, selectedRowKeys,
+        handleToggleFilter, handleSortChange, handleFilterSearch,
+        handleFilterDropdownOpenChange, changeLocalTableFilter,
+        onSelectChange, handleDelete,
+    },
+) => {
+    const { modalConfirm } = useModalOperationResult();
 
     const navigate = useNavigate();
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const handleOnChange = (
-        _sorter: SorterResult<IProduct>,
-    ) => {
-        setSorter(_sorter);
-        fetchProducts(page, perPage, _sorter, filter);
-    };
 
     const handleOnEdit = (product: IProduct) => {
         navigate(`${product.id}/edit`);
     };
 
-    const handleOnDelete = (products: IProduct[]) => {
-        modal.confirm({
-            title: products.length === 1 ?
-                `Are you sure you want to delete ${products[0].name}?` :
-                `Are you sure you want to delete ${products.length} products?`,
-            icon: <ExclamationCircleFilled />,
-            okText: "Yes",
-            okType: "danger",
-            cancelText: "No",
-            async onOk() {
-                try {
-                    await makeRequest(() => appService.products.deleteProduct({ products: products.map((p) => p.id) }));
-                    fetchProducts(page, perPage, sorter, filter);
-                } catch {
-                    MessageService.error(`Something went wrong. The ${products.length > 0 ? "products were" : "product was"} not deleted.`);
-                }
+    const handleOnDelete = (product: IProduct) => {
+        const value = getDisplayedValueFromItems([product], [product.id]);
+        modalConfirm(content.confirm.delete(Sections.Products, value),
+            async () => {
+                await handleDelete([product.id]);
             },
-        });
+        );
     };
 
-    const handleFilterSearch = (key: keyof IProduct, value: string) => {
-        setOpenFilter((prev) => ({ ...prev, [key]: false }));
-        setFilter((prev) => ({ ...prev, [key]: value }));
-        fetchProducts(page, perPage, sorter, { ...filter, [key]: value });
+    const handleFilterDropdown = (visible: boolean, key: ProductFilter) => {
+        if (handleFilterDropdownOpenChange) {
+            handleFilterDropdownOpenChange(key);
+        }
+        handleToggleFilter(visible, key);
+    };
+
+    const handleChangeLocalTableFilter = (key: ProductFilter, value: TableFilterValue | TableFilterValue[] | null) => {
+        if (changeLocalTableFilter) {
+            changeLocalTableFilter(key, value);
+        }
     };
 
     return (
         <>
-            {isLoading && <PreloaderPortal />}
-            <Table<IProduct> handleOnChange={handleOnChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
+            <Table<IProduct> handleOnChange={handleSortChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
                 <Column<IProduct>
                     key="name"
                     title="Name"
@@ -95,14 +78,21 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     sorter={true}
                     filters={[]}
                     filterDropdownOpen={openFilter.name}
-                    onFilterDropdownOpenChange={() => setOpenFilter((prev) => ({ ...prev, name: !openFilter.name }))}
-                    filtered={!!(filter.name) && filter.name.length > 0}
-                    filterDropdown={<SearchFilter placeholder="Product name" onSearch={(value: string) => handleFilterSearch("name", value)} />}
+                    onFilterDropdownOpenChange={(visible) => handleFilterDropdown(visible, "name")}
+                    filtered={!!(filter?.name)}
+                    filterDropdown={(
+                        <SearchFilter
+                            localFilter={localTableFilter?.name as TableFilterValue}
+                            changeLocalFilter={(value: TableFilterValue | null) => handleChangeLocalTableFilter("name", value)}
+                            placeholder="Product name"
+                            onSearch={(value: TableFilterValue | null) => handleFilterSearch("name", value)}
+                        />
+                    )}
                     render={(value, record) => (
                         <div className="col-img-text">
                             <div className="col__img-box">
                                 {record.images.length > 0 ?
-                                    <img src={`${baseURL}/${record.images[0].filename}`} className="col__img" /> :
+                                    <img src={`${baseURL}/${record.images[0].path}`} alt={record.images[0].originalname} className="col__img" /> :
                                     <img src={assets.shared.placeholder} alt="Placeholder" className="col__img" />
                                 }
                             </div>
@@ -123,9 +113,15 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     }}
                     filters={[]}
                     filterDropdownOpen={openFilter.categories}
-                    onFilterDropdownOpenChange={() => setOpenFilter((prev) => ({ ...prev, categories: !openFilter.categories }))}
-                    filtered={!!(filter.categories) && filter.categories.length > 0}
-                    filterDropdown={<CategoryFilter isOpen={openFilter.categories} onSelect={(value: string) => handleFilterSearch("categories", value)} />}
+                    onFilterDropdownOpenChange={(visible) => handleFilterDropdown(visible, "categories")}
+                    filtered={!!(filter?.categories)}
+                    filterDropdown={(
+                        <CategoryFilter
+                            localFilter={localTableFilter?.categories as TableFilterValue[]}
+                            changeLocalFilter={(value: TableFilterValue[] | null) => handleChangeLocalTableFilter("categories", value)}
+                            onSelect={(value: TableFilterValue[] | null) => handleFilterSearch("categories", value)}
+                        />
+                    )}
                 />
                 <Column<IProduct>
                     key="sku"
@@ -134,32 +130,51 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     sorter={true}
                     filters={[]}
                     filterDropdownOpen={openFilter.sku}
-                    onFilterDropdownOpenChange={() => setOpenFilter((prev) => ({ ...prev, sku: !openFilter.name }))}
-                    filtered={!!(filter.sku) && filter.sku.length > 0}
-                    filterDropdown={<SearchFilter placeholder="SKU" onSearch={(value: string) => handleFilterSearch("sku", value)} />}
+                    onFilterDropdownOpenChange={(visible) => handleFilterDropdown(visible, "sku")}
+                    filtered={!!(filter?.sku)}
+                    filterDropdown={(
+                        <SearchFilter
+                            localFilter={localTableFilter?.sku as TableFilterValue}
+                            changeLocalFilter={(value: TableFilterValue | null) => handleChangeLocalTableFilter("sku", value)}
+                            placeholder="SKU"
+                            onSearch={(value: TableFilterValue | null) => handleFilterSearch("sku", value)}
+                        />
+                    )}
                 />
                 <Column<IProduct>
                     key="brand"
                     title="Brand"
-                    dataIndex="brand"
+                    dataIndex={["brand", "name"]}
                     sorter={true}
                     filters={[]}
                     filterDropdownOpen={openFilter.brand}
-                    onFilterDropdownOpenChange={() => setOpenFilter((prev) => ({ ...prev, brand: !openFilter.brand }))}
-                    filtered={!!(filter.brand) && filter.brand.length > 0}
-                    filterDropdown={<BrandFilter isOpen={openFilter.brand} onSelect={(value: string) => handleFilterSearch("brand", value)} />}
+                    onFilterDropdownOpenChange={(visible) => handleFilterDropdown(visible, "brand")}
+                    filtered={!!(filter?.brand)}
+                    filterDropdown={(
+                        <BrandFilter
+                            localFilter={localTableFilter?.brand as TableFilterValue[]}
+                            changeLocalFilter={(value: TableFilterValue[] | null) => handleChangeLocalTableFilter("brand", value)}
+                            onSelect={(value: TableFilterValue[] | null) => handleFilterSearch("brand", value)}
+                        />
+                    )}
                 />
                 <Column<IProduct> key="price" title="Price" dataIndex="price" sorter={true} />
                 <Column<IProduct>
                     key="unit"
                     title="Unit"
-                    dataIndex="unit"
+                    dataIndex={["unit", "name"]}
                     sorter={true}
                     filters={[]}
                     filterDropdownOpen={openFilter.unit}
-                    onFilterDropdownOpenChange={() => setOpenFilter((prev) => ({ ...prev, unit: !openFilter.unit }))}
-                    filtered={!!(filter.unit) && filter.unit.length > 0}
-                    filterDropdown={<UnitFilter isOpen={openFilter.unit} onSelect={(value: string) => handleFilterSearch("unit", value)} />}
+                    onFilterDropdownOpenChange={(visible) => handleFilterDropdown(visible, "unit")}
+                    filtered={!!(filter?.unit)}
+                    filterDropdown={(
+                        <UnitFilter
+                            localFilter={localTableFilter?.unit as TableFilterValue[]}
+                            changeLocalFilter={(value: TableFilterValue[] | null) => handleChangeLocalTableFilter("unit", value)}
+                            onSelect={(value: TableFilterValue[] | null) => handleFilterSearch("unit", value)}
+                        />
+                    )}
                 />
                 <Column<IProduct> key="quantity" title="Qty" dataIndex="quantity" sorter={true} />
                 <Column<IProduct>
@@ -168,7 +183,7 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
                     render={(_, record) => (
                         <ActionsCell
                             handleOnEdit={() => handleOnEdit(record)}
-                            handleOnDelete={() => handleOnDelete([record])}
+                            handleOnDelete={() => handleOnDelete(record)}
                             deleteTooltip="Delete product"
                             editTooltip="Edit product"
                         />
@@ -178,3 +193,5 @@ export const ProductTable: FC<Props> = ({ data, fetchProducts }) => {
         </>
     );
 };
+
+export const ProductTable = withLocalFilterValues<ProductFilter, Props>(LocalProductTable);

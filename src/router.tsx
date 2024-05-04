@@ -3,20 +3,21 @@ import { PrivateLayout } from "./layouts/PrivateLayout/PrivateLayout";
 import { AccountLayout } from "./layouts/AccountLayout/AccountLayout";
 import { LoginPage } from "./pages/login/LoginPage";
 import { Routes } from "./types/routes";
-import { ProductsPage } from "./pages/products/ProductsPage";
-import { ProductViewPage } from "./pages/products/view/ProductViewPage";
+import { ProductsViewPage } from "./pages/products/view/ProductsViewPage";
 import { ProductEditPage } from "./pages/products/edit/ProductEditPage";
 import { ProductAddPage } from "./pages/products/add/ProductAddPage";
 import { BaseLayout } from "./layouts/BaseLayout/BaseLayout";
-import { CategoriesPage } from "./pages/categories/CategoriesPage";
+import { CategoriesViewPage } from "./pages/categories/view/CategoriesViewPage";
 import { CategoryAddPage } from "./pages/categories/add/CategoryAddPage";
 import { CategoryEditPage } from "./pages/categories/edit/CategoryEditPage";
-import { CustomersPage } from "./pages/customers/CustomersPage";
+import { CustomersViewPage } from "./pages/customers/view/CustomersViewPage";
 import { CustomerAddPage } from "./pages/customers/add/CustomerAddPage";
 import { CustomerEditPage } from "./pages/customers/edit/CustomerEditPage";
 import { SaleAddPage } from "./pages/sales/add/SaleAddPage";
-import { SaleViewPage } from "./pages/sales/view/SaleViewPage";
+import { SalesViewPage } from "./pages/sales/view/SalesViewPage";
 import { SaleEditPage } from "./pages/sales/edit/SaleEditPage";
+import { DashboardPage } from "./pages/dashboard/DashboardPage";
+import { NotFoundPage } from "./pages/notFound/NotFoundPage";
 
 export const router = createBrowserRouter([
     {
@@ -40,34 +41,32 @@ export const router = createBrowserRouter([
                             },
                             {
                                 path: Routes.Dashboard,
-                                element: <p>Dashboard</p>,
+                                element: <DashboardPage />,
                             },
                             {
                                 path: Routes.Products,
-                                element: <ProductsPage />,
-                            },
-                            {
-                                path: Routes.Product,
-                                element: <ProductViewPage />,
-                            },
-                            {
-                                path: Routes.EditProduct,
-                                element: <ProductEditPage />,
-                            },
-                            {
-                                path: Routes.AddProduct,
-                                element: <ProductAddPage />,
-                            },
-                            {
-                                path: Routes.DeleteProduct,
-                                element: <ProductAddPage />,
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <ProductsViewPage />,
+                                    },
+                                    {
+                                        path: "add",
+                                        element: <ProductAddPage />,
+                                    },
+                                    {
+                                        path: ":id/edit",
+                                        element: <ProductEditPage />,
+                                    },
+                                ],
+                                errorElement: <Navigate to={`/${Routes.NotFound}`} />,
                             },
                             {
                                 path: Routes.Categories,
                                 children: [
                                     {
                                         index: true,
-                                        element: <CategoriesPage />,
+                                        element: <CategoriesViewPage />,
                                     },
                                     {
                                         path: "add",
@@ -84,7 +83,7 @@ export const router = createBrowserRouter([
                                 children: [
                                     {
                                         index: true,
-                                        element: <CustomersPage />,
+                                        element: <CustomersViewPage />,
                                     },
                                     {
                                         path: "add",
@@ -101,7 +100,7 @@ export const router = createBrowserRouter([
                                 children: [
                                     {
                                         index: true,
-                                        element: <SaleViewPage />,
+                                        element: <SalesViewPage />,
                                     },
                                     {
                                         path: "add",
@@ -116,12 +115,17 @@ export const router = createBrowserRouter([
                         ],
                     },
                 ],
+                errorElement: <Navigate to={`/${Routes.NotFound}`} />,
             },
             {
                 path: Routes.Login,
                 element: <LoginPage />,
+                errorElement: <Navigate to={`/${Routes.NotFound}`} />,
             },
         ],
     },
-
+    {
+        path: Routes.NotFound,
+        element: <NotFoundPage />,
+    },
 ]);

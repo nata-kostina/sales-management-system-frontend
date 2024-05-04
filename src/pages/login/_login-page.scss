@@ -23,8 +23,8 @@
             min-width: 100%;
             height: auto;
             min-height: 100%;
-    
-            object-fit: cover; 
+
+            object-fit: cover;
         }
     }
 
@@ -50,11 +50,23 @@
         background-color: $color-white;
         position: relative;
     }
+
+    #main .form {
+        flex-grow: 0;
+        align-items: flex-start;
+    }
+
+    .form__inner {
+        align-items: flex-start;
+    }
+
+    .input-box {
+        flex-direction: row;
+    }
 }
 
 @media screen and (max-width: $bp-ms) {
     .page-wrapper-login {
-
         .page__inner {
             display: block;
         }

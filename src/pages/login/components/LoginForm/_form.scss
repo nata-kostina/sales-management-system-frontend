@@ -3,11 +3,13 @@
         display: flex;
         flex-direction: column;
         gap: 3rem;
+        width: 100%;
     }
 
     .form-section {
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
 
     .form-section_top {
@@ -16,110 +18,38 @@
     .form-section_center {
         gap: 1rem;
     }
-    .form-section_bottom {
-    }
 
     .form__title {
         font-size: 3.2rem;
         font-weight: 700;
         color: $color-black;
+        @include h-2;
     }
 
-    .input-group {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .label {
-        color: $color-blue-dark-l;
-        font-size: 1.6rem;
-        font-weight: 500;
-    }
-
-    .input-box {
-        height: 5rem;
-        display: grid;
-        grid-template-columns: 1fr 2rem;
-        align-items: center;
-        gap: 1rem;
-
-        padding: 0.8rem 1rem;
-        background: #fafafa;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-    .input-field {
-    }
-
-    .input-icon {
-        width: 1.8rem;
-        height: 100%;
-        max-height: 100%;
-        overflow: hidden;
-
-        user-select: none;
-
-        svg {
-            width: 100%;
-            height: auto;
-            max-height: 100%;
-            fill: $color-blue-gray;
-        }
-    }
-
-    .btn-password {
-        padding: 0;
-        border: unset;
-    }
-
-    .input {
-        width: 100%;
-        font-size: 1.6rem;
-
-        background-color: transparent;
-    }
-
-    .input-error {
-        height: 0.6rem;
-        position: relative;
-        color: $color-red;
-        font-size: 1.2rem;
-        transform: translateY(-1.5rem);
-        opacity: 0;
-
-        transition: all 0.5s ease-in-out;
-        will-change: transform;
-
-        &_visible {
-            transform: translateY(-1rem);
-            opacity: 1;
-        }
+    .btn-login {
+        height: 6rem;
     }
 
     .eye-svg,
     .eye-crossed-svg {
         width: 1.8rem;
     }
+}
 
-    ::placeholder {
-        color: $color-placeholder;
-        font-family: $font-primary;
+@media screen and (max-width: $bp-l) {
+    .form-login {
+        .form__inner {
+            gap: 2rem;
+        }
+        .btn-login {
+            height: 5.6rem;
+        }
     }
 }
 
 @media screen and (max-width: $bp-s) {
     .form-login {
         .form__title {
-            font-size: 2rem;
-        }
-        .label {
-            font-size: 1.5rem;
-        }
-        .input {
-            font-size: 1.5rem;
         }
     }
 }

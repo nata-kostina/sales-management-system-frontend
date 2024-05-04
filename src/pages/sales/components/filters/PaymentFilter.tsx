@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { SelectFilter } from "../../../../components/Table/SelectFilter";
-import { useFetch } from "../../../../hooks/useFetch";
+import { useFetch } from "../../../../hooks/shared/useFetch";
 import { appService } from "../../../../services";
 import { IGetPaymentResponse } from "../../../../models/responses/payment.response";
 import { TableFilterValue } from "../../../../types/filters";

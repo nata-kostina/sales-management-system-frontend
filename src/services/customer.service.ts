@@ -5,16 +5,15 @@ import {
     IGetCustomerPayload,
     IEditCustomerPayload,
     IAddCustomerPayload,
-    IDeleteCustomerPayload,
 } from "../models/requests/customer.request";
 import {
     IGetCustomersResponse,
     IGetCustomerResponse,
     IEditCustomerResponse,
     IAddCustomerResponse,
-    IDeleteCustomerResponse,
     IGetCustomersListResponse,
 } from "../models/responses/customer.response";
+import { IDeletePayload, IGetCsvPayload } from "../models/requests/shared.request";
 
 export class CustomerService {
     private baseUrl: string;
@@ -55,11 +54,15 @@ export class CustomerService {
         return $api.post(`${this.baseUrl}/add/`, payload);
     }
 
-    public async deleteCustomer(payload: IDeleteCustomerPayload): Promise<AxiosResponse<IDeleteCustomerResponse>> {
+    public async delete(payload: IDeletePayload): Promise<AxiosResponse<void>> {
         return $api.delete(`${this.baseUrl}/`, { data: payload });
     }
 
     public async getCustomersList(payload: string): Promise<AxiosResponse<IGetCustomersListResponse>> {
         return $api.get(`${this.baseUrl}/list/`, { params: { name: payload } });
+    }
+
+    public async getCsv(payload: IGetCsvPayload): Promise<AxiosResponse<Blob>> {
+        return $api.post(`${this.baseUrl}/get-csv`, payload, { responseType: "blob" });
     }
 }
