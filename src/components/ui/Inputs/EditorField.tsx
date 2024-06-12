@@ -10,6 +10,8 @@ interface Props<T extends object> {
     defaultValue: PathValue<T, Path<T>>;
 }
 
+const API_KEY = import.meta.env.VITE_TINY_API_KEY;
+
 export function EditorField<T extends object>({
     control,
     error,
@@ -33,7 +35,7 @@ export function EditorField<T extends object>({
                 render={({ field: { onChange } }) => (
                     <Editor
                         id={name}
-                        apiKey="qstpcv0u0awp2u7zeg44en30xxxuxb6e5kfh1vzsvbdxdef6"
+                        apiKey={API_KEY}
                         init={{
                             plugins: "tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss",
                             toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
