@@ -26,7 +26,9 @@ export const useGetSales = (): { fetchSales: FetchItems<ISale, SaleFilter>; isGe
                         return appService.sale.getSales(
                             SalesPage,
                             SalesPerPage,
-                            (localSorter?.order) ? localSorter.field as React.Key : undefined,
+                            (localSorter?.order) ? Array.isArray(localSorter.field) ?
+                                localSorter.field[localSorter.field.length - 1]
+                                : localSorter.field as React.Key : undefined,
                             localSorter?.order,
                             extractValuesFromFilter<SaleFilter>(localFilter),
                         );

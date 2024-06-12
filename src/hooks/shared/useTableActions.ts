@@ -42,7 +42,6 @@ export function useTableActions<T extends object>({
 
     /* Operations */
     const handleDeleteItems = async (payload?: string | string[]) => {
-        console.log({ payload });
         const value = getDisplayedValueFromItems(items, payload);
         try {
             await deleteItems((payload && Array.isArray(payload)) ? payload : []);
@@ -57,7 +56,6 @@ export function useTableActions<T extends object>({
         try {
             setIsCsvLoading(true);
             const payload = (items && Array.isArray(items)) ? items : [];
-            // const response = await appService.sale.getCsv({ items: payload });
             const response = await fetchCsv(payload);
             const fileName = getFilenameFromHeader(response.headers["content-disposition"]);
             setIsCsvLoading(false);

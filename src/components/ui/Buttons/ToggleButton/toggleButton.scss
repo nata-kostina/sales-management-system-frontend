@@ -33,12 +33,14 @@
 
 @media screen and (max-width: $bp-ms) {
     .btn-toggle {
+        position: relative;
+
         width: 2.6rem;
         height: 2.6rem;
         border-radius: 100%;
 
-        top: 2.5rem;
-        left: 2rem;
+        // top: 2.5rem;
+        // left: 2rem;
         transform: rotate(180deg);
 
         .arrow {

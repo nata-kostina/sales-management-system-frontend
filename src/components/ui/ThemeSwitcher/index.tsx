@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { assets } from "../../../data/assets";
+import { assets } from "../../../utils/assetsManager";
 
 export const ThemeSwitcher: FC = () => {
     const [isLight, setIsLight] = useState(() => document.documentElement.classList.contains("light"));

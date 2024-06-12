@@ -24,7 +24,6 @@ export const CategoryForm: FC<Props> = ({
         register,
         handleSubmit,
         formState: { errors },
-        getValues,
         setValue,
         control,
     } = useForm<ICategoryFormValues>({
@@ -32,12 +31,9 @@ export const CategoryForm: FC<Props> = ({
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log("data: ", data);
         const categoryDto = new CategoryDto(data);
-        console.log("categoryDto: ", categoryDto);
         handleSubmitForm(categoryDto.formData);
     });
-    console.log("getValues ", getValues());
     return (
         <form className={`form form-items form-category form-category-${name}`} onSubmit={onSubmit}>
             <div className="form__inner">

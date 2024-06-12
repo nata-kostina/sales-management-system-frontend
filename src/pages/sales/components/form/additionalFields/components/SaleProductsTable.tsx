@@ -39,7 +39,7 @@ export const SaleProductsTable: FC<Props> = ({ products, updateQuantity, handleD
                         <div className="col-img-text">
                             <div className="col__img-box">
                                 {record.image ?
-                                    <img src={`${baseURL}/${record.image.filename}`} className="col__img" /> :
+                                    <img src={`${baseURL}/${record.image.path}`} alt={record.image.originalname} className="col__img" /> :
                                     <img src={assets.shared.placeholder} alt="Placeholder" className="col__img" />
                                 }
                             </div>

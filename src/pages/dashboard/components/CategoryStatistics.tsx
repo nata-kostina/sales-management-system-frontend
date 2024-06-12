@@ -18,7 +18,6 @@ export const CategoryStatistics: FC = () => {
 
     const fetchData = useCallback(async (option: SaleStatisticsOption, yearOption: number | null) => {
         try {
-            console.log({ option: viewBy, year: yearOption });
             const response = await makeRequest(() => appService.statistics.getSalesStatisticsByCategories({ option, year: yearOption }));
             setData(response.data);
             if (response.minDate && response.maxDate) {

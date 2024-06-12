@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { useMemo, useRef, useState } from "react";
 import { Select, Spin } from "antd";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";

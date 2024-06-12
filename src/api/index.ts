@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios from "axios";
 import { store } from "../store/store";
 import { setToken } from "../store/slices/auth.slice";
@@ -23,7 +24,6 @@ $api.interceptors.response.use((config) => {
     return config;
 }, async (error) => {
     const originalRequest = error.config;
-    console.log("interceptors error response: ", error);
     if (error.response.status === 401 && error.config && !originalRequest._isRetry) {
         originalRequest._isRetry = true;
         try {
@@ -34,5 +34,5 @@ $api.interceptors.response.use((config) => {
             console.error("Not authorized");
         }
     }
-    throw new Error(error);
+    throw error;
 });

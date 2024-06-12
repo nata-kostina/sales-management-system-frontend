@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
 import { LoginForm } from "./components/LoginForm/LoginForm";
 import { Routes } from "../../types/routes";
 import { appService } from "../../services";
@@ -14,6 +15,7 @@ import { useAppSelector } from "../../store/hooks";
 import { BgLogin } from "../../components/vectors/backgrounds/BgLogin";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
 import { AuthResponse } from "../../models/responses/auth.response";
+import { useModalOperationResult } from "../../hooks/shared/useModalOperationResult";
 
 export const LoginPage: FC = () => {
     const auth = useAppSelector(selectIsAuth);
@@ -27,6 +29,8 @@ export const LoginPage: FC = () => {
     const { makeRequest, isLoading } = useFetch<AuthResponse>();
     const location = useLocation();
     const navigate = useNavigate();
+    const { modalError } = useModalOperationResult();
+
     const login: SubmitHandler<ILoginFormValues> = async ({ email, password }) => {
         try {
             const response = await makeRequest(async () => {
@@ -41,6 +45,16 @@ export const LoginPage: FC = () => {
                 navigate(`../${Routes.Account}`);
             }
         } catch (error) {
+            if (error instanceof AxiosError) {
+                const data = error.response?.data;
+                if (data?.errors && Array.isArray(data.errors) && data.errors.length !== 0) {
+                    modalError(`Error! ${data.errors[0]}`);
+                } else {
+                    modalError(`Error! ${error.message}`);
+                }
+            } else {
+                modalError("Error! Try again.");
+            }
             appController.auth.handleLogout();
         }
     };

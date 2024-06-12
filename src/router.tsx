@@ -59,7 +59,6 @@ export const router = createBrowserRouter([
                                         element: <ProductEditPage />,
                                     },
                                 ],
-                                errorElement: <Navigate to={`/${Routes.NotFound}`} />,
                             },
                             {
                                 path: Routes.Categories,
@@ -115,17 +114,21 @@ export const router = createBrowserRouter([
                         ],
                     },
                 ],
-                errorElement: <Navigate to={`/${Routes.NotFound}`} />,
+                errorElement: <Navigate to={Routes.NotFound} />,
             },
             {
                 path: Routes.Login,
                 element: <LoginPage />,
-                errorElement: <Navigate to={`/${Routes.NotFound}`} />,
+                errorElement: <Navigate to={Routes.NotFound} />,
             },
         ],
     },
     {
         path: Routes.NotFound,
         element: <NotFoundPage />,
+    },
+    {
+        path: "*",
+        element: <Navigate to={Routes.NotFound} />,
     },
 ]);

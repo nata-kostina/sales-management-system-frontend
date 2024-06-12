@@ -74,8 +74,6 @@ export const ProductEditPage: FC = () => {
         }
     };
 
-    console.log({ product });
-
     return (
         <>
             {isLoading && <PreloaderPortal />}

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { $api } from "../api";
-import { IGetBrandsResponse, IGetBrandList } from "../models/responses/brand.response";
+import { IGetBrandsResponse } from "../models/responses/brand.response";
 
 export class BrandService {
     private baseUrl: string;
@@ -12,9 +12,5 @@ export class BrandService {
 
     public async getBrands(): Promise<AxiosResponse<IGetBrandsResponse>> {
         return $api.get(`${this.baseUrl}/`);
-    }
-
-    public async getBrandList(): Promise<AxiosResponse<IGetBrandList>> {
-        return $api.get(`${this.baseUrl}/list/`);
     }
 }

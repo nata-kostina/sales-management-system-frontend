@@ -1,5 +1,4 @@
 import { FC, useMemo } from "react";
-import { ThemeSwitcher } from "../ui/ThemeSwitcher";
 import Avatar from "../../assets/images/avatar.jpg";
 import { DropDown, DropDownBox, DropDownMenu } from "../ui/DropDown/DropDown";
 import { useFetch } from "../../hooks/shared/useFetch";
@@ -21,14 +20,6 @@ export const ToolBar: FC = () => {
     };
 
     const dropDownMenuLinks = useMemo(() => [
-        // {
-        //     title: "My Profile",
-        //     icon: "icon-user",
-        // },
-        // {
-        //     title: "Settings",
-        //     icon: "icon-settings",
-        // },
         {
             title: "Logout",
             icon: "icon-log-out",
@@ -41,9 +32,6 @@ export const ToolBar: FC = () => {
         <>{isLoading ? <PreloaderPortal /> : (
             <div className="toolbar">
                 <ul className="toolbar-list">
-                    {/* <li className="toolbar__item">
-                        <ThemeSwitcher />
-                    </li> */}
                     <li className="toolbar__item">
                         <DropDown>
                             <DropDownBox>

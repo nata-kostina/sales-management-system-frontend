@@ -2,9 +2,9 @@ import { FC, useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import cn from "classnames";
 import { ILoginFormValues } from "../../../../schemas/login.form.schema";
-import { assets } from "../../../../data/assets";
 import { Eye } from "../../../../components/vectors/formIcons/Eye";
 import { EyeCrossed } from "../../../../components/vectors/formIcons/EyeCrossed";
+import { assets } from "../../../../utils/assetsManager";
 
 interface Props {
     onSubmit: () => void;

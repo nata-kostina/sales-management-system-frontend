@@ -4,17 +4,6 @@ export enum Role {
     SuperAdmin = "SuperAdmin",
 }
 
-export interface IUser {
-    name: string;
-    email: string;
-    password: string;
-    city: string;
-    country: string;
-    phoneNumber: string;
-    transactions: string[];
-    role: Role;
-}
-
 export enum Sections {
     Products = "products",
     Customers = "customers",

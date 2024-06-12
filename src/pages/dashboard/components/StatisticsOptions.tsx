@@ -14,8 +14,6 @@ interface Props {
 }
 
 export const StatisticsOptions: FC<Props> = ({ viewBy, year, yearOptions, handleViewChange, handleYearChange }) => {
-    console.log({ year });
-    console.log({ yearOptions });
     return (
         <div className="statistics__option">
             <Select

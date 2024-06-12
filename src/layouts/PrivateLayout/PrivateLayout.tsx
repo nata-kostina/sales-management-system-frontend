@@ -7,6 +7,7 @@ import { appController } from "../../controllers";
 import { selectIsAuth } from "../../store/selector";
 import { PreloaderPortal } from "../../components/ui/Preloader/PreloaderPortal";
 import { AuthResponse } from "../../models/responses/auth.response";
+import { Routes } from "../../types/routes";
 
 export const PrivateLayout: FC = () => {
     const isAuth = useAppSelector(selectIsAuth);
@@ -23,7 +24,6 @@ export const PrivateLayout: FC = () => {
                 appController.auth.handleLogout();
             }
         };
-
         checkAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -32,6 +32,6 @@ export const PrivateLayout: FC = () => {
         isAuth ? (
             <Outlet />
         ) : (
-            <Navigate to="/login" state={{ from: location }} />
+            <Navigate to={Routes.Login} state={{ from: location }} />
         );
 };

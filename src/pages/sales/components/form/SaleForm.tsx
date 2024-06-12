@@ -33,11 +33,11 @@ export const SaleForm: FC<Props> = ({
     const { makeRequest: makeFormOptionsRequest, isLoading: areFormOptionsLoading } = useFetch<IGetSaleFormOptionsResponse>(true);
 
     const {
-        register,
         handleSubmit,
         formState: { errors },
         setValue,
         control,
+        clearErrors,
     } = useForm<ISaleFormValues>({
         resolver: yupResolver(saleFormSchema),
     });
@@ -57,6 +57,12 @@ export const SaleForm: FC<Props> = ({
     useEffect(() => {
         changeAreFormOptionsLoading(areFormOptionsLoading);
     }, [areFormOptionsLoading]);
+
+    useEffect(() => {
+        if (sale) {
+            setValue("products", sale.products);
+        }
+    }, [sale]);
 
     const onSubmit = handleSubmit((data) => {
         const saleDto = new SaleDto(data);
@@ -78,9 +84,9 @@ export const SaleForm: FC<Props> = ({
                     <AdditionalFields
                         sale={sale}
                         errors={errors}
-                        register={register}
                         setValue={setValue}
                         control={control}
+                        clearErrors={clearErrors}
                     />
                 </div>
                 <div className="form__footer">

@@ -15,7 +15,6 @@ export const BrandFilter: FC<Props> = ({ changeLocalFilter, localFilter, onSelec
 
     useEffect(() => {
         const fetchBrandList = async () => {
-            console.log("fetchBrandList");
             const response = await fetchData();
             setOptions(response.brands.map((c) => ({ label: c.name, value: c.id })));
         };

@@ -48,9 +48,6 @@ export const ProductForm: FC<Props> = ({
         const fetchFormOptions = async () => {
             try {
                 const response = await makeFormOptionsRequest(() => appService.product.getProductsFormOptions());
-                response.units.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-                response.brands.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-                response.brands.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
                 setFormOptions(response);
             } catch (error) {
                 console.error(error);

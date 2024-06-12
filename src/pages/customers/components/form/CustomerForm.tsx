@@ -23,7 +23,6 @@ export const CustomerForm: FC<Props> = ({
         handleSubmit,
         formState: { errors },
         control,
-        getValues,
     } = useForm<ICustomerFormValues>({
         resolver: yupResolver(customerFormSchema),
     });
@@ -32,8 +31,6 @@ export const CustomerForm: FC<Props> = ({
         const customerDto = new CustomerDto(data);
         handleSubmitForm(customerDto.formData);
     });
-    console.log({ customer });
-    console.log({ values: getValues() });
     return (
         <form className={`form form-items form-customer form-customer-${name}`} onSubmit={onSubmit}>
             <div className="form__inner">

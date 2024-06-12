@@ -48,12 +48,9 @@ export function DnDImages<T extends object>({ name, error, label, control, defau
     };
 
     const handleDelete = (fileName: string) => {
-        console.log("handleDelete fileName: ", fileName);
         const file = images.find((item) => item.name === fileName);
-        console.log("handleDelete file: ", file);
         if (file) {
             const updatedFiles = images.filter((item) => item.name !== file.name);
-            console.log("handleDelete updatedFiles: ", updatedFiles);
             setImages(updatedFiles);
             setValue(updatedFiles);
         }

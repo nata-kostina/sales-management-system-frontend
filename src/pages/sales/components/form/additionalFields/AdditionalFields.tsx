@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { FieldErrors, UseFormRegister, UseFormSetValue, Control } from "react-hook-form";
+import { FieldErrors, UseFormSetValue, Control, UseFormClearErrors } from "react-hook-form";
 import { ISaleFormValues } from "../../../../../schemas/sale.form.schema";
 import { ISale } from "../../../../../models/entities/sale.interface";
 import { SaleProductsTable } from "./components/SaleProductsTable";
@@ -15,12 +15,12 @@ import { getTotal } from "../../../../../utils/helper";
 interface Props {
     errors: FieldErrors<ISaleFormValues>;
     sale: ISale | Omit<ISale, "id"> | null;
-    register: UseFormRegister<ISaleFormValues>;
     setValue: UseFormSetValue<ISaleFormValues>;
     control: Control<ISaleFormValues>;
+    clearErrors: UseFormClearErrors<ISaleFormValues>;
 }
 
-export const AdditionalFields: FC<Props> = ({ errors, sale, register, setValue, control }) => {
+export const AdditionalFields: FC<Props> = ({ errors, sale, setValue, control, clearErrors }) => {
     const [products, setProducts] = useState(() => sale?.products ?? []);
     const { makeRequest } = useFetch<IGetProductResponse>();
 
@@ -41,6 +41,9 @@ export const AdditionalFields: FC<Props> = ({ errors, sale, register, setValue, 
         setValue("products", updatedProducts);
         const total = getTotal(updatedProducts);
         setValue("total", total);
+        if (updatedProducts.length > 0) {
+            clearErrors("products");
+        }
     };
 
     const updateQuantity = (id: string, value: number): void => {
@@ -77,7 +80,7 @@ export const AdditionalFields: FC<Props> = ({ errors, sale, register, setValue, 
                 handleDeleteProduct={handleDeleteProduct}
             />
             <div className="separator" />
-            <Total register={register} defaultValue={sale?.total.toString()} />
+            <Total control={control} defaultValue={sale?.total} />
             <div className="separator" />
             <Paid control={control} error={errors.paid?.message} defaultValue={sale ? +(sale.paid) : undefined} />
         </div>

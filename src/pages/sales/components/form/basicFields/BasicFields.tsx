@@ -79,7 +79,6 @@ export const BasicFields: FC<Props> = ({ errors, control, sale, formOptions: { s
                 statuses={statuses}
                 error={errors.status?.message}
                 defaultValue={sale ? { label: sale.status.name, value: sale.status.id } : undefined}
-
             />
             <SelectPayment
                 control={control}

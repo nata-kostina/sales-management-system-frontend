@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
-import { assets } from "../../../data/assets";
 import { IMenuLink } from "../../../types/ui.types";
+import { assets } from "../../../utils/assetsManager";
 
 interface Props {
     children: ReactNode;

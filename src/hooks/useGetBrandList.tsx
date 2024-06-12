@@ -1,15 +1,15 @@
-import { IGetBrandList } from "../models/responses/brand.response";
+import { IGetBrandsResponse } from "../models/responses/brand.response";
 import { appService } from "../services";
 import { useFetch } from "./shared/useFetch";
 
 export const useGetBrandList = (): {
-    fetchData: () => Promise<IGetBrandList>;
+    fetchData: () => Promise<IGetBrandsResponse>;
     isLoading: boolean;
 } => {
-    const { makeRequest, isLoading } = useFetch<IGetBrandList>();
+    const { makeRequest, isLoading } = useFetch<IGetBrandsResponse>();
 
     const fetchData = async () => {
-        const response = await makeRequest(async () => appService.brand.getBrandList());
+        const response = await makeRequest(async () => appService.brand.getBrands());
         return response;
     };
 

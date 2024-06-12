@@ -280,4 +280,9 @@ a.btn-action:link {
     min-width: 11rem;
     border-radius: 4px;
     padding: 0 1rem;
+
+    @media screen and (max-width: $bp-ms) {
+        width: 4rem;
+        height: 4rem;
+    }
 }

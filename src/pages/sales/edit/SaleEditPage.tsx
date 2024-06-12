@@ -10,7 +10,7 @@ import { IGetSaleResponse, IEditSaleResponse } from "../../../models/responses/s
 import { useModalOperationResult } from "../../../hooks/shared/useModalOperationResult";
 import { content } from "../../../data/content";
 import { Sections } from "../../../types/entities";
-import { getDisplayedValueFromItems } from "../../../utils/helper";
+import { getDisplayedValueFromItems, logFormData } from "../../../utils/helper";
 
 export const SaleEditPage: FC = () => {
     const { id } = useParams();
@@ -56,6 +56,7 @@ export const SaleEditPage: FC = () => {
 
     const handleSubmitForm = async (updatedSale: FormData) => {
         try {
+            logFormData(updatedSale);
             if (!id) { return; }
             const response = await makeEditSaleRequest(() => {
                 return appService.sale.editSale({ id, sale: updatedSale });

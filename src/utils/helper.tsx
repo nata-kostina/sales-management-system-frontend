@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import dayjs from "dayjs";
 import { ISaleProduct } from "../models/entities/saleProduct.interface";

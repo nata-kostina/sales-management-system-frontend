@@ -45,7 +45,6 @@ export const LocalSaleTable: FC<Props> = ({
     };
 
     const handleOnDelete = (sale: ISale) => {
-        console.log({ sale });
         const value = getDisplayedValueFromItems([sale], [sale.id]);
         modalConfirm(content.confirm.delete(Sections.Sales, value),
             async () => {
@@ -66,7 +65,6 @@ export const LocalSaleTable: FC<Props> = ({
             changeLocalTableFilter(key, value);
         }
     };
-
     return (
         <>
             <Table<ISale> handleOnChange={handleSortChange} data={data} selectedRowKeys={selectedRowKeys} onSelectChange={onSelectChange}>
@@ -120,9 +118,9 @@ export const LocalSaleTable: FC<Props> = ({
                     )}
                 />
                 <Column<ISale>
-                    key="customer.email"
+                    key="email"
                     title="Customer's e-mail"
-                    dataIndex="customer"
+                    dataIndex={["customer", "email"]}
                     sorter={true}
                     filters={[]}
                     filterDropdownOpen={openFilter.email}
@@ -135,9 +133,6 @@ export const LocalSaleTable: FC<Props> = ({
                             placeholder="Customer e-mail"
                             onSearch={(value: TableFilterValue | null) => handleFilterSearch("email", value)}
                         />
-                    )}
-                    render={(value) => (
-                        <>{(value as ICustomer).email}</>
                     )}
                 />
                 <Column<ISale>

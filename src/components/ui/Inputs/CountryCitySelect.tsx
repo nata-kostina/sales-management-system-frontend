@@ -79,8 +79,6 @@ export function CountryCitySelect({
         });
     }, []);
 
-    console.log({ isCityLoading });
-
     return (
         <>
             {isLoading && <PreloaderPortal />}
