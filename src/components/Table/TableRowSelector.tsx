@@ -22,7 +22,7 @@ export function TableRowSelector<T extends object>({ rowKey, data, children, onS
 
     return (
         <Table<T>
-            onChange={(p, f, s) => { if (handleOnChange) { handleOnChange(s as SorterResult<T>); } }}
+            onChange={(_p, _f, s) => { if (handleOnChange) { handleOnChange(s as SorterResult<T>); } }}
             id="app-table"
             rowKey={rowKey ?? "id"}
             rowSelection={rowSelection}

@@ -1,20 +1,19 @@
-import { FC } from "react";
 import { Select } from "antd";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues } from "react-hook-form";
 import { IProductFormValues } from "../../../schemas/product.form.schema";
 import { ISelectOption } from "../../../types/ui.types";
 
-interface Props {
+interface Props<T> {
     control: Control<IProductFormValues>;
     error: string | undefined;
     name: keyof IProductFormValues;
     label: string;
     placeholder: string;
     defaultValue: string[];
-    options: ISelectOption[];
+    options: ISelectOption<T>[];
 }
 
-export const MultiSelect: FC<Props> = ({ control, error, name, label, placeholder, defaultValue, options }) => {
+export function MultiSelect<T extends FieldValues = any>({ control, error, name, label, placeholder, defaultValue, options }: Props<T>): JSX.Element {
     return (
         <div className={`input-group input-group-${name}`}>
             <label
@@ -45,4 +44,4 @@ export const MultiSelect: FC<Props> = ({ control, error, name, label, placeholde
         </div>
 
     );
-};
+}

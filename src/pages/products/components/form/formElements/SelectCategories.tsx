@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const SelectCategories: FC<Props> = ({ categories, ...rest }) => {
-    const options: ISelectOption[] = useMemo(() => {
+    const options: ISelectOption<ICategory>[] = useMemo(() => {
         return categories.map((category) => ({ value: category.id, label: category.name }));
     }, [categories]);
     return (
