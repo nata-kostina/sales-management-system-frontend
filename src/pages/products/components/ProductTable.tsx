@@ -92,7 +92,7 @@ export const LocalProductTable: FC<Props> = (
                         <div className="col-img-text">
                             <div className="col__img-box">
                                 {record.images.length > 0 ?
-                                    <img src={`${baseURL}/${record.images[0].path}`} alt={record.images[0].originalname} className="col__img" /> :
+                                    <img src={`${baseURL}/${record.images[0].path.replace("\\", "/")}`} alt={record.images[0].originalname} className="col__img" /> :
                                     <img src={assets.shared.placeholder} alt="Placeholder" className="col__img" />
                                 }
                             </div>
