@@ -30,6 +30,8 @@ export function DatePicker<T extends FieldValues = any>({ control, error, name, 
                         <AntDatePicker
                             value={localValue}
                             onChange={(newValue) => {
+                                console.log({newValue});
+                                console.log({value: newValue.valueOf()});
                                 if (newValue) {
                                     setLocalValue(newValue);
                                     onPickerChange(newValue.valueOf());

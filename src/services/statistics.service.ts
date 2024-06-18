@@ -50,7 +50,12 @@ export class StatisticsService {
         return $api.get(`${this.baseUrl}/bestsellers`);
     }
 
-    public async getGeneralStatistics(): Promise<AxiosResponse<IGetGeneralSalesStatisticResponse>> {
-        return $api.get(`${this.baseUrl}/general`);
+    public async getGeneralStatistics(timezone: number): Promise<AxiosResponse<IGetGeneralSalesStatisticResponse>> {
+        console.log({ timezone });
+        return $api.get(`${this.baseUrl}/general`, {
+            params: {
+                tz: timezone,
+            }
+        });
     }
 }

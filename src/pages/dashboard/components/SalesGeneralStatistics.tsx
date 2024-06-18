@@ -25,7 +25,9 @@ export const SalesGeneralStatistics: FC = () => {
     useEffect(() => {
         const fetchGeneralStatistics = async () => {
             try {
-                const response = await makeRequest(() => appService.statistics.getGeneralStatistics());
+                const timezone = new Date().getTimezoneOffset();
+                console.log({ myTimezone: timezone });
+                const response = await makeRequest(() => appService.statistics.getGeneralStatistics(timezone));
                 setData(response);
             } catch (error) {
                 console.error("Error while fetching general statistics");
